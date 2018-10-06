@@ -27,7 +27,7 @@ are extracted from the images and form a set of visual descriptors. These descri
 vector for each entity in the dataset and enable comparison between them by computing a similarity score using metrics 
 (that work well with text and images) like Cosine similarity and Euclidean distance.
 
-![Image of search engine](https://ibb.co/b8xvrz)
+![Image of search engine](introduction.png)
 
 
 Steps to setup the project
