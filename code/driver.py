@@ -2,11 +2,11 @@
 This module is a driver program which selects a particular task. 
 '''
 import numpy as np
-from util import Util
-from sklearn.decomposition import TruncatedSVD
-from sklearn.decomposition import PCA
 from scipy import spatial
+from sklearn.decomposition import PCA
+from sklearn.decomposition import TruncatedSVD
 from task4 import Task_num_4
+from util import Util
 
 class Driver(object):
 
@@ -16,6 +16,7 @@ class Driver(object):
 
 	def select_task(self, task_num):
 		#create the objects of each task here
+		# ToDo: change this to generic object creation
 		t4 = Task_num_4()
 
 		if(task_num == '1'):
@@ -33,7 +34,7 @@ class Driver(object):
 		elif(task_num == '7'):
 			pass
 		else:
-			print("Incorrect Task No.")
+			print("Incorrect Task No. Please Enter correct No.")
 	
 t = Driver()
 t.input_task_num()
