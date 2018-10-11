@@ -13,20 +13,22 @@ class Task_num_4(object):
 	def calculate_location_similarity(self, arr, location_list_indices, mapping, location_id):
 		location_similarity = {}
 		for location in location_list_indices.keys():
-			if(location == mapping[location_id]):
-				continue
+			imgximg_exhaustive_sim = []
+			imgximg_similarity = []
 
-			imgximg_sim = []
 			for i in range(0,location_list_indices[mapping[location_id]][1]):
 				for j in range(location_list_indices[location][0],location_list_indices[location][1]):
 					similarity = spatial.distance.euclidean(arr[i], arr[j])
 					similarity = 1 / (1 + similarity)
-					imgximg_sim.append(similarity)   
-			location_similarity.update({ location: sum(imgximg_sim)/len(imgximg_sim) })
+					imgximg_exhaustive_sim.append(similarity)
+				imgximg_similarity.append(max(imgximg_exhaustive_sim))
+				imgximg_exhaustive_sim = []
+
+			location_similarity.update({ location: sum(imgximg_similarity)/len(imgximg_similarity) })
 
 		print(sorted(location_similarity.items(), key=lambda x: x[1], reverse=True)[:5])
 
-	def task4(self):
+	def runner(self):
 		#create an instance of util class
 		ut = Util()
 		data_extractor = DataExtractor()
