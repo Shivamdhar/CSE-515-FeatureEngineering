@@ -1,8 +1,9 @@
 '''
 This module contains data preprocessing and data parsing methods.
 '''
+from collections import OrderedDict
+import constants
 import numpy as np
-import os 
 from scipy.spatial.distance import cosine as cs
 from scipy import spatial
 from sklearn.decomposition import PCA
@@ -16,7 +17,7 @@ class DataExtractor(object):
 		tree = et.parse("../dataset/text_descriptors/devset_topics.xml")
 		#get the root tag of the xml file
 		doc = tree.getroot()
-		mapping = {}
+		mapping = OrderedDict({})
 		#map the location id(number) with the location name
 		for topic in doc:
 			mapping[topic.find('number').text] = topic.find('title').text
@@ -35,6 +36,25 @@ class DataExtractor(object):
 				file_list.append((folder + location_names[i] + " " + model + ".csv", location_names[i]))
 
 		return file_list
+
+	def prepare_dataset_for_task5(self, mapping, k):
+		locations = list(mapping.values())
+		location_model_map = OrderedDict({})
+		for location in locations:
+			for model in constants.MODELS:
+				location_model_file = location + " " + model + ".csv"
+				data = open(constants.PROCESSED_VISUAL_DESCRIPTORS_DIR_PATH + location_model_file, "r").readlines()
+				for row in data:
+					row_data = row.strip().split(",")
+					feature_values = list(map(float, row_data[1:]))
+					image_id = row_data[0]
+					if image_id in location_model_map.keys():
+						location_model_map[image_id] += feature_values
+					else:
+						location_model_map[image_id] = feature_values
+
+
+		return location_model_map
 
 	def append_givenloc_to_list(self, mapping, model, location_id, file_list):
 		folder = "../dataset/visual_descriptors/"	

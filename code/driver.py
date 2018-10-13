@@ -6,6 +6,7 @@ from scipy import spatial
 from sklearn.decomposition import PCA
 from sklearn.decomposition import TruncatedSVD
 from task4 import Task_num_4
+from task5 import Task5
 from util import Util
 
 class Driver(object):
@@ -15,26 +16,11 @@ class Driver(object):
 		self.select_task(task_num)
 
 	def select_task(self, task_num):
-		#create the objects of each task here
-		# ToDo: change this to generic object creation
-		t4 = Task_num_4()
+		# Plugin class names for each task here
+		tasks = { 1: "", 2: "", 3: "", 4: Task_num_4(), 5: Task5(), 6: "", 7: "" }
 
-		if(task_num == 1):
-			pass
-		elif(task_num == 2):
-			pass
-		elif(task_num == 3):
-			pass
-		elif(task_num == 4):
-			t4.runner()
-		elif(task_num == 5):
-			pass
-		elif(task_num == 6):
-			pass
-		elif(task_num == 7):
-			pass
-		else:
-			print("Incorrect Task No. Please Enter correct No.")
+		# Have a runner method in all the task classes
+		tasks.get(task_num).runner()
 
 flag = True
 while(flag):
