@@ -13,13 +13,6 @@ class Util(object):
 
 		return numpy_arr
 
-	def convert_matrix_to_numpy_matrix(self, input_image_matrix):
-		output_image_matrix = []
-		for row in input_image_matrix:
-			output_image_matrix.append(np.array(row, dtype = np.float64))
-
-		return output_image_matrix
-
 	def dim_reduce_SVD(self, input_image_arr, k):
 		svd = TruncatedSVD(n_components=int(k))
 		svd.fit(input_image_arr)
