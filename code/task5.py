@@ -94,7 +94,7 @@ class Task5(object):
 		# model_feature_length_map is unused but if any code change is required, this will be handy so will retain this.
 
 		matrix = np.array(list(data.values()))
-		algorithms = { "SVD": self.ut.dim_reduce_SVD, "PCA": self.ut.dim_reduce_PCA }
+		algorithms = { "SVD": self.ut.dim_reduce_SVD, "PCA": self.ut.dim_reduce_PCA, "LDA": self.ut.dim_reduce_LDA }
 
 		k_semantics = algorithms.get(algo_choice)(matrix, k)
 
