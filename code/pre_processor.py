@@ -1,5 +1,7 @@
 '''
 This module contains data preprocessing and data parsing methods.
+This would be run before starting our driver program. It ensures that the raw dataset of visual descriptors is processed
+and stored under processed directory.
 '''
 from collections import OrderedDict
 import constants
@@ -7,17 +9,22 @@ from data_extractor import DataExtractor
 import glob
 
 class PreProcessor(object): 
-# provide data object to be read
 	def __init__(self):
 		self.models = constants.MODELS
 		data_extractor = DataExtractor()
 		mapping = data_extractor.location_mapping()
 		self.locations = list(mapping.values())
 
+	'''
+	Any other preprocessing needed can be called from pre_process method.
+	'''
 	def pre_process(self):
 		self.remove_duplicates_from_visual_descriptor_dataset()
 		self.rename_image_ids_from_visual_descriptor_dataset()
 
+	'''
+	Method: remove_duplicates_from_visual_descriptor_dataset removes any duplicate image id in a model file
+	'''
 	def remove_duplicates_from_visual_descriptor_dataset(self):
 		files = glob.glob(constants.VISUAL_DESCRIPTORS_DIR_PATH_REGEX)
 		for file in files:
@@ -30,6 +37,12 @@ class PreProcessor(object):
 				if image_id not in global_image_ids:
 					output_file.write(row)
 
+	'''
+	Method: rename_image_ids_from_visual_descriptor_dataset finds out if there are similar image ids across two
+	locations and updates image id of one of the locations.
+	FIX: 1) In case more than 1 location has same image ids with respect to a location, this method can't handle such
+	updates. (will need volunteer for fixing this :P)
+	'''
 	def rename_image_ids_from_visual_descriptor_dataset(self):
 		global_image_map = OrderedDict({})
 
