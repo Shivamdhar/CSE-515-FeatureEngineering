@@ -1,7 +1,6 @@
 '''
-This module is the program for task 4. 
+This module is the program for task 5.
 '''
-from collections import OrderedDict
 from data_extractor import DataExtractor
 import numpy as np
 from scipy import spatial
@@ -42,7 +41,7 @@ class Task5(object):
 		self.top_5(location_location_similarity_map)
 
 	'''
-	Method: distance_based_similarity_computation computes similarity based on eculidean distance.
+	Method: distance_based_similarity_computation computes similarity based on euclidean distance.
 	For each comparison of an image in location1_data with all other images in location2_data, we find out the most
 	similar images. Finally, we return the average for these most similar images in location2_data with respect to
 	location1_data.
