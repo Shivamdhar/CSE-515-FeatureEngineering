@@ -1,12 +1,10 @@
 '''
 This module contains data preprocessing and data parsing methods.
 '''
+from collections import OrderedDict
+import constants
 import numpy as np
-import os 
-from scipy.spatial.distance import cosine as cs
 from scipy import spatial
-from sklearn.decomposition import PCA
-from sklearn.decomposition import TruncatedSVD
 import xml.etree.ElementTree as et
 
 class DataExtractor(object): 
@@ -16,7 +14,7 @@ class DataExtractor(object):
 		tree = et.parse("../dataset/text_descriptors/devset_topics.xml")
 		#get the root tag of the xml file
 		doc = tree.getroot()
-		mapping = {}
+		mapping = OrderedDict({})
 		#map the location id(number) with the location name
 		for topic in doc:
 			mapping[topic.find('number').text] = topic.find('title').text
@@ -35,6 +33,46 @@ class DataExtractor(object):
 				file_list.append((folder + location_names[i] + " " + model + ".csv", location_names[i]))
 
 		return file_list
+
+	'''
+	Method: prepare_dataset_for_task5 takes locvation mapping and k as input to extract the required dataset i.e image
+	feature data over all the models and locations.
+	Returns - location_model_map : key => image id and value => features across all the models
+	location_indices_map : key => location, value => indices of the corresponding location
+	model_feature_length_map : key =>  model, value => length of feature set for each model
+	'''
+	def prepare_dataset_for_task5(self, mapping, k):
+		locations = list(mapping.values())
+		location_model_map = OrderedDict({})
+		location_indices_map = OrderedDict({})
+		model_feature_length_map = OrderedDict({})
+
+		global_index_counter = 0
+
+		for location in locations:
+			for model in constants.MODELS:
+				location_model_file = location + " " + model + ".csv"
+				data = open(constants.PROCESSED_VISUAL_DESCRIPTORS_DIR_PATH + location_model_file, "r").readlines()
+				index_counter = 0
+
+				for row in data:
+					row_data = row.strip().split(",")
+					feature_values = list(map(float, row_data[1:]))
+					image_id = row_data[0]
+					if image_id in location_model_map.keys():
+						location_model_map[image_id] += feature_values
+					else:
+						location_model_map[image_id] = feature_values
+
+					index_counter += 1
+					if model not in model_feature_length_map.keys():
+						model_feature_length_map[model] = len(feature_values)
+
+				if location not in location_indices_map.keys():
+					location_indices_map[location] = (global_index_counter, global_index_counter + index_counter)
+					global_index_counter += index_counter
+
+		return location_model_map, location_indices_map, model_feature_length_map
 
 	def append_givenloc_to_list(self, mapping, model, location_id, file_list):
 		folder = "../dataset/visual_descriptors/"	
