@@ -11,48 +11,58 @@ class Task_3(object):
 		self.ut = Util()
 		self.data_extractor = DataExtractor()
 
-
-	''' image-image and image-location '''
+	''' Method: image-image and image-location similarity'''
 	def calculate_similarity(self, k_semantics, image_position, array_of_all_images, array_location_vector):
 		vector_of_input_image = k_semantics[image_position]
 		similarity_score_images = []
 
+		#Computing similarity between vector of input image and all the other vectors in k_semantics matrix
 		for vector in k_semantics:
 			result = spatial.distance.euclidean(vector_of_input_image,vector)
-			result = 1/(1+result)
+			result = 1 / (1 + result)
 			similarity_score_images.append(result)
 
-		image_and_score=[]
+		#Storing all the image IDs and its score with given input image ID
+		image_and_score = []
 		for i in range(len(array_of_all_images)):
 			image_and_score.append([array_of_all_images[i],similarity_score_images[i]])
 
-		sorted_sim_vector = sorted(image_and_score,key=lambda x:x[1],reverse=True) #sorting the similarity vector
+		#Sorting on the basis of score and printing top 5 images across all locations
+		sorted_sim_vector = sorted(image_and_score,key = lambda x:x[1],reverse = True) #sorting the similarity vector
 		print("5 most similary images with matching score is :")
 		print(sorted_sim_vector[:5])
 
-		loc_img_score=[]
-		temp=[]
+		''' The start index and end index for a location is used, the image to image scores
+			for that location is sorted and the top value is stored for representing that location.
+			The top values of all locations are sorted and the top 5 locations are printed. '''
+		loc_img_score = []
+		top_value = []
 		for key in array_location_vector:
 			start_index = array_location_vector[key][0]
 			end_index = array_location_vector[key][1]
-			temp=sorted(similarity_score_images[start_index:end_index+1],key=lambda x:x,reverse=True)[0]
+			top_value = sorted(similarity_score_images[start_index:end_index + 1],key = lambda x:x,reverse = True)[0]
 			mapping = self.data_extractor.location_mapping()
 			for loc_id,location_name in mapping.items():
 				if(key == location_name):
 					location_id = loc_id
-			loc_img_score.append([location_id,key,temp])
+			loc_img_score.append([location_id,key,top_value])
 
-		temp_1=sorted(loc_img_score,key=lambda x:x[2],reverse=True)[:5]
+		#Sorting on basis of score and printing top 5 locations
+		top_locations = sorted(loc_img_score,key = lambda x:x[2],reverse = True)[:5]
 		print("5 most similary locations with matching score is :")
-		print(temp_1)
+		print(top_locations)
 
+	'''
+	Method: runner implemented for all the tasks, takes user input, runs dimensionality reduction algorithm, prints
+	latent semantics and computes image-image and image-location similarity using the latent semantics.
+	'''
 	def runner(self):
 		model = input("Enter the model : ")
 		k = input("Enter the value of k :")
-		image_ID = input("Enter image ID : ")
+		image_id = input("Enter image ID : ")
 
 		array_of_all_images, image_input_array, image_position, \
-		array_location_vector = self.data_extractor.prepare_dataset_for_task3(model, image_ID)
+		array_location_vector = self.data_extractor.prepare_dataset_for_task3(model, image_id)
 
 		algo_choice = input("Enter the Algorithim: ")
 
