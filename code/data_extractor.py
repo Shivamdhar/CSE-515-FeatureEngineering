@@ -103,3 +103,37 @@ class DataExtractor(object):
 			start = len(input_image_list)
 
 		return input_image_list, location_list_indices
+
+	def prepare_dataset_for_task3(self, model, image_ID):
+		list_of_files = os.listdir(constants.PROCESSED_VISUAL_DESCRIPTORS_DIR_PATH)
+		array_location_vector={} #dictionary of location name along with images and visual discriptor
+		start = 0
+		image_input_array=[]
+		image_position = 0
+		array_of_all_images=[]
+
+		for filename in list_of_files:
+		    if filename.endswith(model + ".csv"):
+		        loc = filename.replace(" " + model + ".csv","")
+		        with open(constants.PROCESSED_VISUAL_DESCRIPTORS_DIR_PATH + filename,"r") as file: #opening file with given model value
+		            count = 0
+		            for index,line in enumerate(file):
+		                x=line.split(',')
+		                if(x[0] == image_ID):
+		                    image_position = start + index
+		                array_of_all_images.append(x[0])
+		                image_input_array.append(np.array(x[1:],dtype=np.float64))
+		                count += 1
+		            final=start + count - 1
+		            array_location_vector[loc] = [start,final]
+		            start = final + 1
+
+		return array_of_all_images, image_input_array, image_position, array_location_vector
+
+	def preprocessing_for_LDA(self, matrix):
+		for row in matrix:
+			min_value = abs(min(row))
+			for i in range(len(row)):
+				row[i] += min_value
+
+		return matrix
