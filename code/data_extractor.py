@@ -11,21 +11,21 @@ class DataExtractor(object):
 # provide data object to be read
 	def location_mapping(self):
 		#parse the xml file of the locations
-		tree = et.parse("../dataset/text_descriptors/devset_topics.xml")
+		tree = et.parse(constants.DEVSET_TOPICS_DIR_PATH)
 		#get the root tag of the xml file
 		doc = tree.getroot()
 		mapping = OrderedDict({})
 		#map the location id(number) with the location name
 		for topic in doc:
-			mapping[topic.find('number').text] = topic.find('title').text
+			mapping[topic.find("number").text] = topic.find("title").text
 
 		return mapping
 
 	def create_dataset(self, mapping, model, location_id):
-		folder = "../dataset/visual_descriptors/"
+		folder = constants.VISUAL_DESCRIPTORS_DIR_PATH
 		location_names = list(mapping.values())
 		file_list = []
-		'''file_list contains list of tuples which are of the form [('location file path', 'location') for all other 
+		'''file_list contains list of tuples which are of the form [("location file path", "location") for all other
 		locations other than the input location'''
 		x = len(mapping)
 		for i in range(0,x):
@@ -35,7 +35,7 @@ class DataExtractor(object):
 		return file_list
 
 	'''
-	Method: prepare_dataset_for_task5 takes locvation mapping and k as input to extract the required dataset i.e image
+	Method: prepare_dataset_for_task5 takes location mapping and k as input to extract the required dataset i.e image
 	feature data over all the models and locations.
 	Returns - location_model_map : key => image id and value => features across all the models
 	location_indices_map : key => location, value => indices of the corresponding location
@@ -74,8 +74,16 @@ class DataExtractor(object):
 
 		return location_model_map, location_indices_map, model_feature_length_map
 
+
+	'''
+	Method: append_givenloc_to_list takes the mapping, model, given location id, file_list as input to extract the required
+	dataset i.e, feature data over a specific model and locations.
+	Returns - input_image_list i.e, a list of all the images of all locations with the given location images at the start.
+			- location_list_indices i.e, a dict of the start and end indices of all location's images.
+			- imput_location_index i.e, the end index of the given location
+	'''
 	def append_givenloc_to_list(self, mapping, model, location_id, file_list):
-		folder = "../dataset/visual_descriptors/"	
+		folder = constants.VISUAL_DESCRIPTORS_DIR_PATH
 		location_list_indices = {}  
 		input_image_list = []     
 		given_file = folder + mapping[location_id] + " " + model + ".csv"
@@ -89,6 +97,8 @@ class DataExtractor(object):
 		location_list_indices.update({ mapping[location_id]: [0, len(input_image_list)] })
 
 		start = len(input_image_list)
+		input_location_index = start;
+
 		for each in file_list:
 			each_file = each[0]
 			title = each[1]
@@ -102,7 +112,7 @@ class DataExtractor(object):
 			location_list_indices.update({ title:[start, len(input_image_list)] })
 			start = len(input_image_list)
 
-		return input_image_list, location_list_indices
+		return input_image_list, location_list_indices, input_location_index
 
 	def prepare_dataset_for_task3(self, model, image_ID):
 		list_of_files = os.listdir(constants.PROCESSED_VISUAL_DESCRIPTORS_DIR_PATH)

@@ -1,7 +1,6 @@
 '''
 This module contains all functions used throughout the codebase. 
 '''
-
 from data_extractor import DataExtractor
 import numpy as np
 from scipy import spatial
