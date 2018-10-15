@@ -5,6 +5,7 @@ from data_extractor import DataExtractor
 import numpy as np
 from scipy import spatial
 from util import Util
+from collections import OrderedDict
 
 class Task5(object):
 	def __init__(self):

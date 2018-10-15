@@ -6,6 +6,7 @@ import constants
 import numpy as np
 from scipy import spatial
 import xml.etree.ElementTree as et
+import os
 
 class DataExtractor(object): 
 # provide data object to be read
