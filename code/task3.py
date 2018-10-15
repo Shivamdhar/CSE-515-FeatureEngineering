@@ -6,7 +6,7 @@ import numpy as np
 from scipy import spatial
 from util import Util
 
-class Task_3(object):
+class Task3(object):
 	def __init__(self):
 		self.ut = Util()
 		self.data_extractor = DataExtractor()
@@ -29,7 +29,7 @@ class Task_3(object):
 
 		#Sorting on the basis of score and printing top 5 images across all locations
 		sorted_sim_vector = sorted(image_and_score,key = lambda x:x[1],reverse = True) #sorting the similarity vector
-		print("5 most similary images with matching score is :")
+		print("5 most similar images with matching score is :")
 		print(sorted_sim_vector[:5])
 
 		''' The start index and end index for a location is used, the image to image scores
@@ -49,7 +49,7 @@ class Task_3(object):
 
 		#Sorting on basis of score and printing top 5 locations
 		top_locations = sorted(loc_img_score,key = lambda x:x[2],reverse = True)[:5]
-		print("5 most similary locations with matching score is :")
+		print("5 most similar locations with matching score is :")
 		print(top_locations)
 
 	'''
@@ -64,7 +64,7 @@ class Task_3(object):
 		array_of_all_images, image_input_array, image_position, \
 		array_location_vector = self.data_extractor.prepare_dataset_for_task3(model, image_id)
 
-		algo_choice = input("Enter the Algorithim: ")
+		algo_choice = input("Enter the Algorithm: ")
 
 		algorithms = { "SVD": self.ut.dim_reduce_SVD, "PCA": self.ut.dim_reduce_PCA , "LDA": self.ut.dim_reduce_LDA}
 
