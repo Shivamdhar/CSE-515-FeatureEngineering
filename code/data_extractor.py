@@ -4,9 +4,9 @@ This module contains data preprocessing and data parsing methods.
 from collections import OrderedDict
 import constants
 import numpy as np
+import os
 from scipy import spatial
 import xml.etree.ElementTree as et
-import os
 
 class DataExtractor(object): 
 # provide data object to be read
