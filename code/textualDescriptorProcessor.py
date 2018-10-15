@@ -12,7 +12,7 @@ class TxtTermStructure:
 
     def loadUsersData(self):
         self.master_dict = dict()
-        self.getDescTxtData(TEXT_DESCRIPTORS_PATH+'devset_textTermsPerUser.txt')
+        self.getDescTxtData(TEXT_DESCRIPTORS_PATH+'devset_textTermsPerUser.txt', 'users')
         
 ###
 #  Get data textual descriptors data for images from file and store it in dictionaries
@@ -20,7 +20,7 @@ class TxtTermStructure:
 
     def loadImageData(self):
         self.master_dict = dict()
-        self.getDescTxtData(TEXT_DESCRIPTORS_PATH+'devset_textTermsPerImage.txt')
+        self.getDescTxtData(TEXT_DESCRIPTORS_PATH+'devset_textTermsPerImage.txt', 'image')
         
 ###
 #  Get data textual descriptors datafor location from file and store it in dictionaries
@@ -28,7 +28,7 @@ class TxtTermStructure:
 
     def loadLocationData(self):
         self.master_dict = dict()
-        self.getDescTxtData(TEXT_DESCRIPTORS_PATH+'devset_textTermsPerPOI.wFolderNames.txt')
+        self.getDescTxtData(TEXT_DESCRIPTORS_PATH+'devset_textTermsPerPOI.wFolderNames.txt', 'location')
         
 ###
 #  Get data textual descriptors data for all from file and store it in dictionaries
@@ -36,17 +36,17 @@ class TxtTermStructure:
 
     def loadAllTextualData(self):
         self.master_dict = dict()
-        self.getDescTxtData(TEXT_DESCRIPTORS_PATH+'devset_textTermsPerPOI.wFolderNames.txt')
-        self.getDescTxtData(TEXT_DESCRIPTORS_PATH+'devset_textTermsPerImage.txt')
-        self.getDescTxtData(TEXT_DESCRIPTORS_PATH+'devset_textTermsPerUser.txt')
-        
+        self.getDescTxtData(TEXT_DESCRIPTORS_PATH+'devset_textTermsPerPOI.wFolderNames.txt', 'location')
+        self.getDescTxtData(TEXT_DESCRIPTORS_PATH+'devset_textTermsPerImage.txt', 'image')
+        self.getDescTxtData(TEXT_DESCRIPTORS_PATH+'devset_textTermsPerUser.txt', 'users')
+                
 
 ###
 #  Get data textual descriptors data from file and store it in a dictionary, 
 # whose key is objectId and values is list of objects of type descTxtStructure
 ###
 
-    def getDescTxtData(self, filePath):
+    def getDescTxtData(self, filePath, data_type):
         file_Pointer = open(filePath, 'r')
         ### read each user's data, one line/row at a time
         for lines in file_Pointer:
@@ -66,7 +66,7 @@ class TxtTermStructure:
             ### store these values in a dict[user/image/location_id] -> 
             ### list of tags stored as array of objects
             for i in range(k, len(line), 4):
-                values.append(DescTxtStructure(line[i:i+4]))
+                values.append(DescTxtStructure(line[i:i+4], data_type))
 
 
 ###
@@ -78,5 +78,5 @@ class TxtTermStructure:
         if id not in self.master_dict:
             print("given id: ", id, " not found")
             return []
-        return [texDescriptor.term for texDescriptor in self.master_dict[id] ]
+        return [texDescriptor.term for texDescriptor in self.master_dict[id] ] 
         
