@@ -7,3 +7,4 @@ PROCESSED_VISUAL_DESCRIPTORS_DIR_PATH = "../dataset/visual_descriptors/processed
 VISUAL_DESCRIPTORS_DIR_PATH_REGEX = "../dataset/visual_descriptors/*.csv"
 DEVSET_TOPICS_DIR_PATH = "../dataset/text_descriptors/devset_topics.xml"
 VISUAL_DESCRIPTORS_DIR_PATH = "../dataset/visual_descriptors/"
+TEXT_DESCRIPTORS_PATH = "../dataset/text_descriptors/"
