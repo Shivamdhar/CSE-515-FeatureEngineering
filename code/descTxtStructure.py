@@ -12,7 +12,7 @@ class DescTxtStructure:
     def __str__(self):
         return("%s %s %s %s %s" % (self.term, self.tf, self.df, self.tfidf, self.data_type))
     
-    def getVal(self, model):
+    def get_val(self, model):
         if model == "TF":
             return self.tf
         if model == "DF":
@@ -22,5 +22,5 @@ class DescTxtStructure:
         else:
             return
     
-    def getDataType(self):
+    def get_data_type(self):
         return self.data_type
