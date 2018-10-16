@@ -1,6 +1,6 @@
-'''
+"""
 This module is the program for task 4. 
-'''
+"""
 from data_extractor import DataExtractor
 import numpy as np
 from scipy import spatial
@@ -13,19 +13,20 @@ class Task4(object):
 		self.ut = Util()
 		self.data_extractor = DataExtractor()
 
-	'''
-	Method: calculate_location_similarity computes similarity score for the reduced location-location dataset.
-	Given an input location, we need to find out similarity score of this location with respect to other locations.
-	Computes similarity based on euclidean distance. For each comparison of an image in location 1 with all other
-	images in location 2, we find out the most similar images. Finally, we return the average for these most similar
-	images in location 2 with respect to location 1.
-	Note that the low dimensional dataset will not have reference to visual descriptor models.
-	k_semantics: low dimensional dataset to be used for similarity computation (total number of images X k)
-	location_indices_map: stores key => location, value => indices in k_semantics
-	algo_choice: (can be used in case we want to use a different similarity metric for each of the algorithms)
-	input_location: reference location
-	'''
 	def calculate_location_similarity(self, arr, location_list_indices, mapping, location_id):
+		"""
+		Method: calculate_location_similarity computes similarity score for the reduced location-location dataset.
+		Given an input location, we need to find out similarity score of this location with respect to other locations.
+		Computes similarity based on euclidean distance. For each comparison of an image in location 1 with all other
+		images in location 2, we find out the most similar images. Finally, we return the average for these most similar
+		images in location 2 with respect to location 1.
+		Note that the low dimensional dataset will not have reference to visual descriptor models.
+		k_semantics: low dimensional dataset to be used for similarity computation (total number of images X k)
+		location_indices_map: stores key => location, value => indices in k_semantics
+		algo_choice: (can be used in case we want to use a different similarity metric for each of the algorithms)
+		input_location: reference location
+		"""
+
 		location_similarity = {}
 		for location in location_list_indices.keys():
 			imgximg_exhaustive_sim = []
@@ -43,12 +44,12 @@ class Task4(object):
 
 		print(sorted(location_similarity.items(), key=lambda x: x[1], reverse=True)[:5])
 
-	'''
-	Method: runner implemented for all the tasks, takes user input, runs dimensionality reduction algorithm, prints
-	latent semantics for input location and computes similarity between two locations for a given model using the
-	latent semantics.
-	'''
 	def runner(self):
+		"""
+		Method: runner implemented for all the tasks, takes user input, runs dimensionality reduction algorithm, prints
+		latent semantics for input location and computes similarity between two locations for a given model using the
+		latent semantics.
+		"""
 
 		#create the location_id-locationName mapping
 		mapping = self.data_extractor.location_mapping()
