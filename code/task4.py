@@ -8,7 +8,7 @@ from sklearn.decomposition import PCA
 from sklearn.decomposition import TruncatedSVD
 from util import Util
 
-class Task_num_4(object):
+class Task4(object):
 	def __init__(self):
 		self.ut = Util()
 		self.data_extractor = DataExtractor()
@@ -58,7 +58,7 @@ class Task_num_4(object):
 		location = mapping[location_id]
 		model = input("Enter the model: ")
 		k = input("Enter value of k: ")
-		algo_choice = input("Enter the Algorithim: ")
+		algo_choice = input("Enter the Algorithm: ")
 
 		#create the list of all files of the given model
 		file_list = self.data_extractor.create_dataset(mapping, model, location_id)

@@ -1,6 +1,7 @@
 '''
 This module is the program for task 5.
 '''
+from collections import OrderedDict
 from data_extractor import DataExtractor
 import numpy as np
 from scipy import spatial
@@ -86,7 +87,7 @@ class Task5(object):
 		location_id = input("Enter the location id:")
 		input_location = self.mapping[location_id]
 		k = input("Enter value of k: ")
-		algo_choice = input("Enter the Algorithim: ")
+		algo_choice = input("Enter the Algorithm: ")
 
 		data, location_indices_map, model_feature_length_map = self.data_extractor.prepare_dataset_for_task5\
 																					(self.mapping, k)
