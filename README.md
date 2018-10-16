@@ -35,3 +35,8 @@ Steps to setup the project
 2. Maintain requirements.txt, but push the changes to requirements.txt which has main packages instead of all linked packages which come using pip freeze
 3. pip install -r requirements.txt
 
+Following libraries are used with python 3.5.2:
+1. numpy==1.15.1
+2. scikit-learn==0.19.2
+3. scipy==1.1.0
+4. sklearn==0.0
