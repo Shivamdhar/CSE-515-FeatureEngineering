@@ -53,10 +53,7 @@ class Task5(object):
 		image_image_similarity = []
 		for iterator1 in location1_data:
 			local_img_img_similarity = []
-			for iterator2 in location2_data:
-				distance = spatial.distance.euclidean(iterator1, iterator2)
-				similarity = 1 / (1 + distance)
-				local_img_img_similarity.append(similarity)
+			local_img_img_similarity = self.ut.get_similarity_scores(location2_data,iterator1)
 			image_image_similarity.append(max(local_img_img_similarity))
 
 		return sum(image_image_similarity)/len(image_image_similarity)
