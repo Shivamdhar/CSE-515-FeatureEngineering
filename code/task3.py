@@ -1,6 +1,6 @@
-'''
+"""
 This module is the program for task 3. 
-'''
+"""
 from data_extractor import DataExtractor
 import numpy as np
 from scipy import spatial
@@ -11,8 +11,9 @@ class Task3(object):
 		self.ut = Util()
 		self.data_extractor = DataExtractor()
 
-	''' Method: image-image and image-location similarity'''
 	def calculate_similarity(self, k_semantics, image_position, array_of_all_images, array_location_vector):
+		""" Method: image-image and image-location similarity"""
+
 		vector_of_input_image = k_semantics[image_position]
 
 		similarity_score_images = self.ut.get_similarity_scores(k_semantics,vector_of_input_image)
@@ -27,9 +28,10 @@ class Task3(object):
 		print("5 most similar images with matching score is :")
 		print(sorted_sim_vector[:5])
 
-		''' The start index and end index for a location is used, the image to image scores
+		""" The start index and end index for a location is used, the image to image scores
 			for that location is sorted and the top value is stored for representing that location.
-			The top values of all locations are sorted and the top 5 locations are printed. '''
+			The top values of all locations are sorted and the top 5 locations are printed. """
+
 		loc_img_score = []
 		top_value = []
 		for key in array_location_vector:
@@ -47,11 +49,12 @@ class Task3(object):
 		print("5 most similar locations with matching score is :")
 		print(top_locations)
 
-	'''
-	Method: runner implemented for all the tasks, takes user input, runs dimensionality reduction algorithm, prints
-	latent semantics and computes image-image and image-location similarity using the latent semantics.
-	'''
 	def runner(self):
+		"""
+		Method: runner implemented for all the tasks, takes user input, runs dimensionality reduction algorithm, prints
+		latent semantics and computes image-image and image-location similarity using the latent semantics.
+		"""
+
 		model = input("Enter the model : ")
 		k = input("Enter the value of k :")
 		image_id = input("Enter image ID : ")

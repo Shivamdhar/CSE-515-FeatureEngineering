@@ -1,6 +1,6 @@
-'''
+"""
 This module contains data preprocessing and data parsing methods.
-'''
+"""
 from collections import OrderedDict
 import constants
 import numpy as np
@@ -26,8 +26,8 @@ class DataExtractor(object):
 		folder = constants.VISUAL_DESCRIPTORS_DIR_PATH
 		location_names = list(mapping.values())
 		file_list = []
-		'''file_list contains list of tuples which are of the form [("location file path", "location") for all other
-		locations other than the input location'''
+		"""file_list contains list of tuples which are of the form [("location file path", "location") for all other
+		locations other than the input location"""
 		x = len(mapping)
 		for i in range(0,x):
 			if i != (int(location_id)-1):
@@ -35,14 +35,15 @@ class DataExtractor(object):
 
 		return file_list
 
-	'''
-	Method: prepare_dataset_for_task5 takes location mapping and k as input to extract the required dataset i.e image
-	feature data over all the models and locations.
-	Returns - location_model_map : key => image id and value => features across all the models
-	location_indices_map : key => location, value => indices of the corresponding location
-	model_feature_length_map : key =>  model, value => length of feature set for each model
-	'''
 	def prepare_dataset_for_task5(self, mapping, k):
+		"""
+		Method: prepare_dataset_for_task5 takes location mapping and k as input to extract the required dataset i.e image
+		feature data over all the models and locations.
+		Returns - location_model_map : key => image id and value => features across all the models
+		location_indices_map : key => location, value => indices of the corresponding location
+		model_feature_length_map : key =>  model, value => length of feature set for each model
+		"""
+
 		locations = list(mapping.values())
 		location_model_map = OrderedDict({})
 		location_indices_map = OrderedDict({})
@@ -75,15 +76,15 @@ class DataExtractor(object):
 
 		return location_model_map, location_indices_map, model_feature_length_map
 
-
-	'''
-	Method: append_givenloc_to_list takes the mapping, model, given location id, file_list as input to extract the required
-	dataset i.e, feature data over a specific model and locations.
-	Returns - input_image_list i.e, a list of all the images of all locations with the given location images at the start.
-			- location_list_indices i.e, a dict of the start and end indices of all location's images.
-			- imput_location_index i.e, the end index of the given location
-	'''
 	def append_givenloc_to_list(self, mapping, model, location_id, file_list):
+		"""
+		Method: append_givenloc_to_list takes the mapping, model, given location id, file_list as input to extract the required
+		dataset i.e, feature data over a specific model and locations.
+		Returns - input_image_list i.e, a list of all the images of all locations with the given location images at the start.
+				- location_list_indices i.e, a dict of the start and end indices of all location"s images.
+				- imput_location_index i.e, the end index of the given location
+		"""
+
 		folder = constants.VISUAL_DESCRIPTORS_DIR_PATH
 		location_list_indices = {}  
 		input_image_list = []     
@@ -105,7 +106,7 @@ class DataExtractor(object):
 			title = each[1]
 
 			with open (each_file) as e_file:
-				file_data = (e_file.read()).split("\n")[:-1]#read data from each of the file in file_list
+				file_data = (e_file.read()).split("\n")[:-1] #read data from each of the file in file_list
 
 			for each_row in file_data:
 				input_image_list.append(each_row.split(",")[1:])
@@ -115,10 +116,13 @@ class DataExtractor(object):
 
 		return input_image_list, location_list_indices, input_location_index
 
-	''' Method: Combining all the features of all locations for given color model.
-				Assigning start index and end index to all locations in the combined matrix.
-				Finding index of given input image. '''
 	def prepare_dataset_for_task3(self, model, image_id):
+		"""
+		Method: Combining all the features of all locations for given color model.
+				Assigning start index and end index to all locations in the combined matrix.
+				Finding index of given input image.
+		"""
+
 		list_of_files = os.listdir(constants.PROCESSED_VISUAL_DESCRIPTORS_DIR_PATH)
 		#dictionary of location name along with images and visual discriptor
 		array_location_vector = {}
@@ -134,7 +138,7 @@ class DataExtractor(object):
 				with open(constants.PROCESSED_VISUAL_DESCRIPTORS_DIR_PATH + filename,"r") as file:
 					count = 0
 					for index,line in enumerate(file):
-						x = line.split(',')
+						x = line.split(",")
 						#Index of given input image
 						if(x[0] == image_id):
 							image_position = start + index
