@@ -7,6 +7,7 @@ from scipy import spatial
 from sklearn.decomposition import LatentDirichletAllocation
 from sklearn.decomposition import PCA
 from sklearn.decomposition import TruncatedSVD
+from sklearn.preprocessing import StandardScaler
 
 class Util(object):
 
@@ -18,17 +19,17 @@ class Util(object):
 
 		return numpy_arr
 
-	def dim_reduce_SVD(self, input_image_arr, k):
+	def dim_reduce_SVD(self, input_arr, k):
 		svd = TruncatedSVD(n_components=int(k))
-		svd.fit(input_image_arr)
+		svd.fit(input_arr)
 
-		return(svd.transform(input_image_arr))
+		return(svd.transform(input_arr))
 
-	def dim_reduce_PCA(self, input_image_arr, k):
+	def dim_reduce_PCA(self, input_arr, k):
+		input_std = StandardScaler().fit_transform(input_arr)
 		pca = PCA(n_components=int(k))
 
-		return(pca.fit_transform(input_image_arr))
-
+		return(pca.fit_transform(input_std))
 
 	def dim_reduce_LDA(self, input_matrix, k):
 		preprocessed_matrix = self.data_extractor.preprocessing_for_LDA(input_matrix)
