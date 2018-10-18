@@ -1,6 +1,7 @@
 """
 This module is the program for task 4. 
 """
+import constants
 from data_extractor import DataExtractor
 import numpy as np
 from scipy import spatial
@@ -50,33 +51,39 @@ class Task4(object):
 		latent semantics for input location and computes similarity between two locations for a given model using the
 		latent semantics.
 		"""
+		try:
+			#create the location_id-locationName mapping
+			mapping = self.data_extractor.location_mapping()
 
-		#create the location_id-locationName mapping
-		mapping = self.data_extractor.location_mapping()
+			#take the input from user
+			location_id = input("Enter the location id:")
+			location = mapping[location_id]
+			model = input("Enter the model: ")
+			k = input("Enter value of k: ")
+			algo_choice = input("Enter the Algorithm: ")
 
-		#take the input from user
-		location_id = input("Enter the location id:")
-		location = mapping[location_id]
-		model = input("Enter the model: ")
-		k = input("Enter value of k: ")
-		algo_choice = input("Enter the Algorithm: ")
+			#create the list of all files of the given model
+			file_list = self.data_extractor.create_dataset(mapping, model, location_id)
 
-		#create the list of all files of the given model
-		file_list = self.data_extractor.create_dataset(mapping, model, location_id)
+			#append all the location images to a list with the first location being the input
+			input_image_list, location_list_indices, input_location_index = self.data_extractor.append_givenloc_to_list(\
+																				mapping, model,location_id, file_list)
 
-		#append all the location images to a list with the first location being the input
-		input_image_list, location_list_indices, input_location_index = self.data_extractor.append_givenloc_to_list(\
-																			mapping, model,location_id, file_list)
+			#convert list to numpy array
+			input_image_arr = self.ut.convert_list_to_numpyarray(input_image_list)
 
-		#convert list to numpy array
-		input_image_arr = self.ut.convert_list_to_numpyarray(input_image_list)
+			#select algorithm
+			algorithms = { "SVD": self.ut.dim_reduce_SVD, "PCA": self.ut.dim_reduce_PCA, "LDA": self.ut.dim_reduce_LDA}
 
-		#select algorithm
-		algorithms = { "SVD": self.ut.dim_reduce_SVD, "PCA": self.ut.dim_reduce_PCA, "LDA": self.ut.dim_reduce_LDA}
+			#get the k latent semantics
+			k_semantics = algorithms.get(algo_choice)(input_image_arr, k)
 
-		#get the k latent semantics
-		k_semantics = algorithms.get(algo_choice)(input_image_arr, k)
+			print(k_semantics[0:input_location_index])
 
-		print(k_semantics[0:input_location_index])
+			self.calculate_location_similarity(k_semantics, location_list_indices, mapping, location_id)
 
-		self.calculate_location_similarity(k_semantics, location_list_indices, mapping, location_id)
+		except KeyError:
+			print(constants.LOCATION_ID_KEY_ERROR)
+
+		except Exception as e:
+			print(constants.GENERIC_EXCEPTION_MESSAGE + "," + str(type(e)) + "::" + str(e.args))

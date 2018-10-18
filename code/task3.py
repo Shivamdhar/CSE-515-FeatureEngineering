@@ -1,6 +1,7 @@
 """
 This module is the program for task 3. 
 """
+import constants
 from data_extractor import DataExtractor
 import numpy as np
 from scipy import spatial
@@ -59,19 +60,22 @@ class Task3(object):
 		Method: runner implemented for all the tasks, takes user input, runs dimensionality reduction algorithm, prints
 		latent semantics and computes image-image and image-location similarity using the latent semantics.
 		"""
+		try:
+			model = input("Enter the model : ")
+			k = input("Enter the value of k :")
+			image_id = input("Enter image ID : ")
 
-		model = input("Enter the model : ")
-		k = input("Enter the value of k :")
-		image_id = input("Enter image ID : ")
+			array_of_all_images, image_input_array, image_position, \
+			array_location_vector = self.data_extractor.prepare_dataset_for_task3(model, image_id)
 
-		array_of_all_images, image_input_array, image_position, \
-		array_location_vector = self.data_extractor.prepare_dataset_for_task3(model, image_id)
+			algo_choice = input("Enter the Algorithm: ")
 
-		algo_choice = input("Enter the Algorithm: ")
+			algorithms = { "SVD": self.ut.dim_reduce_SVD, "PCA": self.ut.dim_reduce_PCA , "LDA": self.ut.dim_reduce_LDA}
 
-		algorithms = { "SVD": self.ut.dim_reduce_SVD, "PCA": self.ut.dim_reduce_PCA , "LDA": self.ut.dim_reduce_LDA}
+			k_semantics = algorithms.get(algo_choice)(image_input_array, k)
+			print(k_semantics)
 
-		k_semantics = algorithms.get(algo_choice)(image_input_array, k)
-		print(k_semantics)
+			self.calculate_similarity(k_semantics, image_position, array_of_all_images, array_location_vector)
 
-		self.calculate_similarity(k_semantics, image_position, array_of_all_images, array_location_vector)
+		except Exception as e:
+			print(constants.GENERIC_EXCEPTION_MESSAGE + "," + str(type(e)) + "::" + str(e.args))
