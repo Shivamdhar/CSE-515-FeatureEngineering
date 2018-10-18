@@ -2,6 +2,7 @@
 This module is the program for task 5.
 """
 from collections import OrderedDict
+import constants
 from data_extractor import DataExtractor
 import numpy as np
 from scipy import spatial
@@ -90,20 +91,27 @@ class Task5(object):
 		latent semantics for input location and computes similarity between two locations using the latent semantics.
 		"""
 
-		#take input from user
-		location_id = input("Enter the location id:")
-		input_location = self.mapping[location_id]
-		k = input("Enter value of k: ")
-		algo_choice = input("Enter the Algorithm: ")
+		try:
+			#take input from user
+			location_id = input("Enter the location id:")
+			input_location = self.mapping[location_id]
+			k = input("Enter value of k: ")
+			algo_choice = input("Enter the Algorithm: ")
 
-		data, location_indices_map, model_feature_length_map = self.data_extractor.prepare_dataset_for_task5\
-																					(self.mapping, k)
-		# model_feature_length_map is unused but if any code change is required, this will be handy so will retain this.
+			data, location_indices_map, model_feature_length_map = self.data_extractor.prepare_dataset_for_task5\
+																						(self.mapping, k)
+			# model_feature_length_map is unused but if any code change is required, this will be handy so will retain this.
 
-		matrix = np.array(list(data.values()))
-		algorithms = { "SVD": self.ut.dim_reduce_SVD, "PCA": self.ut.dim_reduce_PCA, "LDA": self.ut.dim_reduce_LDA }
+			matrix = np.array(list(data.values()))
+			algorithms = { "SVD": self.ut.dim_reduce_SVD, "PCA": self.ut.dim_reduce_PCA, "LDA": self.ut.dim_reduce_LDA }
 
-		k_semantics = algorithms.get(algo_choice)(matrix, k)
+			k_semantics = algorithms.get(algo_choice)(matrix, k)
 
-		self.print_latent_semantics_for_input_location(k_semantics, input_location, location_indices_map)
-		self.calculate_location_similarity(k_semantics, location_indices_map, algo_choice, input_location)
+			self.print_latent_semantics_for_input_location(k_semantics, input_location, location_indices_map)
+			self.calculate_location_similarity(k_semantics, location_indices_map, algo_choice, input_location)
+
+		except KeyError:
+			print(constants.LOCATION_ID_KEY_ERROR)
+
+		except Exception as e:
+			print(constants.GENERIC_EXCEPTION_MESSAGE + "," + str(type(e)) + "::" + str(e.args))
