@@ -14,6 +14,17 @@ class Util(object):
 	def __init__(self):
 		self.data_extractor = DataExtractor()
 
+	def get_similarity_scores(self,reference_vectors,input_vector):
+		similarity_scores =	[]
+
+		#Computing similarity between input vector and all the other vectors in reference_vectors matrix
+		for vector in reference_vectors:
+			result = spatial.distance.euclidean(input_vector,vector)
+			result = 1 / (1 + result)
+			similarity_scores.append(result)
+
+		return similarity_scores
+
 	def convert_list_to_numpyarray(self, data_list):
 		numpy_arr = np.array(data_list, dtype=np.float64)
 

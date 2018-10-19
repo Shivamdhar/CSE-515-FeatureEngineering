@@ -16,13 +16,8 @@ class Task3(object):
 		""" Method: image-image and image-location similarity"""
 
 		vector_of_input_image = k_semantics[image_position]
-		similarity_score_images = []
 
-		#Computing similarity between vector of input image and all the other vectors in k_semantics matrix
-		for vector in k_semantics:
-			result = spatial.distance.euclidean(vector_of_input_image,vector)
-			result = 1 / (1 + result)
-			similarity_score_images.append(result)
+		similarity_score_images = self.ut.get_similarity_scores(k_semantics,vector_of_input_image)
 
 		#Storing all the image IDs and its score with given input image ID
 		image_and_score = []
