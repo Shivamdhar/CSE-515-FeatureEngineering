@@ -57,7 +57,6 @@ class Task5(object):
 
 		image_image_similarity = []
 		for iterator1 in location1_data:
-			local_img_img_similarity = []
 			local_img_img_similarity = self.ut.get_similarity_scores(location2_data,iterator1)
 			image_image_similarity.append(max(local_img_img_similarity))
 
