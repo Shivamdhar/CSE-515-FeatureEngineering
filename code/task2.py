@@ -1,6 +1,7 @@
 """
 This module is the program for task 3. 
 """
+import constants
 from data_extractor import DataExtractor
 import numpy as np
 from scipy import spatial
@@ -17,7 +18,7 @@ class Task2(object):
 		self.data_extractor = DataExtractor()
 
 
-	def calculate_similarity(self,k_semantics_map,entity_id):
+	def calculate_similarity(self, k_semantics_map, entity_id):
 		'''
 		Method : calculate_similarity computes compute the similarity 
 		matrix for the given entity id and given the latent semantics vector
@@ -43,7 +44,7 @@ class Task2(object):
 
 		self.top_5(similarity_data)
 
-	def top_5(self,similarity_data):
+	def top_5(self, similarity_data):
 		"""
 		Method: Prints the top5 similar entities (users/images/locations) with respect to input
 		entity
@@ -64,26 +65,32 @@ class Task2(object):
 		#k = input("Enter the value of k :")
 		entity_index = int(input("Choose the entity id \t1) User \t2)Image \t3)Location.: "))
 		if entity_index == 1:
-			self.entity_type = 'user'
+			self.entity_type = constants.USER_TEXT
 			user_id = input("Enter the user id: ")
 			'''get the users semantics map with 
 			k_semantics = get_k_semantics(users)
 			'''
 			k_semantics_map = {}
+			if user_id not in k_semantics_map:
+				raise KeyError(constants.USER_ID_KEY_ERROR)
 			self.calculate_similarity(k_semantics_map,user_id)
 		elif entity_index == 2:
-			self.entity_type = 'image'
+			self.entity_type = constants.IMAGE_TEXT
 			image_id = input("Enter the image id: ")
 			'''get the images semantics
 			k_semantics_map = get_k_semantics_map("images")
 			'''
 			k_semantics_map = {}
+			if image_id not in k_semantics_map:
+				raise KeyError(constants.IMAGE_ID_KEY_ERROR)
 			self.calculate_similarity(k_semantics_map,image_id)
 		elif entity_index == 3:
-			self.entity_type = 'location'
+			self.entity_type = constants.LOCATION_TEXT
 			location_id = input("Enter the location id: ")
 			'''get the locations semantics
 			k_semantics_map = get_k_semantics_map("locations")
 			'''
 			k_semantics_map = {}
+			if location_id not in k_semantics_map:
+				raise KeyError(constants.LOCATION_ID_KEY_ERROR)
 			self.calculate_similarity(k_semantics_map,location_id)

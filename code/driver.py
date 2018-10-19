@@ -27,12 +27,9 @@ class Driver(object):
 flag = True
 while(flag):
 	choice = int(input("Enter your choice:\t1) Compute Similarity\t2) Exit\n"))
-	#try:
+	
 	if choice == 2:
 		flag = False
 	else:
 		t = Driver()
 		t.input_task_num()
-	# except Exception as e:
-	# 	print("Exception encountered: ", str(type(e)) + "::" + str(e.args))
-
