@@ -1,5 +1,5 @@
 """
-This module is the program for task 3. 
+This module is the program for task 2.
 """
 import constants
 from data_extractor import DataExtractor
