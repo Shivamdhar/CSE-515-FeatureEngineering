@@ -5,7 +5,7 @@ import constants
 from data_extractor import DataExtractor
 import numpy as np
 from scipy import spatial
-from textualDescriptorProcessor import TxtTermStructure
+from textual_descriptor_processor import TxtTermStructure
 from util import Util
 
 class Task2(object):
