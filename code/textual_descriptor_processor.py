@@ -52,8 +52,8 @@ class TxtTermStructure:
 '''
 
     def get_desc_txt_data(self, filePath, data_type):
-        file_Pointer = open(filePath, 'r')
-        ### read each user's data, one line/row at a time
+        file_Pointer = open(filePath, "r")
+        ### read each user"s data, one line/row at a time
         for lines in file_Pointer:
             line = lines.split()
             ### get the user/image/location id as key
@@ -83,4 +83,3 @@ class TxtTermStructure:
             print("given id: ", id, " not found")
             return set()
         return {texDescriptor.term for texDescriptor in self.master_dict[id] }
-        

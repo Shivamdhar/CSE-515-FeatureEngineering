@@ -1,26 +1,23 @@
-'''
+"""
 This module is the program for task 3. 
-'''
+"""
+import constants
 from data_extractor import DataExtractor
 import numpy as np
 from scipy import spatial
 from util import Util
 
-class Task_3(object):
+class Task3(object):
 	def __init__(self):
 		self.ut = Util()
 		self.data_extractor = DataExtractor()
 
-	''' Method: image-image and image-location similarity'''
 	def calculate_similarity(self, k_semantics, image_position, array_of_all_images, array_location_vector):
-		vector_of_input_image = k_semantics[image_position]
-		similarity_score_images = []
+		""" Method: image-image and image-location similarity"""
 
-		#Computing similarity between vector of input image and all the other vectors in k_semantics matrix
-		for vector in k_semantics:
-			result = spatial.distance.euclidean(vector_of_input_image,vector)
-			result = 1 / (1 + result)
-			similarity_score_images.append(result)
+		vector_of_input_image = k_semantics[image_position]
+
+		similarity_score_images = self.ut.get_similarity_scores(k_semantics,vector_of_input_image)
 
 		#Storing all the image IDs and its score with given input image ID
 		image_and_score = []
@@ -29,12 +26,13 @@ class Task_3(object):
 
 		#Sorting on the basis of score and printing top 5 images across all locations
 		sorted_sim_vector = sorted(image_and_score,key = lambda x:x[1],reverse = True) #sorting the similarity vector
-		print("5 most similary images with matching score is :")
+		print("5 most similar images with matching score is :")
 		print(sorted_sim_vector[:5])
 
-		''' The start index and end index for a location is used, the image to image scores
+		""" The start index and end index for a location is used, the image to image scores
 			for that location is sorted and the top value is stored for representing that location.
-			The top values of all locations are sorted and the top 5 locations are printed. '''
+			The top values of all locations are sorted and the top 5 locations are printed. """
+
 		loc_img_score = []
 		top_value = []
 		for key in array_location_vector:
@@ -49,26 +47,30 @@ class Task_3(object):
 
 		#Sorting on basis of score and printing top 5 locations
 		top_locations = sorted(loc_img_score,key = lambda x:x[2],reverse = True)[:5]
-		print("5 most similary locations with matching score is :")
+		print("5 most similar locations with matching score is :")
 		print(top_locations)
 
-	'''
-	Method: runner implemented for all the tasks, takes user input, runs dimensionality reduction algorithm, prints
-	latent semantics and computes image-image and image-location similarity using the latent semantics.
-	'''
 	def runner(self):
-		model = input("Enter the model : ")
-		k = input("Enter the value of k :")
-		image_id = input("Enter image ID : ")
+		"""
+		Method: runner implemented for all the tasks, takes user input, runs dimensionality reduction algorithm, prints
+		latent semantics and computes image-image and image-location similarity using the latent semantics.
+		"""
+		try:
+			model = input("Enter the model : ")
+			k = input("Enter the value of k :")
+			image_id = input("Enter image ID : ")
 
-		array_of_all_images, image_input_array, image_position, \
-		array_location_vector = self.data_extractor.prepare_dataset_for_task3(model, image_id)
+			array_of_all_images, image_input_array, image_position, \
+			array_location_vector = self.data_extractor.prepare_dataset_for_task3(model, image_id)
 
-		algo_choice = input("Enter the Algorithim: ")
+			algo_choice = input("Enter the Algorithm: ")
 
-		algorithms = { "SVD": self.ut.dim_reduce_SVD, "PCA": self.ut.dim_reduce_PCA , "LDA": self.ut.dim_reduce_LDA}
+			algorithms = { "SVD": self.ut.dim_reduce_SVD, "PCA": self.ut.dim_reduce_PCA , "LDA": self.ut.dim_reduce_LDA}
 
-		k_semantics = algorithms.get(algo_choice)(image_input_array, k)
-		print(k_semantics)
+			k_semantics = algorithms.get(algo_choice)(image_input_array, k)
+			print(k_semantics)
 
-		self.calculate_similarity(k_semantics, image_position, array_of_all_images, array_location_vector)
+			self.calculate_similarity(k_semantics, image_position, array_of_all_images, array_location_vector)
+
+		except Exception as e:
+			print(constants.GENERIC_EXCEPTION_MESSAGE + "," + str(type(e)) + "::" + str(e.args))
