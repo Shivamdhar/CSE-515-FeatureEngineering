@@ -1,7 +1,6 @@
 """
 This module contains all functions used throughout the codebase. 
 """
-from data_extractor import DataExtractor
 import numpy as np
 from scipy import spatial
 from sklearn.decomposition import LatentDirichletAllocation
@@ -12,7 +11,7 @@ from sklearn.preprocessing import StandardScaler
 class Util(object):
 
 	def __init__(self):
-		self.data_extractor = DataExtractor()
+		pass
 
 	def get_similarity_scores(self,reference_vectors,input_vector):
 		similarity_scores =	[]
@@ -48,8 +47,7 @@ class Util(object):
 		return(pca.fit_transform(input_arr))
 
 	def dim_reduce_LDA(self, input_matrix, k):
-		preprocessed_matrix = self.data_extractor.preprocessing_for_LDA(input_matrix)
 
 		lda = LatentDirichletAllocation(n_components=int(k))
 
-		return(lda.fit_transform(preprocessed_matrix))
+		return(lda.fit_transform(input_matrix))
