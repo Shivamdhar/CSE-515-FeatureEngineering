@@ -2,6 +2,7 @@
 This module contains data preprocessing and data parsing methods.
 This would be run before starting our driver program. It ensures that the raw dataset of visual descriptors is processed
 and stored under processed directory.
+This module contains one time tasks for pre-processing of data.
 """
 from collections import OrderedDict
 import constants
@@ -24,6 +25,7 @@ class PreProcessor(object):
 		self.remove_duplicates_from_visual_descriptor_dataset()
 		self.rename_image_ids_from_visual_descriptor_dataset()
 		self.add_missing_objects_to_dataset()
+		self.LDA_preprocessing()
 
 	def remove_duplicates_from_visual_descriptor_dataset(self):
 		"""
@@ -116,6 +118,26 @@ class PreProcessor(object):
 						feature_values = [str(data[iterator].mean()) for iterator in range(1, len(data.columns))]
 						print("New object inserted : " + str(image_id) + " in " + location_model_file)
 						file_des.write(str(image_id) + "," + ",".join(feature_values) + "\n")
+
+	def LDA_preprocessing(self):
+		"""
+		Method: LDA_preprocessing scales the visual descriptor dataset to remove the negative values present.
+		"""
+
+		for location in self.locations:
+			for model in self.models:
+				location_model_file = location + " " + model + ".csv"
+				data = pd.read_csv(constants.PROCESSED_VISUAL_DESCRIPTORS_DIR_PATH + location_model_file, dtype = \
+						{0:'str'}, header=None)
+				length = data.shape[1]
+				for i in range (1, length):
+					column = data[i];
+					min_val = column.min()
+					if min_val < 0:
+						for j in range(len(column)):
+							column.iloc[j] -= min_val
+				data.to_csv(constants.FINAL_PROCESSED_VISUAL_DESCRIPTORS_DIR_PATH + location_model_file, sep = ',', \
+							encoding = 'utf-8', index = False, header = False)
 
 object = PreProcessor()
 object.pre_process()

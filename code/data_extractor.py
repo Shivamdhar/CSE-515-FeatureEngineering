@@ -23,7 +23,7 @@ class DataExtractor(object):
 		return mapping
 
 	def create_dataset(self, mapping, model, location_id):
-		folder = constants.VISUAL_DESCRIPTORS_DIR_PATH
+		folder = constants.FINAL_PROCESSED_VISUAL_DESCRIPTORS_DIR_PATH
 		location_names = list(mapping.values())
 		file_list = []
 		"""file_list contains list of tuples which are of the form [("location file path", "location") for all other
@@ -54,7 +54,7 @@ class DataExtractor(object):
 		for location in locations:
 			for model in constants.MODELS:
 				location_model_file = location + " " + model + ".csv"
-				data = open(constants.PROCESSED_VISUAL_DESCRIPTORS_DIR_PATH + location_model_file, "r").readlines()
+				data = open(constants.FINAL_PROCESSED_VISUAL_DESCRIPTORS_DIR_PATH + location_model_file, "r").readlines()
 				index_counter = 0
 
 				for row in data:
@@ -85,7 +85,7 @@ class DataExtractor(object):
 				- imput_location_index i.e, the end index of the given location
 		"""
 
-		folder = constants.VISUAL_DESCRIPTORS_DIR_PATH
+		folder = constants.FINAL_PROCESSED_VISUAL_DESCRIPTORS_DIR_PATH
 		location_list_indices = {}  
 		input_image_list = []     
 		given_file = folder + mapping[location_id] + " " + model + ".csv"
@@ -123,7 +123,7 @@ class DataExtractor(object):
 				Finding index of given input image.
 		"""
 
-		list_of_files = os.listdir(constants.PROCESSED_VISUAL_DESCRIPTORS_DIR_PATH)
+		list_of_files = os.listdir(constants.FINAL_PROCESSED_VISUAL_DESCRIPTORS_DIR_PATH)
 		#dictionary of location name along with images and visual discriptor
 		array_location_vector = {}
 		start = 0
@@ -135,7 +135,7 @@ class DataExtractor(object):
 			if filename.endswith(model + ".csv"):
 				loc = filename.replace(" " + model + ".csv","")
 				#opening file with given model value
-				with open(constants.PROCESSED_VISUAL_DESCRIPTORS_DIR_PATH + filename,"r") as file:
+				with open(constants.FINAL_PROCESSED_VISUAL_DESCRIPTORS_DIR_PATH + filename,"r") as file:
 					count = 0
 					for index,line in enumerate(file):
 						x = line.split(",")
@@ -151,13 +151,7 @@ class DataExtractor(object):
 					#Assigning start index and end index for all locations
 					array_location_vector[loc] = [start,final]
 					start = final + 1
+		if not image_id in array_of_all_images:
+			raise Exception("Wrong input: Image id not found")
 
 		return array_of_all_images, image_input_array, image_position, array_location_vector
-
-	def preprocessing_for_LDA(self, matrix):
-		for row in matrix:
-			min_value = abs(min(row))
-			for i in range(len(row)):
-				row[i] += min_value
-
-		return matrix
