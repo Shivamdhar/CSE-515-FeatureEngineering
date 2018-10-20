@@ -82,3 +82,9 @@ class TxtTermStructure:
 			print("given id: ", id, " not found")
 			return set()
 		return {texDescriptor.term for texDescriptor in self.master_dict[id] }
+
+	def get_term_tf_idf(self, id):
+		if id not in self.master_dict:
+			print("given id: ", id, " not found")
+			return dict()
+		return {texDescriptor.term : texDescriptor.tfidf for texDescriptor in self.master_dict[id] }

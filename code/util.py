@@ -37,10 +37,15 @@ class Util(object):
 		return(svd.transform(input_arr))
 
 	def dim_reduce_PCA(self, input_arr, k):
+		
 		input_std = StandardScaler().fit_transform(input_arr)
+		
 		pca = PCA(n_components=int(k))
-
 		return(pca.fit_transform(input_std))
+
+	def dim_reduce_PCA_nonscaler(self, input_arr, k):
+		pca = PCA(n_components=int(k))
+		return(pca.fit_transform(input_arr))
 
 	def dim_reduce_LDA(self, input_matrix, k):
 		preprocessed_matrix = self.data_extractor.preprocessing_for_LDA(input_matrix)
