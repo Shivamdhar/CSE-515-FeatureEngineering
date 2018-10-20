@@ -1,50 +1,55 @@
+''' 
+Class for storing textual descriptors data as dict and 
+applying functions for data manipulation
+'''
+
 from constants import *
-from descTxtStructure import DescTxtStructure
+from desc_txt_structure import DescTxtStructure
 
 class TxtTermStructure:
     
     def __init__(self):
         self.master_dict = dict()
 
-###
-#  Get data textual descriptors data for users from file and store it in dictionaries
-###
+'''
+  Get data textual descriptors data for users from file and store it in dictionaries
+'''
 
     def load_users_data(self):
         self.master_dict = dict()
-        self.get_desc_txt_data(TEXT_DESCRIPTORS_PATH+'devset_textTermsPerUser.txt', 'users')
+        self.get_desc_txt_data(TEXT_DESCRIPTORS_PATH+"devset_textTermsPerUser.txt", "users")
         
-###
-#  Get data textual descriptors data for images from file and store it in dictionaries
-###
+'''
+  Get data textual descriptors data for images from file and store it in dictionaries
+'''
 
     def load_image_data(self):
         self.master_dict = dict()
-        self.get_desc_txt_data(TEXT_DESCRIPTORS_PATH+'devset_textTermsPerImage.txt', 'image')
+        self.get_desc_txt_data(TEXT_DESCRIPTORS_PATH+"devset_textTermsPerImage.txt", "image")
         
-###
-#  Get data textual descriptors datafor location from file and store it in dictionaries
-###
+'''
+  Get data textual descriptors datafor location from file and store it in dictionaries
+'''
 
     def load_location_data(self):
         self.master_dict = dict()
-        self.get_desc_txt_data(TEXT_DESCRIPTORS_PATH+'devset_textTermsPerPOI.wFolderNames.txt', 'location')
+        self.get_desc_txt_data(TEXT_DESCRIPTORS_PATH+"devset_textTermsPerPOI.wFolderNames.txt", "location")
         
-###
-#  Get data textual descriptors data for all from file and store it in dictionaries
-###
+'''
+  Get data textual descriptors data for all from file and store it in dictionaries
+'''
 
     def load_all_textual_data(self):
         self.master_dict = dict()
-        self.get_desc_txt_data(TEXT_DESCRIPTORS_PATH+'devset_textTermsPerPOI.wFolderNames.txt', 'location')
-        self.get_desc_txt_data(TEXT_DESCRIPTORS_PATH+'devset_textTermsPerImage.txt', 'image')
-        self.get_desc_txt_data(TEXT_DESCRIPTORS_PATH+'devset_textTermsPerUser.txt', 'users')
+        self.get_desc_txt_data(TEXT_DESCRIPTORS_PATH+"devset_textTermsPerPOI.wFolderNames.txt", "location")
+        self.get_desc_txt_data(TEXT_DESCRIPTORS_PATH+"devset_textTermsPerImage.txt", "image")
+        self.get_desc_txt_data(TEXT_DESCRIPTORS_PATH+"devset_textTermsPerUser.txt", "users")
                 
 
-###
-#  Get data textual descriptors data from file and store it in a dictionary, 
-# whose key is objectId and values is list of objects of type descTxtStructure
-###
+'''
+ Get data textual descriptors data from file and store it in a dictionary, 
+ whose key is objectId and values is list of objects of type descTxtStructure
+'''
 
     def get_desc_txt_data(self, filePath, data_type):
         file_Pointer = open(filePath, 'r')
@@ -69,14 +74,13 @@ class TxtTermStructure:
                 values.append(DescTxtStructure(line[i:i+4], data_type))
 
 
-###
-#  returns an array of terms for a given id (as String), if present in data else returns empty array
-#
-###
+'''
+ returns an set of terms for a given id (as String), if present in data else returns empty set
+'''
 
     def get_terms(self, id):
         if id not in self.master_dict:
             print("given id: ", id, " not found")
-            return []
-        return [texDescriptor.term for texDescriptor in self.master_dict[id] ] 
+            return set()
+        return {texDescriptor.term for texDescriptor in self.master_dict[id] }
         
