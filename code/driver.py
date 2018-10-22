@@ -8,6 +8,7 @@ from sklearn.decomposition import TruncatedSVD
 from task3 import Task_3
 from task4 import Task_num_4
 from task5 import Task5
+from task_6_textual_descriptors import Task6
 from util import Util
 
 class Driver(object):
@@ -18,7 +19,7 @@ class Driver(object):
 
 	def select_task(self, task_num):
 		# Plugin class names for each task here
-		tasks = { 1: "", 2: "", 3: Task_3(), 4: Task_num_4(), 5: Task5(), 6: "", 7: "" }
+		tasks = { 1: "", 2: "", 3: Task_3(), 4: Task_num_4(), 5: Task5(), 6: Task6(), 7: "" }
 
 		# Have a runner method in all the task classes
 		tasks.get(task_num).runner()

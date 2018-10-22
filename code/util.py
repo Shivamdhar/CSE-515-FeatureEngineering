@@ -17,6 +17,14 @@ class Util(object):
 		numpy_arr = np.array(data_list, dtype=np.float64)
 
 		return numpy_arr
+	
+	''' Returns the cosine similarity between vector_one and vector_two '''
+	def cosine_similarity(self, vector_one, vector_two):
+		return (1 - spatial.distance.cosine(vector_one, vector_two))
+
+	''' Returns the euclidean distance between vector_one and vetor_two '''
+	def compute_euclidean_distance(self, vector_one, vector_two):
+		return np.linalg.norm(vector_one - vector_two)
 
 	def dim_reduce_SVD(self, input_image_arr, k):
 		svd = TruncatedSVD(n_components=int(k))
