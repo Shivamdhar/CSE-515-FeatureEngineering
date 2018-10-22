@@ -37,8 +37,9 @@ class DataExtractor(object):
 
 		return file_list
 
-	''' Returns a map of location title to IDs '''
 	def location_title_to_id_mapping(self):
+		''' Returns a map of location title to IDs '''
+
 		# Parse the xml file of the locations
 		tree = et.parse("../dataset/text_descriptors/devset_topics.xml")
 		
@@ -52,8 +53,9 @@ class DataExtractor(object):
 
 		return mapping
 
-	''' Gets all the files (paths) prefixed with the prefix given as parameter '''
 	def get_all_files_prefixed_with(self, prefix):
+		''' Gets all the files (paths) prefixed with the prefix given as parameter '''
+
 		file_name_regex = '../dataset/visual_descriptors/processed/' + prefix + "*.csv"
 		# All files of the given prefix (locationName)
 		return [os.path.basename(x) for x in glob.glob(file_name_regex)]

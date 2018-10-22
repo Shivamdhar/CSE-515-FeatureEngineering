@@ -1,44 +1,53 @@
-import numpy
-from operator import itemgetter
-from util import Util
-from data_extractor import DataExtractor
 from datetime import datetime
+from operator import itemgetter
+
+import numpy
 import pandas as pd
+
 import constants
+from data_extractor import DataExtractor
+from util import Util
+
 
 class Task6:
 	
-	def runner(self):
-		k = input('Enter the k value: ')
-		k = int(k)
+	def __init__(self):
+		'''
+		Method Explanation:
+			Intializes all the variables for the analysis task.
+		'''
+		self.util = Util()
+		self.data_extractor = DataExtractor()
 
-		util = Util()
-		data_extractor = DataExtractor()
-
-		location_id_to_title_map = data_extractor.location_mapping()
-		location_title_to_id_map = data_extractor.location_title_to_id_mapping()
+		self.location_id_to_title_map = self.data_extractor.location_mapping()
+		self.location_title_to_id_map = self.data_extractor.location_title_to_id_mapping()
 	
-		location_list = list(location_title_to_id_map.values()) # List of location ids
-		LOCATION_COUNT = len(location_list) # constant
+		self.location_list = list(self.location_title_to_id_map.values()) # List of location ids
+		self.LOCATION_COUNT = len(self.location_list) # constant
 
-		global_term_dictionary_current_index = 0 # To store the count of unique terms and indexing a given term in the global dictionary
-		global_term_dictionary = dict() # To store the global list of terms as keys and their indices as values
-		global_term_index_dictionary = dict() # To store the global list of terms referenced via the indices as the keys and terms as the values
-		location_dictionary = dict() # To store the terms of a particular location and their corresponding attributes
-		similarity_matrix = numpy.zeros((LOCATION_COUNT, LOCATION_COUNT)) # To capture location-location similarity
+		self.global_term_dictionary_current_index = 0 # To store the count of unique terms and indexing a given term in the global dictionary
+		self.global_term_dictionary = dict() # To store the global list of terms as keys and their indices as values
+		self.global_term_index_dictionary = dict() # To store the global list of terms referenced via the indices as the keys and terms as the values
+		self.location_dictionary = dict() # To store the terms of a particular location and their corresponding attributes
+		self.similarity_matrix = numpy.zeros((self.LOCATION_COUNT, self.LOCATION_COUNT)) # To capture location-location similarity
 
+	def construct_vocabulary(self):
+		'''
+		Method Explanation:
+			. Constructs a global term vocabulary.
+			. Constructs a location based term vocabulary.
+		'''
 		with open(constants.TEXTUAL_DESCRIPTORS_DIR_PATH + 'devset_textTermsPerPOI.txt', encoding='utf-8') as f:
-			lines = [line.rstrip('\n') for line in f] # split into lines
+			lines = [line.rstrip('\n') for line in f]
 			for line in lines:
-				words = line.split() # split all words in the line
+				words = line.split()
 
 				temp_list_for_title = []
-
 				# extract location title
 				while '\"' not in words[0]:
 					temp_list_for_title.append(words.pop(0))
 				location_title = ('_').join(temp_list_for_title)
-				location_id = location_title_to_id_map[location_title]
+				location_id = self.location_title_to_id_map[location_title]
 
 				# Build the term vocabulary and also the dictionary for terms corresponding to the locations and their scores
 				for index, word in enumerate(words):
@@ -46,66 +55,73 @@ class Task6:
 					
 					if index_mod4 == 0: # the term
 						current_word = word.strip('\"')
-						if not global_term_dictionary.get(current_word):
-							global_term_dictionary[current_word] = global_term_dictionary_current_index
-							global_term_index_dictionary[global_term_dictionary_current_index] = current_word
-							global_term_dictionary_current_index+= 1
-						if not location_dictionary.get(location_id):
-							location_dictionary[location_id] = {}
-						if not location_dictionary.get(location_id).get(current_word):
-							location_dictionary[location_id][current_word] = { 'TF': 0, 'DF': 0, 'TFIDF': 0}
+						if not self.global_term_dictionary.get(current_word):
+							self.global_term_dictionary[current_word] = self.global_term_dictionary_current_index
+							self.global_term_index_dictionary[self.global_term_dictionary_current_index] = current_word
+							self.global_term_dictionary_current_index+= 1
+						if not self.location_dictionary.get(location_id):
+							self.location_dictionary[location_id] = {}
+						if not self.location_dictionary.get(location_id).get(current_word):
+							self.location_dictionary[location_id][current_word] = { 'TF': 0, 'DF': 0, 'TFIDF': 0}
 					elif index_mod4 == 1: # TF
-						location_dictionary[location_id][current_word]['TF'] = int(word)
+						self.location_dictionary[location_id][current_word]['TF'] = int(word)
 					elif index_mod4 == 2: # DF
-						location_dictionary[location_id][current_word]['DF'] = int(word)
+						self.location_dictionary[location_id][current_word]['DF'] = int(word)
 					elif index_mod4 == 3: # TFIDF
-						location_dictionary[location_id][current_word]['TFIDF'] = float(word)
-				
+						self.location_dictionary[location_id][current_word]['TFIDF'] = float(word)
+
+	def construct_similarity_matrix(self, model):
+		'''
+		Method Explanation:
+			. Goes over every location as a potential query location, compares its textual descriptors with every other location as a
+			  potential target location.
+			. The comparison is based on the Cosine Similarity scores of one of the model vectors (TF/DF/TFIDF) defined by the <model> parameter.
+		Inputs:
+			<model> - Has three possible values -- TF, DF, TFIDF. Corresponds to which model score to consider for computing the Cosine Similarity
+			          between the textual descriptors.
+		'''
 		the_model = 'TFIDF'
 		# Go over every location as a potential query location
-		for query_location_id in location_list:
-			query_model_vector = [0] * global_term_dictionary_current_index
+		for query_location_id in self.location_list:
+			query_model_vector = [0] * self.global_term_dictionary_current_index
 			
 			# Construct the query model vector (<the_model> values of each term in the query location)
-			for current_term_id_key, current_term_id_value in location_dictionary[query_location_id].items():
+			for current_term_id_key, current_term_id_value in self.location_dictionary[query_location_id].items():
 				if current_term_id_key == the_model:
 					continue
-				current_term_index = global_term_dictionary[current_term_id_key]
-				query_model_vector[current_term_index] = location_dictionary[query_location_id][current_term_id_key][the_model] 
+				current_term_index = self.global_term_dictionary[current_term_id_key]
+				query_model_vector[current_term_index] = self.location_dictionary[query_location_id][current_term_id_key][the_model] 
 
 			# Go over every location as a potential target location
-			for target_location_id, target_location_id_data in location_dictionary.items():
+			for target_location_id, target_location_id_data in self.location_dictionary.items():
 				# If query location is the same as target location, similarity = 1
 				if target_location_id == query_location_id:
-					similarity_matrix[query_location_id - 1][target_location_id - 1] = 1
+					self.similarity_matrix[query_location_id - 1][target_location_id - 1] = 1
 					continue
 				else:
-					if not location_dictionary.get(target_location_id).get(the_model):
-						location_dictionary[target_location_id][the_model] = [0] * global_term_dictionary_current_index
+					if not self.location_dictionary.get(target_location_id).get(the_model):
+						self.location_dictionary[target_location_id][the_model] = [0] * self.global_term_dictionary_current_index
 	
 					# Build the target model vector comprising of the_model scores of the target location
-					for current_term_key, current_term_value in location_dictionary[target_location_id].items():
+					for current_term_key, current_term_value in self.location_dictionary[target_location_id].items():
 						if current_term_key == the_model:
 							continue
-						current_term_index = global_term_dictionary[current_term_key]
-						location_dictionary[target_location_id][the_model][current_term_index] = location_dictionary[target_location_id][current_term_key][the_model]
+						current_term_index = self.global_term_dictionary[current_term_key]
+						self.location_dictionary[target_location_id][the_model][current_term_index] = self.location_dictionary[target_location_id][current_term_key][the_model]
 					
 					# Compute the Cosine Similarity between the query model vector and target model vector
-					cosine_similarity_value = util.cosine_similarity(query_model_vector, location_dictionary[target_location_id][the_model])
-					similarity_matrix[query_location_id - 1][target_location_id - 1] = cosine_similarity_value
-
-		# Store the similarity matrix data in a CSV if needed
-
-		# df = pd.DataFrame(similarity_matrix)
-		# loc_list = []
-		# for i in range(1,31):
-		# 	loc_list.append(location_id_to_title_map[str(i)])
-
-		# df.to_csv('./similarity_matrix_td_tfidf_global.csv', encoding='utf-8', header=None, index=False)
-		# df.to_csv('./similarity_matrix_td_tfidf_global_descriptive.csv', encoding='utf-8', header=loc_list, index=loc_list)
-
-		# Apply SVD on the data
-		U, S, Vt = numpy.linalg.svd(similarity_matrix)
+					cosine_similarity_value = self.util.cosine_similarity(query_model_vector, self.location_dictionary[target_location_id][the_model])
+					self.similarity_matrix[query_location_id - 1][target_location_id - 1] = cosine_similarity_value
+	
+	def print_k_latent_semantics(self, k):
+		'''
+		Method Explanation:
+			. Applies a Singular Valued Decomposition on the similarity matrix and prints the first k latent semantics determined by the k parameter.
+			. The output is in the form of location-weight pairs for each semantic sorted in the decreasing order of weights.
+		Input:
+			. <k> for considering only the k latent semantics post SVD
+		'''
+		U, S, Vt = numpy.linalg.svd(self.similarity_matrix)
 
 		# {
 		#  <location_id>: [{'Location Name': <>, 'Weight': <>}, {'Location Name': <>, 'Weight': <>}, ...],
@@ -118,7 +134,7 @@ class Task6:
 				semantic_data_dict[arr_index+1] = []
 
 			for index, element in enumerate(arr):
-				semantic_data_dict[arr_index+1].append({ 'Location Name': location_id_to_title_map[str(index+1)], 'Weight': element })
+				semantic_data_dict[arr_index+1].append({ 'Location Name': self.location_id_to_title_map[str(index+1)], 'Weight': element })
 
 			# Sort the list based on the weight attribute
 			sorted_list = sorted(semantic_data_dict[arr_index+1], key=itemgetter('Weight'), reverse=True)
@@ -129,3 +145,11 @@ class Task6:
 			print('Latent Semantic: ', arr_index+1)
 			for idx, data in enumerate(sorted_list):
 				print('\tLocation Name: ', semantic_data_dict[arr_index+1][idx]['Location Name'], '| Weight: ', semantic_data_dict[arr_index+1][idx]['Weight'])
+
+	def runner(self):
+		k = input('Enter the k value: ')
+		k = int(k)
+
+		self.construct_vocabulary()
+		self.construct_similarity_matrix('TFIDF')
+		self.print_k_latent_semantics(k)
