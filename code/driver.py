@@ -10,8 +10,8 @@ from task2 import Task2
 from task3 import Task3
 from task4 import Task4
 from task5 import Task5
-from task7 import Task7
 from task_6_textual_descriptors import Task6
+from task7 import Task7
 from util import Util
 
 class Driver(object):

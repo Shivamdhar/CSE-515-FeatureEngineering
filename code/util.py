@@ -29,11 +29,11 @@ class Util(object):
 
 		return numpy_arr
 	
-	''' Returns the cosine similarity between vector_one and vector_two '''
+	""" Returns the cosine similarity between vector_one and vector_two """
 	def cosine_similarity(self, vector_one, vector_two):
 		return (1 - spatial.distance.cosine(vector_one, vector_two))
 
-	''' Returns the euclidean distance between vector_one and vetor_two '''
+	""" Returns the euclidean distance between vector_one and vetor_two """
 	def compute_euclidean_distance(self, vector_one, vector_two):
 		return np.linalg.norm(vector_one - vector_two)
 

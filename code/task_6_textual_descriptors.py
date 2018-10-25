@@ -1,11 +1,9 @@
-from datetime import datetime
-from operator import itemgetter
-
-import numpy
-import pandas as pd
-
 import constants
 from data_extractor import DataExtractor
+from datetime import datetime
+import numpy
+from operator import itemgetter
+import pandas as pd
 from util import Util
 
 

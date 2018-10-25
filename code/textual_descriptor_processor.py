@@ -1,4 +1,4 @@
-''' 
+'''
 Class for storing textual descriptors data as dict and 
 applying functions for data manipulation
 '''

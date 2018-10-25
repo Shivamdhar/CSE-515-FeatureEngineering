@@ -1,6 +1,6 @@
-''' 
+"""
 Class for storing textual descriptors data
-'''
+"""
 
 class DescTxtStructure:
 
