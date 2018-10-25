@@ -1,12 +1,10 @@
 """
-This module contains data preprocessing and data parsing methods.
+This module contains data parsing methods.
 """
 from collections import OrderedDict
 import constants
-import numpy as np
-import os
-from scipy import spatial
 import glob
+import numpy as np
 import os
 import xml.etree.ElementTree as et
 
@@ -56,13 +54,6 @@ class DataExtractor(object):
 		# All files of the given prefix (locationName)
 		return [os.path.basename(x) for x in glob.glob(file_name_regex)]
 
-	'''
-	Method: prepare_dataset_for_task5 takes location mapping and k as input to extract the required dataset i.e image
-	feature data over all the models and locations.
-	Returns - location_model_map : key => image id and value => features across all the models
-	location_indices_map : key => location, value => indices of the corresponding location
-	model_feature_length_map : key =>  model, value => length of feature set for each model
-	'''
 	def prepare_dataset_for_task5(self, mapping, k):
 		"""
 		Method: prepare_dataset_for_task5 takes location mapping and k as input to extract the required dataset i.e image
