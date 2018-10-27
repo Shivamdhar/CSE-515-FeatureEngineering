@@ -121,28 +121,35 @@ class Task6:
 		"""
 		U, S, Vt = numpy.linalg.svd(self.similarity_matrix)
 
+		# Get the concept mapping
+		concept_mapping = self.similarity_matrix.dot(U[:,:k])
+		concept_mapping = concept_mapping.transpose()
+
 		# {
 		#  <location_id>: [{"Location Name": <>, "Weight": <>}, {"Location Name": <>, "Weight": <>}, ...],
 		#  <location_id>: [{"Location Name": <>, "Weight": <>}, {"Location Name": <>, "Weight": <>}, ...],
 		#  ...
 		# }
 		semantic_data_dict = {}
-		for arr_index, arr in enumerate(Vt[:k, :]):
-			if not semantic_data_dict.get(arr_index+1):
-				semantic_data_dict[arr_index+1] = []
+		print("")
+		for arr_index, arr in enumerate(concept_mapping):
+			current_key = arr_index+1
+			if not semantic_data_dict.get(current_key):
+				semantic_data_dict[current_key] = []
 
 			for index, element in enumerate(arr):
-				semantic_data_dict[arr_index+1].append({ "Location Name": self.location_id_to_title_map[str(index+1)], "Weight": element })
+				semantic_data_dict[current_key].append({ "Location Name": self.location_id_to_title_map[str(index+1)], "Weight": element })
 
-			# Sort the list based on the weight attribute
-			sorted_list = sorted(semantic_data_dict[arr_index+1], key=itemgetter("Weight"), reverse=True)
-			semantic_data_dict[arr_index+1].clear()
-			semantic_data_dict[arr_index+1] = sorted_list
-
-			# Print the latent semantic as location name-weight pairs sorted in decreasing order of weights
-			print("Latent Semantic: ", arr_index+1)
+			# Sort the latent semantic based on the weight of the feature
+			sorted_list = sorted(semantic_data_dict[current_key], key=itemgetter("Weight"), reverse=True) 
+			semantic_data_dict[current_key].clear()
+			semantic_data_dict[current_key] = sorted_list
+			
+			# Print location name-weight pairs sorted in decreasing order of weights
+			print("Latent Semantic: ", current_key)
 			for idx, data in enumerate(sorted_list):
-				print("\tLocation Name: ", semantic_data_dict[arr_index+1][idx]["Location Name"], "| Weight: ", semantic_data_dict[arr_index+1][idx]["Weight"])
+				print("\tLocation Name: ", semantic_data_dict[current_key][idx]["Location Name"], " | Weight: ", semantic_data_dict[current_key][idx]["Weight"])
+			print("")
 
 	def runner(self):
 		k = input("Enter the k value: ")
