@@ -29,20 +29,10 @@ class Task2(object):
 		matrix for the given entity id and given the latent semantics vector
 		in form of weights for given entity type
 		'''
-		#k_semantics = [v for k,v in k_semantics_map]
-
-		#input_vector = k_semantics_map.get(entity_id,[])
-
 		similarity_data = []
 
-		# if entity_type == constants.LOCATION_TEXT:
-		# 	mapping = self.data_extractor.location_mapping()
-
 		for key,value in k_semantics_map.items():
-			result = self.ut.compute_euclidean_distance(input_vector,value)
-			result = 1 / (1 + result)
-			# if entity_type == constants.LOCATION_TEXT:
-			# 	key = mapping[key]
+			result = self.ut.cosine_similarity(input_vector,value)
 			if entity_type == constants.IMAGE_TEXT:
 				key = int(key)
 			similarity_data.append((key,result))
@@ -127,14 +117,6 @@ class Task2(object):
 		"""
 		projected_query_vector = []
 
-		#print("pre diagonal S shape",sigma_matrix.shape)
-
-		#diagonal_sigma_matrix = np.diag(sigma_matrix)
-
-		# print("IP shape",input_vector.shape)
-		# print("V shape",v_matrix.shape)
-		# print("S shape",sigma_matrix.shape)
-
 		projected_query_vector = input_vector.T @ v_matrix.T @ np.linalg.inv(sigma_matrix)
 
 		return projected_query_vector
@@ -212,9 +194,6 @@ class Task2(object):
 
 			location_projected_query_vector_image = self.get_projected_query_vector(original_location_input_vector,image_vt_matrix,image_S_matrix)
 			location_projected_query_vector_user = self.get_projected_query_vector(original_location_input_vector,user_vt_matrix,user_S_matrix)
-
-			# print("Shape1",location_projected_query_vector_image.shape)
-			# print("Shape2",location_projected_query_vector_user.shape)
 
 			similar_images = self.calculate_similarity(location_projected_query_vector_image,self.image_semantics_map,constants.IMAGE_TEXT)
 			similar_users = self.calculate_similarity(location_projected_query_vector_user,self.user_semantics_map,constants.USER_TEXT)
@@ -305,8 +284,6 @@ class Task2(object):
 			pass
 		
 		if algo_choice == 'SVD' or algo_choice == 'PCA':
-			# user_term_sparse_matrix = scipy.sparse.csc_matrix(user_term_matrix)
-			# print(user_term_sparse_matrix)
 			pca = False
 			if algo_choice == 'PCA':
 				pca = True
@@ -350,10 +327,6 @@ class Task2(object):
 				image_term_matrix,k)
 			location_u_matrix, location_S_matrix, location_vt_matrix = self.dim_reduce_LDA(
 				location_term_matrix,k)
-
-			# print("dfdF",location_u_matrix.shape)
-			# print("sdsdsd",user_u_matrix.shape)
-			# print("sdsfdf",image_u_matrix.shape)
 
 			user_semantics_map, image_semantics_map,location_semantics_map = \
 					self.get_all_latent_semantics_map(user_data,image_data,location_data,
