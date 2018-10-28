@@ -7,9 +7,12 @@ import numpy as np
 import scipy
 from scipy import spatial
 from sklearn.decomposition import LatentDirichletAllocation,PCA
+from sklearn.decomposition import TruncatedSVD
 from sklearn.preprocessing import StandardScaler
+
 from sparsesvd import sparsesvd
 from task1 import Task1
+import time
 from textual_descriptor_processor import TxtTermStructure
 from util import Util
 
@@ -87,13 +90,24 @@ class Task2(object):
 			U  = document_term_matrix @ Vt.T
 		else:
 			#document_term_sparse_matrix = scipy.sparse.csc_matrix(document_term_matrix)
-			U,S,Vt = sparsesvd(document_term_sparse_matrix,k)
+			svd = TruncatedSVD(n_components=int(k))
+			svd.fit(document_term_matrix)
 
-			#Projection of objects along hidden concepts
-			U = document_term_sparse_matrix @ Vt.T
+			object_concept_matrix = svd.transform(document_term_matrix)
+			Vt = svd.components_
 
-			#original sigma is linear array of k components, so we need to construct a diagonal matrix
-			S = np.diag(S)
+			#original sigma is linear array of k eigen values, so we need to construct a diagonal matrix
+			S  = np.diag(svd.singular_values_)
+
+			U  = document_term_matrix @ Vt.T
+
+			# U,S,Vt = sparsesvd(document_term_sparse_matrix,k)
+
+			# #Projection of objects along hidden concepts
+			# U = document_term_sparse_matrix @ Vt.T
+
+			# #original sigma is linear array of k components, so we need to construct a diagonal matrix
+			# S = np.diag(S)
 
 		return U,S,Vt
 		pass
@@ -234,6 +248,7 @@ class Task2(object):
 		using the latent semantics obtained from task1 for respective entity vector space
 		"""
 		#k = input("Enter the value of k :")
+		#start = time.time()
 		k = input("Enter the value of k :")
 
 		# user_id = input("Enter the user id: ")
@@ -350,4 +365,4 @@ class Task2(object):
 				location_term_matrix,user_S_matrix,user_vt_matrix,image_S_matrix,image_vt_matrix,
 					location_S_matrix, location_vt_matrix,user_id,image_id,location_id)
 
-
+		#print("Seconds",time.time() - start)
