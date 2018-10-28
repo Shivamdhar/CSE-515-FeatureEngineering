@@ -1,0 +1,752 @@
+##SAMPLE INPUTS FOR PHASE2
+
+---------------------------------
+
+##TASK 1
+#VALUE FOR K
+5
+
+Output for user term-vector space and PCA is in Task_1/task_1_out_user_pca.txt
+Output for user term-vector space and SVD is in Task_1/task_1_out_user_svd.txt
+Output for user term-vector space and LDA is in Task_1/task_1_out_user_lda.txt
+
+Output for image term-vector space and PCA is in Task_1/task_1_out_user_pca.txt
+Output for image term-vector space and SVD is in Task_1/task_1_out_user_svd.txt
+Output for image term-vector space and LDA is in Task_1/task_1_out_user_lda.txt
+
+Output for location term-vector space and PCA is in Task_1/task_1_out_user_pca.txt
+Output for location term-vector space and SVD is in Task_1/task_1_out_user_svd.txt
+Output for location term-vector space and LDA is in Task_1/task_1_out_user_lda.txt
+
+----------------------------------
+
+##TASK 2
+#VALUE FOR K:
+5
+#USERID:
+23260223@N04
+
+#PCA
+Top 5 related users are
+[('23260223@N04', 1.0), ('98153629@N00', 0.9803572393469472), ('22691745@N00', 0.964429139911857), ('29326506@N04', 0.9580005314559772), ('10684196@N04', 0.8987510057563475)]
+Top 5 related images are
+[(4532322806, 0.9894536472424147), (4694931060, 0.9768757767971048), (285683956, 0.96822672128087), (2828701151, 0.9667563308466445), (8991943745, 0.9665942675958475)]
+Top 5 related locations are
+[('big_ben', 0.9917524341608926), ('cn_tower', 0.36461601934593657), ('colosseum', 0.2642021681573138), ('cologne_cathedral', 0.21452772566286538), ('chichen_itza', 0.17255122003076884)]
+
+#SVD
+Top 5 related users are
+[('23260223@N04', 1.0), ('57884042@N00', 0.9998527694309879), ('12289625@N04', 0.9996215825488151), ('89504146@N00', 0.9991269270969833), ('47096145@N00', 0.9990415541538789)]
+Top 5 related images are
+[(6163356947, 0.9999998510431283), (5336700087, 0.9999937895863817), (5258787944, 0.9999909769580884), (5336492721, 0.9999903920539177), (5336468641, 0.9999903920539177)]
+Top 5 related locations are
+[('chichen_itza', 0.9999168304301167), ('aztec_ruins', 0.9893504717076975), ('cn_tower', 0.7156842608365618), ('casa_rosada', 0.5845514512467758), ('cabrillo', 0.5738843073364479)]
+
+#LDA
+Top 5 related users are
+[('23260223@N04', 1.0), ('24736216@N07', 0.9999999686758433), ('73372309@N00', 0.9999998045850053), ('58386356@N03', 0.9999997399176116), ('66208256@N00', 0.9999997369782267)]
+Top 5 related images are
+[(3472230091, 0.8729729050058341), (5790803571, 0.8727429105289038), (2198569082, 0.8718796573216869), (2198567778, 0.8718472568683231), (2198568402, 0.8718446478877416)]
+Top 5 related locations are
+[('civic_center_san_francisco', 0.9982387395442852), ('albert_memorial', 0.9982384281009116), ('chichen_itza', 0.9982380495663778), ('altes_museum', 0.998237802787105), ('berlin_cathedral', 0.9982378027599518)]
+
+
+#IMAGEID:
+135426569
+
+#PCA
+Top 5 related users are
+[('84292292@N00', 0.9994100909372982), ('7533887@N06', 0.999066327341823), ('36319742@N05', 0.9989313140594831), ('56505984@N06', 0.99874200953443), ('16918182@N03', 0.9986602458184396)]
+Top 5 related images are
+[(135426569, 1.0), (135426732, 1.0), (135395894, 0.9999982688459386), (218442238, 0.999976683656819), (218441624, 0.999976683656819)]
+Top 5 related locations are
+[('ara_pacis', 0.9904027999257162), ('agra_fort', 0.9459848365013449), ('hearst_castle', 0.9188908463862069), ('chichen_itza', 0.9181294143882727), ('casa_batllo', 0.859653489828945)] 
+
+#SVD
+Top 5 related users are
+[('9939138@N05', 0.9997645713822542), ('7533887@N06', 0.999749018495087), ('84292292@N00', 0.9996460010701606), ('36319742@N05', 0.9995519822054408), ('46013071@N00', 0.9995473794361889)]
+Top 5 related images are
+[(135426569, 1.0), (135426732, 1.0), (3835450838, 0.9997729382758569), (6754793561, 0.999583337296227), (6754820905, 0.999583337296227)]
+Top 5 related locations are
+[('ara_pacis', 0.9980775224102154), ('colosseum', 0.9891100841627299), ('arc_de_triomphe', 0.47379855713990193), ('altes_museum', 0.4621423934107153), ('acropolis_athens', 0.3884781095529206)]
+
+#LDA
+Top 5 related users are
+[('48999318@N00', 0.9841692468855371), ('42983450@N08', 0.983420985741522), ('22451301@N00', 0.9588623605408971), ('37728820@N00', 0.958786247810344), ('82904227@N00', 0.9586842311346169)]
+Top 5 related images are
+[(135426569, 1.0), (135426732, 1.0), (5998990995, 0.9999999731303018), (336302378, 0.9999993902153671), (5361686565, 0.9999993170450311)]
+Top 5 related locations are
+[('chartres_cathedral', 0.9188902030675654), ('agra_fort', 0.9188899976245175), ('ara_pacis', 0.9188854558496684), ('montezuma_castle', 0.918885411702456), ('cn_tower', 0.9188849061770966)]
+
+
+#LOCATIONID:
+10
+
+#PCA
+Top 5 related users are
+[('25897810@N00', 0.9538671510366616), ('8293801@N07', 0.926693953012627), ('94956595@N00', 0.9233859586412348), ('12195365@N04', 0.8895999138603806), ('58791769@N00', 0.8866859406475933)]
+Top 5 related images are
+[(626429569, 0.9943794977735682), (11932547526, 0.9642592089872255), (2477058053, 0.9530140661334374), (2536030014, 0.9522555773409969), (8654373732, 0.9493874086639901)]
+Top 5 related locations are
+[('agra_fort', 1.0), ('chichen_itza', 0.9636279269858982), ('brandenburg_gate', 0.9633042029052246), ('bok_tower_gardens', 0.9554629041226277), ('la_madeleine', 0.9456294446049395)]
+
+#SVD
+Top 5 related users are
+[('37601286@N06', 0.9962624348635305), ('68102773@N00', 0.9875900414411439), ('54581272@N03', 0.9805716272947962), ('36194864@N00', 0.9804804009844864), ('77739593@N00', 0.9791634913967109)]
+Top 5 related images are
+[(4760826277, 0.9998533378105117), (4258414762, 0.9998139326945362), (7657020532, 0.9998045277096117), (8991972315, 0.9998004918454962), (487649798, 0.9997352362066335)]
+Top 5 related locations are
+[('agra_fort', 1.0), ('castillo_de_san_marcos', 0.9244448040204818), ('cn_tower', 0.2953115170115106), ('casa_rosada', 0.1657769550117576), ('aztec_ruins', 0.08984365938161276)]
+
+#LDA
+Top 5 related users are
+[('35377274@N06', 0.9877283655090632), ('32398343@N00', 0.979207024969333), ('25367139@N00', 0.9657126388029592), ('9270140@N05', 0.9490948080465138), ('44124363356@N01', 0.9454625742666676)]
+Top 5 related images are
+[(5200254472, 0.7848835472424088), (3935233154, 0.7844127691514838), (3935226068, 0.7842369178487804), (3934445785, 0.7841817881886675), (5688602988, 0.7840993042517033)]
+Top 5 related locations are
+[('agra_fort', 1.0), ('chartres_cathedral', 0.9999999999982935), ('ara_pacis', 0.9999999992528783), ('montezuma_castle', 0.9999999992387136), ('cn_tower', 0.9999999990557386)]
+
+----------------------------------
+
+##TASK 3
+___________________________
+#VALUE FOR K:
+6
+#MODEL:
+GLRLM
+#IMAGEID:
+2614112752
+
+#PCA
+[[ 7.62899728  4.58309555  1.06228941 -2.37842518  1.05985995  0.95202258]
+ [ 8.16491536  4.28683918  4.78796569  5.38953742 -0.09378085  0.80410571]
+ [-0.99862148  4.69328469 -0.96718876 -0.39053833 -0.11031062  1.18610467]
+ ...
+ [-3.48956215  0.74602313  0.36929943 -0.35726104 -1.05505121 -0.36193136]
+ [-1.1154928   1.29044222  0.20716597  0.07810656 -1.47899805 -0.8145788 ]
+ [ 0.95988704 -1.37351382 -1.03535145  0.02137714 -0.07743931  0.73931055]]
+5 most similar images with matching score is :
+[['2614112752', 1.0], ['8810436449', 0.5843290282809895], ['6891540298', 0.5190714706774027], ['6915332205', 0.4555693404914845], ['336293060', 0.45136436091491483]]
+5 most similar locations with matching score is :
+[['27', 'christ_the_redeemer_rio', 1.0], ['23', 'casa_rosada', 0.5843290282809895], ['26', 'chichen_itza', 0.5190714706774027], ['12', 'altes_museum', 0.4555693404914845], ['4', 'la_madeleine', 0.45136436091491483]]
+
+#SVD
+[[ 2.54076212e+04  5.29014103e+04 -3.06267584e+04 -1.05588903e+03
+  -1.77205345e+02 -1.05780043e+04]
+ [ 6.83853188e+04  1.63364655e+05  3.98591147e+04  2.01093813e+03
+   1.76961690e+03  4.03664141e+03]
+ [ 2.83540309e+04  5.61279556e+03 -5.99612454e+02 -1.19385091e+04
+  -2.41640480e+02  2.39469326e+03]
+ ...
+ [ 4.97329852e+04 -1.81682847e+04  1.09173062e+03  3.52757073e+03
+  -3.62404604e+03 -5.71955883e+02]
+ [ 4.08245662e+04 -2.77026960e+03  3.81981014e+03  1.17585593e+03
+  -6.32615511e+01  9.42108926e+02]
+ [ 3.42341910e+04 -1.17208304e+04  4.14521406e+02 -2.70573685e+03
+   3.73171521e+02 -1.48335517e+02]]
+5 most similar images with matching score is :
+[['2614112752', 1.0], ['6970821004', 0.00047241951663443545], ['2614110022', 0.00039461597254641776], ['3043871600', 0.0003031819558228299], ['4027657471', 0.000302480056123139]]
+5 most similar locations with matching score is :
+[['27', 'christ_the_redeemer_rio', 1.0], ['21', 'cabrillo', 0.00047241951663443545], ['2', 'big_ben', 0.0003031819558228299], ['3', 'hearst_castle', 0.000302480056123139], ['10', 'agra_fort', 0.00029101801734345885]]
+
+#LDA
+[[1.44039612e-06 1.43902592e-06 9.01986520e-02 7.82428173e-01
+  1.43794811e-06 1.27368858e-01]
+ [4.61938665e-07 4.62212688e-07 4.61975446e-07 9.99978773e-01
+  4.62516750e-07 1.93787302e-05]
+ [5.58520955e-01 8.86179816e-02 1.41419177e-03 2.23051921e-01
+  1.81835220e-02 1.10211429e-01]
+ ...
+ [7.47802571e-02 4.28004379e-02 2.17177484e-03 1.21638072e-06
+  8.79136215e-01 1.11009923e-03]
+ [2.96259903e-02 2.29471209e-01 2.23640248e-03 1.48093990e-01
+  5.83287290e-01 7.28511719e-03]
+ [2.83073604e-01 5.66884123e-02 1.40977896e-03 1.68331135e-06
+  6.42345535e-01 1.64809865e-02]]
+5 most similar images with matching score is :
+[['2614112752', 1.0], ['3038902071', 0.9649533356080819], ['8027049091', 0.9492252012698268], ['4501766904', 0.9470667157795333], ['3493365324', 0.9364549744207974]]
+5 most similar locations with matching score is :
+[['27', 'christ_the_redeemer_rio', 1.0], ['28', 'civic_center_san_francisco', 0.9649533356080819], ['21', 'cabrillo', 0.9492252012698268], ['24', 'castillo_de_san_marcos', 0.9470667157795333], ['8', 'cn_tower', 0.9284305685121265]]
+
+____________________________
+#VALUE FOR K:
+5
+#MODEL:
+LBP3x3
+#IMAGEID:
+7931080032
+
+#PCA
+[[ 7.44140823 -3.22511639  4.40546846 -1.93187791  1.01280696]
+ [-1.48564562 -1.20108744  0.55374643 -0.21452086  0.66386688]
+ [-0.53504338 -0.46552632  0.75094646 -0.64640032  0.30732224]
+ ...
+ [-1.81980755  1.06589658  4.22250851  1.12014522  1.88834481]
+ [-4.21854226  2.59952774 -0.62591278 -0.5719446  -1.4434293 ]
+ [ 0.91465309  9.34510141  2.12584336 -1.02774927 -0.62682932]]
+5 most similar images with matching score is :
+[['7931080032', 1.0], ['8044742687', 0.3435604678304991], ['1428409401', 0.33845419650376984], ['3885665281', 0.33736498929625913], ['282328625', 0.3240064850697828]]
+5 most similar locations with matching score is :
+[['3', 'hearst_castle', 1.0], ['5', 'pont_alexandre_iii', 0.3435604678304991], ['25', 'chartres_cathedral', 0.33845419650376984], ['18', 'berlin_cathedral', 0.33736498929625913], ['1', 'angel_of_the_north', 0.3240064850697828]]
+
+#SVD
+[[ 0.145532    0.0506601  -0.00927332  0.02583115 -0.00741165]
+ [ 0.11563002  0.00132767 -0.01243846 -0.00453136  0.00041355]
+ [ 0.11502024 -0.00187079 -0.00310113  0.01536088  0.0004718 ]
+ ...
+ [ 0.11671235  0.00319322 -0.00608607 -0.00268566 -0.00053179]
+ [ 0.10042554 -0.02618463  0.008397    0.0041341  -0.00021918]
+ [ 0.10427987 -0.01183221  0.00741102  0.005548   -0.01888805]]
+5 most similar images with matching score is :
+[['7931080032', 1.0], ['9099219295', 0.9979213698885262], ['4057508220', 0.9978610024376335], ['3416580960', 0.9973512801465695], ['3162095060', 0.9969280657048977]]
+5 most similar locations with matching score is :
+[['3', 'hearst_castle', 1.0], ['24', 'castillo_de_san_marcos', 0.9979213698885262], ['28', 'civic_center_san_francisco', 0.9978610024376335], ['21', 'cabrillo', 0.9973512801465695], ['18', 'berlin_cathedral', 0.9969280657048977]]
+
+#LDA
+[[0.10587539 0.10588825 0.10362849 0.10586259 0.57874528]
+ [0.10588473 0.57912128 0.10309372 0.10599743 0.10590284]
+ [0.10589793 0.57902747 0.10308397 0.10608038 0.10591025]
+ ...
+ [0.10636068 0.57714724 0.10363184 0.10647577 0.10638447]
+ [0.10632738 0.10648118 0.10320785 0.57771719 0.1062664 ]
+ [0.10634346 0.10652795 0.10335431 0.57745887 0.10631541]]
+5 most similar images with matching score is :
+[['7931080032', 1.0], ['167199643', 0.9999769904765999], ['3885665281', 0.9999649776726536], ['2758296162', 0.9999624882405392], ['3770758676', 0.9999620795045282]]
+5 most similar locations with matching score is :
+[['3', 'hearst_castle', 1.0], ['2', 'big_ben', 0.9999769904765999], ['18', 'berlin_cathedral', 0.9999649776726536], ['30', 'colosseum', 0.9999624882405392], ['12', 'altes_museum', 0.9999620795045282]]
+
+____________________________
+
+----------------------------------
+
+##TASK 4
+___________________________
+#VALUE FOR K:
+6
+#MODEL:
+GLRLM
+#LOCATIONID:
+3
+
+#PCA
+[[ 6.836396   -6.94405429 -0.84433275  0.37440477 -0.95041419  2.04522509]
+ [ 0.95827279 -6.78249637  0.41670821  0.74488809  0.393368    0.43572055]
+ [-1.40133604  2.55061203 -1.28604643 -0.53759378  0.87459447  0.16099654]
+ ...
+ [-3.48956215  0.74602313  0.36929942 -0.35726107 -1.05505129 -0.36192647]
+ [-1.1154928   1.29044222  0.20716598  0.07810656 -1.47899809 -0.81458093]
+ [ 0.95988704 -1.37351382 -1.03535145  0.02137712 -0.07743936  0.73931084]]
+[('hearst_castle', 1.0), ('casa_rosada', 0.4618091768716763), ('arc_de_triomphe', 0.45926010650241944), ('colosseum', 0.45313442224715705), ('la_madeleine', 0.45151809177622493)]
+
+#SVD
+[[ 22132.30305248  -5419.20634681    667.4181922   -7731.51543214
+   -1043.01533394    -69.27006889]
+ [ 50598.25524589 -18450.56695754    368.80916004  -4907.99683542
+     401.01153118   -414.64181893]
+ [ 37160.85730012 -11841.55533682    235.64341844  -4634.0031505
+    1485.59809105    626.19004517]
+ ...
+ [ 49732.98520494 -18168.28474365   1091.73062401   3527.57073153
+   -3624.04604236   -571.95588299]
+ [ 40824.56615428  -2770.26960194   3819.81014437   1175.85592516
+     -63.26155112    942.1089255 ]
+ [ 34234.19098607 -11720.83041642    414.52140625  -2705.73684852
+     373.17152062   -148.33551673]]
+[('hearst_castle', 1.0), ('colosseum', 0.0003398338789291488), ('civic_center_san_francisco', 0.0003389879271367581), ('casa_rosada', 0.00033765501195114024), ('berlin_cathedral', 0.0003323010636495099)]
+
+#LDA
+[[4.68107942e-01 2.35310319e-01 1.24921399e-02 3.49383148e-02
+  2.26222715e-02 2.26529013e-01]
+ [5.92629965e-01 1.16517864e-01 2.73020175e-01 1.14049236e-06
+  8.46717383e-03 9.36368170e-03]
+ [5.84154606e-01 1.03333246e-01 2.31185337e-01 2.23529530e-02
+  2.36742276e-02 3.52996295e-02]
+ ...
+ [1.44882985e-01 3.00909231e-01 5.43359195e-01 1.21583399e-06
+  2.56476059e-03 8.28261264e-03]
+ [2.18199693e-01 1.63703854e-01 4.10584983e-01 1.93237950e-01
+  2.09572722e-03 1.21777922e-02]
+ [4.53113397e-01 2.15721646e-01 2.77199570e-01 1.68677296e-06
+  3.09305901e-02 2.30331106e-02]]
+[('hearst_castle', 1.0), ('civic_center_san_francisco', 0.92972221668661), ('colosseum', 0.9290574798176948), ('la_madeleine', 0.9283747725220571), ('angkor_wat', 0.9279953020062335)]
+____________________________
+#VALUE FOR K:
+5
+#MODEL:
+GLRLM3x3
+#LOCATIONID:
+23
+
+#PCA
+[[10.11997115 24.84446155  2.66505389 -0.88413816 -5.40267209]
+ [13.64780639 20.23302276  1.99603459 10.51870685 -1.30377505]
+ [ 4.11871998 23.16326378  2.18459279  1.49692409 -6.24851121]
+ ...
+ [-1.13060112  6.16293256 -4.92466857  3.01523141 -2.96398004]
+ [-3.53426783 -3.05377773  3.23258729 -3.14533278  2.4075372 ]
+ [ 5.73756886 -5.19403056  1.2159515  -2.70340244  0.52583507]]
+[('casa_rosada', 1.0), ('civic_center_san_francisco', 0.23716922293580836), ('altes_museum', 0.2314345341728719), ('berlin_cathedral', 0.23130155675507713), ('hearst_castle', 0.22975152983672756)]
+
+#SVD
+[[ 1.56944403e+03 -9.98965487e+01 -5.83687391e+01  5.71602039e+02
+   6.63568599e+00]
+ [ 5.57924680e+03 -4.62293733e+03  2.36485866e+03 -4.66908427e+02
+  -3.65723209e+01]
+ [ 1.69904517e+03 -9.52666184e+02 -3.70802344e+02  4.91058955e+02
+   9.60840984e+01]
+ ...
+ [ 3.09240487e+04 -3.03659200e+04 -2.52978134e+04 -7.75953116e+03
+   1.57644623e+03]
+ [ 2.90973381e+03 -7.27096037e+02  1.26539705e+03  2.83238077e+03
+   1.40945017e+03]
+ [ 3.96268173e+04  1.62612974e+04  5.09517696e+03  1.76004609e+04
+  -9.79124974e+03]]
+[('casa_rosada', 1.0), ('montezuma_castle', 0.0008682538619947732), ('hearst_castle', 0.0008599468389255277), ('cologne_cathedral', 0.0008452178415153368), ('chartres_cathedral', 0.0008387678052036103)]
+
+#LDA
+[[9.62238462e-01 2.01174527e-02 2.64763560e-03 1.04991151e-02
+  4.49733491e-03]
+ [6.47815328e-01 1.43655852e-01 1.24055777e-01 1.19158518e-06
+  8.44718513e-02]
+ [9.69621865e-01 1.23966190e-02 1.08608260e-03 1.29565023e-06
+  1.68941377e-02]
+ ...
+ [4.87743802e-01 8.23192767e-07 5.29130454e-02 3.46681526e-02
+  4.24674177e-01]
+ [8.41137171e-01 1.34213397e-01 1.90847344e-02 5.56339828e-03
+  1.29998265e-06]
+ [2.38999348e-01 3.16750012e-01 1.44912937e-01 2.99336928e-01
+  7.74270809e-07]]
+[('casa_rosada', 1.0), ('acropolis_athens', 0.946229640845552), ('agra_fort', 0.9460884008765518), ('cabrillo', 0.9454336992427849), ('la_madeleine', 0.9431442948585204)]
+____________________________
+
+-----------------------------------
+##TASK 5:
+____________________________
+#VALUE FOR K:
+5
+#LOCATIONID:
+21
+
+#PCA
+[[ -8.47316174  -7.84593002  -4.50761055  -4.64854692  -1.64151841]
+ [-11.37869178  -7.83942368   1.65633792  -5.50264341   3.19640499]
+ [  6.08874054 -11.67133213  -8.11672903  -0.32843025   1.14718679]
+ ...
+ [ 10.78565367  -8.37391181   5.27934026   7.53575281  -0.60793496]
+ [  5.84807357 -10.27310311   2.43539846  -0.74163451  -3.5521094 ]
+ [ 11.89329764 -12.596383     7.43799341   1.59959057   4.49299274]]
+[('cabrillo', 1.0), ('la_madeleine', 0.16053581118212332), ('cn_tower', 0.1567842783508508), ('aztec_ruins', 0.1529386589217242), ('castillo_de_san_marcos', 0.15159984889812633)]
+
+#SVD
+[[ 12154.23514572  -5141.54629332   1707.12541706   3066.82587242
+  -53449.86648983]
+ [  9436.53117044  -2854.45530807    684.18018361   5183.94871357
+  -57649.27132411]
+ [ 53498.52876584 -10893.88411314   7663.11759327  12325.23017983
+  -27628.01331138]
+ ...
+ [ 35511.45253775 -15473.47544669  -6605.55237185  31625.37206901
+  -18637.00061739]
+ [ 13107.32529308  -4439.06011065  -1617.02881168  24426.57710502
+  -19448.53793747]
+ [ 34093.01643272 -15247.76857413  -2731.40557415  62262.73887567
+  -12506.40290327]]
+[('cabrillo', 1.0), ('chartres_cathedral', 0.00032983257642540275), ('cologne_cathedral', 0.0003296097408518807), ('amiens_cathedral', 0.00031779393102380533), ('montezuma_castle', 0.00031573090165971706)]
+
+#LDA
+[[2.11977340e-02 9.38228666e-01 1.46910667e-02 2.12369850e-02
+  4.64554806e-03]
+ [9.74005622e-05 9.45946217e-01 4.97423797e-02 4.07069472e-03
+  1.43307837e-04]
+ [1.48406628e-01 3.66761165e-01 1.60745236e-01 1.99300419e-01
+  1.24786551e-01]
+ ...
+ [6.54539980e-02 2.76484242e-01 4.29580514e-01 1.39273457e-01
+  8.92077894e-02]
+ [6.00470051e-03 5.46958561e-01 1.84244354e-01 2.46741536e-02
+  2.38118230e-01]
+ [2.50995930e-02 1.72150375e-01 3.40154012e-01 4.47008009e-02
+  4.17895219e-01]]
+[('cabrillo', 1.0), ('christ_the_redeemer_rio', 0.9483699845247442), ('castillo_de_san_marcos', 0.9473094139774144), ('altes_museum', 0.9464451008933764), ('big_ben', 0.9463827903000733)]
+_____________________________
+#VALUE FOR K:
+4
+#LOCATIONID:
+16
+
+#PCA
+[[  9.14481742 -10.51804136  -4.594549    11.81049961]
+ [ -7.61984545   1.72427436  -6.70081847   3.80208421]
+ [ -0.9317569   -0.68836617  -0.87104065   2.98009561]
+ ...
+ [  5.35058584  13.61141304  -5.42684437  -2.2254635 ]
+ [ -0.32951416  -5.77939087   0.37109048  -8.22916343]
+ [ 14.35461164  16.07855449   2.14139884  -2.33241384]]
+[('arc_de_triomphe', 1.0), ('acropolis_athens', 0.21745555491534202), ('agra_fort', 0.21173253407652837), ('casa_rosada', 0.2091388688823888), ('hearst_castle', 0.20654819139925698)]
+
+#SVD
+[[ 4.21728258e+05 -1.09916373e+05  2.73355067e+05 -6.90043080e+04]
+ [ 5.70584632e+04  2.17970253e+04  4.59414388e+03  1.08117793e+03]
+ [ 4.69055132e+04 -1.20122874e+04  3.58863684e+04  1.18091676e+04]
+ ...
+ [ 1.22236814e+04 -6.55067161e+03  6.46834119e+03  1.37288136e+02]
+ [ 9.70302435e+03 -2.72202768e+03  2.44095270e+03  1.20631121e+04]
+ [ 5.44063607e+03 -2.09855170e+03 -3.87032379e+02  3.69404952e+03]]
+[('arc_de_triomphe', 1.0), ('amiens_cathedral', 0.0006753832776138047), ('chartres_cathedral', 0.0006642496260779835), ('cologne_cathedral', 0.0006599475727584933), ('montezuma_castle', 0.0006369894583503238)]
+
+#LDA
+[[8.39381451e-01 6.74452009e-04 1.38546049e-02 1.46089492e-01]
+ [3.33716084e-01 4.81547381e-02 6.07272531e-01 1.08566475e-02]
+ [2.91120384e-01 2.15553388e-01 4.71998111e-01 2.13281162e-02]
+ ...
+ [1.46641459e-01 2.98930269e-02 7.76746338e-01 4.67191759e-02]
+ [4.95264901e-02 2.61102909e-01 6.83545739e-01 5.82486180e-03]
+ [1.62787389e-02 3.07407956e-01 6.49234031e-01 2.70792743e-02]]
+[('arc_de_triomphe', 1.0), ('big_ben', 0.9614087226322381), ('civic_center_san_francisco', 0.9610333664581727), ('agra_fort', 0.9609186953119904), ('altes_museum', 0.9586960749229871)]
+_____________________________
+--------------------------------------
+##TASK 6:
+_____________________________
+#VALUE FOR K:
+4
+
+Latent Semantic:  1
+	Location Name:  agra_fort  | Weight:  -0.0007311219616398487
+	Location Name:  bok_tower_gardens  | Weight:  -0.0017664632689667072
+	Location Name:  angkor_wat  | Weight:  -0.0018561448076663157
+	Location Name:  hearst_castle  | Weight:  -0.0018785076260264776
+	Location Name:  cabrillo  | Weight:  -0.0023604751462574618
+	Location Name:  chichen_itza  | Weight:  -0.002742655256752879
+	Location Name:  montezuma_castle  | Weight:  -0.0030508392735782053
+	Location Name:  cn_tower  | Weight:  -0.004062393388237582
+	Location Name:  aztec_ruins  | Weight:  -0.00432405699873617
+	Location Name:  casa_batllo  | Weight:  -0.004452281385860133
+	Location Name:  castillo_de_san_marcos  | Weight:  -0.004812014682796914
+	Location Name:  ara_pacis  | Weight:  -0.005354184400822819
+	Location Name:  colosseum  | Weight:  -0.006009633519194912
+	Location Name:  big_ben  | Weight:  -0.009607349486164552
+	Location Name:  civic_center_san_francisco  | Weight:  -0.011156888782979634
+	Location Name:  christ_the_redeemer_rio  | Weight:  -0.012011402447083255
+	Location Name:  la_madeleine  | Weight:  -0.01283468204420764
+	Location Name:  chartres_cathedral  | Weight:  -0.014495641706841396
+	Location Name:  angel_of_the_north  | Weight:  -0.015850437877411604
+	Location Name:  albert_memorial  | Weight:  -0.016985925937757614
+	Location Name:  acropolis_athens  | Weight:  -0.01887915835809308
+	Location Name:  amiens_cathedral  | Weight:  -0.018962002584497033
+	Location Name:  casa_rosada  | Weight:  -0.019000785011874063
+	Location Name:  pont_alexandre_iii  | Weight:  -0.026401719657473288
+	Location Name:  arc_de_triomphe  | Weight:  -0.04433523917887978
+	Location Name:  cologne_cathedral  | Weight:  -0.06492210457163851
+	Location Name:  altes_museum  | Weight:  -0.7755579986775527
+	Location Name:  brandenburg_gate  | Weight:  -0.776973742457964
+	Location Name:  neues_museum  | Weight:  -0.8251236362928244
+	Location Name:  berlin_cathedral  | Weight:  -0.9142243868612766
+
+Latent Semantic:  2
+	Location Name:  pont_alexandre_iii  | Weight:  0.4379457131044837
+	Location Name:  castillo_de_san_marcos  | Weight:  0.43291978637798734
+	Location Name:  arc_de_triomphe  | Weight:  0.4137164643469379
+	Location Name:  bok_tower_gardens  | Weight:  0.38977161973657615
+	Location Name:  albert_memorial  | Weight:  0.285594262758262
+	Location Name:  angel_of_the_north  | Weight:  0.2739484157764876
+	Location Name:  casa_rosada  | Weight:  0.2306072624450774
+	Location Name:  big_ben  | Weight:  0.2232362260380618
+	Location Name:  la_madeleine  | Weight:  0.19160341346262033
+	Location Name:  civic_center_san_francisco  | Weight:  0.18496077969978325
+	Location Name:  montezuma_castle  | Weight:  0.15346876049524652
+	Location Name:  christ_the_redeemer_rio  | Weight:  0.12576276686989513
+	Location Name:  hearst_castle  | Weight:  0.11828352553916802
+	Location Name:  amiens_cathedral  | Weight:  0.10022224501095423
+	Location Name:  casa_batllo  | Weight:  0.09932907258673147
+	Location Name:  aztec_ruins  | Weight:  0.08788434196999823
+	Location Name:  cabrillo  | Weight:  0.08022255765328067
+	Location Name:  chichen_itza  | Weight:  0.07110365763098814
+	Location Name:  chartres_cathedral  | Weight:  0.06916724067952978
+	Location Name:  agra_fort  | Weight:  0.06578797081787609
+	Location Name:  colosseum  | Weight:  0.06080646969619951
+	Location Name:  acropolis_athens  | Weight:  0.058681355991771336
+	Location Name:  cn_tower  | Weight:  0.04701857847129624
+	Location Name:  ara_pacis  | Weight:  0.04282607460605626
+	Location Name:  cologne_cathedral  | Weight:  0.040100588669127295
+	Location Name:  angkor_wat  | Weight:  0.019904975066151055
+	Location Name:  brandenburg_gate  | Weight:  -0.010706991691607885
+	Location Name:  altes_museum  | Weight:  -0.019189068963205113
+	Location Name:  neues_museum  | Weight:  -0.02274576795157457
+	Location Name:  berlin_cathedral  | Weight:  -0.02389161025656455
+
+Latent Semantic:  3
+	Location Name:  bok_tower_gardens  | Weight:  0.6099879301155953
+	Location Name:  castillo_de_san_marcos  | Weight:  0.6018724244454764
+	Location Name:  agra_fort  | Weight:  0.09479693603756799
+	Location Name:  hearst_castle  | Weight:  0.01738585596430397
+	Location Name:  neues_museum  | Weight:  0.014660290439679233
+	Location Name:  berlin_cathedral  | Weight:  0.014344644400353842
+	Location Name:  altes_museum  | Weight:  0.0100802788535516
+	Location Name:  civic_center_san_francisco  | Weight:  0.008906301477715699
+	Location Name:  brandenburg_gate  | Weight:  0.005258488214504814
+	Location Name:  cabrillo  | Weight:  -0.0005258695641573978
+	Location Name:  chichen_itza  | Weight:  -0.004807444205602863
+	Location Name:  angkor_wat  | Weight:  -0.007471897532429635
+	Location Name:  cn_tower  | Weight:  -0.014910355934798109
+	Location Name:  montezuma_castle  | Weight:  -0.021317650502768133
+	Location Name:  aztec_ruins  | Weight:  -0.022329952189183832
+	Location Name:  cologne_cathedral  | Weight:  -0.029903432609553634
+	Location Name:  ara_pacis  | Weight:  -0.030149096264040092
+	Location Name:  acropolis_athens  | Weight:  -0.03345556289395165
+	Location Name:  colosseum  | Weight:  -0.041326514991158955
+	Location Name:  casa_batllo  | Weight:  -0.05568030290788218
+	Location Name:  chartres_cathedral  | Weight:  -0.062462674585698895
+	Location Name:  christ_the_redeemer_rio  | Weight:  -0.06450799074053569
+	Location Name:  amiens_cathedral  | Weight:  -0.08643392472494764
+	Location Name:  casa_rosada  | Weight:  -0.10027791807010421
+	Location Name:  angel_of_the_north  | Weight:  -0.10929650899559476
+	Location Name:  la_madeleine  | Weight:  -0.1446011741748138
+	Location Name:  big_ben  | Weight:  -0.15360159822559863
+	Location Name:  albert_memorial  | Weight:  -0.20501167189995612
+	Location Name:  arc_de_triomphe  | Weight:  -0.3265889314174288
+	Location Name:  pont_alexandre_iii  | Weight:  -0.3620194415446782
+
+Latent Semantic:  4
+	Location Name:  montezuma_castle  | Weight:  0.4628789532994288
+	Location Name:  hearst_castle  | Weight:  0.43799288120496577
+	Location Name:  civic_center_san_francisco  | Weight:  0.2729711910136754
+	Location Name:  big_ben  | Weight:  0.24535927988690778
+	Location Name:  aztec_ruins  | Weight:  0.2400264116592619
+	Location Name:  angel_of_the_north  | Weight:  0.2332868508197349
+	Location Name:  albert_memorial  | Weight:  0.22497345061638624
+	Location Name:  cabrillo  | Weight:  0.20383830950144685
+	Location Name:  chichen_itza  | Weight:  0.18998038531828043
+	Location Name:  acropolis_athens  | Weight:  0.09159783864830595
+	Location Name:  colosseum  | Weight:  0.08312267337914246
+	Location Name:  ara_pacis  | Weight:  0.06239389968126404
+	Location Name:  cologne_cathedral  | Weight:  0.029808620287731083
+	Location Name:  angkor_wat  | Weight:  0.02896824428912242
+	Location Name:  berlin_cathedral  | Weight:  0.010065999824768085
+	Location Name:  brandenburg_gate  | Weight:  0.009529173855129297
+	Location Name:  cn_tower  | Weight:  0.002335676865574721
+	Location Name:  neues_museum  | Weight:  -0.003917424875863146
+	Location Name:  altes_museum  | Weight:  -0.007471971338361347
+	Location Name:  christ_the_redeemer_rio  | Weight:  -0.010768309594661738
+	Location Name:  agra_fort  | Weight:  -0.022968694784455818
+	Location Name:  chartres_cathedral  | Weight:  -0.05135174783505339
+	Location Name:  casa_batllo  | Weight:  -0.055894651772197726
+	Location Name:  amiens_cathedral  | Weight:  -0.07565522569353558
+	Location Name:  castillo_de_san_marcos  | Weight:  -0.09271712796683135
+	Location Name:  casa_rosada  | Weight:  -0.11538942568610398
+	Location Name:  bok_tower_gardens  | Weight:  -0.12066492303553716
+	Location Name:  la_madeleine  | Weight:  -0.16486560629890573
+	Location Name:  pont_alexandre_iii  | Weight:  -0.2807568479518034
+	Location Name:  arc_de_triomphe  | Weight:  -0.3244205143022841
+
+______________________________
+#VALUE FOR K:
+6
+
+Latent Semantic:  1
+	Location Name:  agra_fort  | Weight:  -0.0007311219616398487
+	Location Name:  bok_tower_gardens  | Weight:  -0.0017664632689667072
+	Location Name:  angkor_wat  | Weight:  -0.0018561448076663157
+	Location Name:  hearst_castle  | Weight:  -0.0018785076260264776
+	Location Name:  cabrillo  | Weight:  -0.0023604751462574618
+	Location Name:  chichen_itza  | Weight:  -0.002742655256752879
+	Location Name:  montezuma_castle  | Weight:  -0.0030508392735782053
+	Location Name:  cn_tower  | Weight:  -0.004062393388237582
+	Location Name:  aztec_ruins  | Weight:  -0.00432405699873617
+	Location Name:  casa_batllo  | Weight:  -0.004452281385860133
+	Location Name:  castillo_de_san_marcos  | Weight:  -0.004812014682796914
+	Location Name:  ara_pacis  | Weight:  -0.005354184400822819
+	Location Name:  colosseum  | Weight:  -0.006009633519194912
+	Location Name:  big_ben  | Weight:  -0.009607349486164552
+	Location Name:  civic_center_san_francisco  | Weight:  -0.011156888782979634
+	Location Name:  christ_the_redeemer_rio  | Weight:  -0.012011402447083255
+	Location Name:  la_madeleine  | Weight:  -0.01283468204420764
+	Location Name:  chartres_cathedral  | Weight:  -0.014495641706841396
+	Location Name:  angel_of_the_north  | Weight:  -0.015850437877411604
+	Location Name:  albert_memorial  | Weight:  -0.016985925937757614
+	Location Name:  acropolis_athens  | Weight:  -0.01887915835809308
+	Location Name:  amiens_cathedral  | Weight:  -0.018962002584497033
+	Location Name:  casa_rosada  | Weight:  -0.019000785011874063
+	Location Name:  pont_alexandre_iii  | Weight:  -0.026401719657473288
+	Location Name:  arc_de_triomphe  | Weight:  -0.04433523917887978
+	Location Name:  cologne_cathedral  | Weight:  -0.06492210457163851
+	Location Name:  altes_museum  | Weight:  -0.7755579986775527
+	Location Name:  brandenburg_gate  | Weight:  -0.776973742457964
+	Location Name:  neues_museum  | Weight:  -0.8251236362928244
+	Location Name:  berlin_cathedral  | Weight:  -0.9142243868612766
+
+Latent Semantic:  2
+	Location Name:  pont_alexandre_iii  | Weight:  0.4379457131044837
+	Location Name:  castillo_de_san_marcos  | Weight:  0.43291978637798734
+	Location Name:  arc_de_triomphe  | Weight:  0.4137164643469379
+	Location Name:  bok_tower_gardens  | Weight:  0.38977161973657615
+	Location Name:  albert_memorial  | Weight:  0.285594262758262
+	Location Name:  angel_of_the_north  | Weight:  0.2739484157764876
+	Location Name:  casa_rosada  | Weight:  0.2306072624450774
+	Location Name:  big_ben  | Weight:  0.2232362260380618
+	Location Name:  la_madeleine  | Weight:  0.19160341346262033
+	Location Name:  civic_center_san_francisco  | Weight:  0.18496077969978325
+	Location Name:  montezuma_castle  | Weight:  0.15346876049524652
+	Location Name:  christ_the_redeemer_rio  | Weight:  0.12576276686989513
+	Location Name:  hearst_castle  | Weight:  0.11828352553916802
+	Location Name:  amiens_cathedral  | Weight:  0.10022224501095423
+	Location Name:  casa_batllo  | Weight:  0.09932907258673147
+	Location Name:  aztec_ruins  | Weight:  0.08788434196999823
+	Location Name:  cabrillo  | Weight:  0.08022255765328067
+	Location Name:  chichen_itza  | Weight:  0.07110365763098814
+	Location Name:  chartres_cathedral  | Weight:  0.06916724067952978
+	Location Name:  agra_fort  | Weight:  0.06578797081787609
+	Location Name:  colosseum  | Weight:  0.06080646969619951
+	Location Name:  acropolis_athens  | Weight:  0.058681355991771336
+	Location Name:  cn_tower  | Weight:  0.04701857847129624
+	Location Name:  ara_pacis  | Weight:  0.04282607460605626
+	Location Name:  cologne_cathedral  | Weight:  0.040100588669127295
+	Location Name:  angkor_wat  | Weight:  0.019904975066151055
+	Location Name:  brandenburg_gate  | Weight:  -0.010706991691607885
+	Location Name:  altes_museum  | Weight:  -0.019189068963205113
+	Location Name:  neues_museum  | Weight:  -0.02274576795157457
+	Location Name:  berlin_cathedral  | Weight:  -0.02389161025656455
+
+Latent Semantic:  3
+	Location Name:  bok_tower_gardens  | Weight:  0.6099879301155953
+	Location Name:  castillo_de_san_marcos  | Weight:  0.6018724244454764
+	Location Name:  agra_fort  | Weight:  0.09479693603756799
+	Location Name:  hearst_castle  | Weight:  0.01738585596430397
+	Location Name:  neues_museum  | Weight:  0.014660290439679233
+	Location Name:  berlin_cathedral  | Weight:  0.014344644400353842
+	Location Name:  altes_museum  | Weight:  0.0100802788535516
+	Location Name:  civic_center_san_francisco  | Weight:  0.008906301477715699
+	Location Name:  brandenburg_gate  | Weight:  0.005258488214504814
+	Location Name:  cabrillo  | Weight:  -0.0005258695641573978
+	Location Name:  chichen_itza  | Weight:  -0.004807444205602863
+	Location Name:  angkor_wat  | Weight:  -0.007471897532429635
+	Location Name:  cn_tower  | Weight:  -0.014910355934798109
+	Location Name:  montezuma_castle  | Weight:  -0.021317650502768133
+	Location Name:  aztec_ruins  | Weight:  -0.022329952189183832
+	Location Name:  cologne_cathedral  | Weight:  -0.029903432609553634
+	Location Name:  ara_pacis  | Weight:  -0.030149096264040092
+	Location Name:  acropolis_athens  | Weight:  -0.03345556289395165
+	Location Name:  colosseum  | Weight:  -0.041326514991158955
+	Location Name:  casa_batllo  | Weight:  -0.05568030290788218
+	Location Name:  chartres_cathedral  | Weight:  -0.062462674585698895
+	Location Name:  christ_the_redeemer_rio  | Weight:  -0.06450799074053569
+	Location Name:  amiens_cathedral  | Weight:  -0.08643392472494764
+	Location Name:  casa_rosada  | Weight:  -0.10027791807010421
+	Location Name:  angel_of_the_north  | Weight:  -0.10929650899559476
+	Location Name:  la_madeleine  | Weight:  -0.1446011741748138
+	Location Name:  big_ben  | Weight:  -0.15360159822559863
+	Location Name:  albert_memorial  | Weight:  -0.20501167189995612
+	Location Name:  arc_de_triomphe  | Weight:  -0.3265889314174288
+	Location Name:  pont_alexandre_iii  | Weight:  -0.3620194415446782
+
+Latent Semantic:  4
+	Location Name:  montezuma_castle  | Weight:  0.4628789532994288
+	Location Name:  hearst_castle  | Weight:  0.43799288120496577
+	Location Name:  civic_center_san_francisco  | Weight:  0.2729711910136754
+	Location Name:  big_ben  | Weight:  0.24535927988690778
+	Location Name:  aztec_ruins  | Weight:  0.2400264116592619
+	Location Name:  angel_of_the_north  | Weight:  0.2332868508197349
+	Location Name:  albert_memorial  | Weight:  0.22497345061638624
+	Location Name:  cabrillo  | Weight:  0.20383830950144685
+	Location Name:  chichen_itza  | Weight:  0.18998038531828043
+	Location Name:  acropolis_athens  | Weight:  0.09159783864830595
+	Location Name:  colosseum  | Weight:  0.08312267337914246
+	Location Name:  ara_pacis  | Weight:  0.06239389968126404
+	Location Name:  cologne_cathedral  | Weight:  0.029808620287731083
+	Location Name:  angkor_wat  | Weight:  0.02896824428912242
+	Location Name:  berlin_cathedral  | Weight:  0.010065999824768085
+	Location Name:  brandenburg_gate  | Weight:  0.009529173855129297
+	Location Name:  cn_tower  | Weight:  0.002335676865574721
+	Location Name:  neues_museum  | Weight:  -0.003917424875863146
+	Location Name:  altes_museum  | Weight:  -0.007471971338361347
+	Location Name:  christ_the_redeemer_rio  | Weight:  -0.010768309594661738
+	Location Name:  agra_fort  | Weight:  -0.022968694784455818
+	Location Name:  chartres_cathedral  | Weight:  -0.05135174783505339
+	Location Name:  casa_batllo  | Weight:  -0.055894651772197726
+	Location Name:  amiens_cathedral  | Weight:  -0.07565522569353558
+	Location Name:  castillo_de_san_marcos  | Weight:  -0.09271712796683135
+	Location Name:  casa_rosada  | Weight:  -0.11538942568610398
+	Location Name:  bok_tower_gardens  | Weight:  -0.12066492303553716
+	Location Name:  la_madeleine  | Weight:  -0.16486560629890573
+	Location Name:  pont_alexandre_iii  | Weight:  -0.2807568479518034
+	Location Name:  arc_de_triomphe  | Weight:  -0.3244205143022841
+
+Latent Semantic:  5
+	Location Name:  big_ben  | Weight:  0.5865653827445808
+	Location Name:  albert_memorial  | Weight:  0.5643654826960198
+	Location Name:  bok_tower_gardens  | Weight:  0.0714136129058936
+	Location Name:  cologne_cathedral  | Weight:  0.026249505434881772
+	Location Name:  castillo_de_san_marcos  | Weight:  0.02075346954809509
+	Location Name:  cn_tower  | Weight:  0.01596956438675873
+	Location Name:  berlin_cathedral  | Weight:  0.01020185239381799
+	Location Name:  brandenburg_gate  | Weight:  0.006271014929186945
+	Location Name:  acropolis_athens  | Weight:  -0.0008008470891046138
+	Location Name:  agra_fort  | Weight:  -0.0013424764212301714
+	Location Name:  altes_museum  | Weight:  -0.005905078079270141
+	Location Name:  neues_museum  | Weight:  -0.006308658741789085
+	Location Name:  christ_the_redeemer_rio  | Weight:  -0.012357283788624015
+	Location Name:  angkor_wat  | Weight:  -0.019211276539955875
+	Location Name:  civic_center_san_francisco  | Weight:  -0.020935589599821797
+	Location Name:  chartres_cathedral  | Weight:  -0.023001385559894335
+	Location Name:  amiens_cathedral  | Weight:  -0.02705268725775451
+	Location Name:  cabrillo  | Weight:  -0.04725062616303786
+	Location Name:  pont_alexandre_iii  | Weight:  -0.06573418918963463
+	Location Name:  angel_of_the_north  | Weight:  -0.08617164584761723
+	Location Name:  ara_pacis  | Weight:  -0.10275603560569227
+	Location Name:  la_madeleine  | Weight:  -0.11536030016631756
+	Location Name:  colosseum  | Weight:  -0.11907239176488812
+	Location Name:  casa_batllo  | Weight:  -0.1303685440345431
+	Location Name:  arc_de_triomphe  | Weight:  -0.16822974377723582
+	Location Name:  casa_rosada  | Weight:  -0.1725700741820087
+	Location Name:  hearst_castle  | Weight:  -0.22531383969387378
+	Location Name:  chichen_itza  | Weight:  -0.2510250059095029
+	Location Name:  montezuma_castle  | Weight:  -0.2602292226230037
+	Location Name:  aztec_ruins  | Weight:  -0.2700574764494938
+
+Latent Semantic:  6
+	Location Name:  montezuma_castle  | Weight:  0.3079828114356543
+	Location Name:  hearst_castle  | Weight:  0.30095901893804156
+	Location Name:  angel_of_the_north  | Weight:  0.1733504389102928
+	Location Name:  civic_center_san_francisco  | Weight:  0.1083805450728619
+	Location Name:  pont_alexandre_iii  | Weight:  0.0764155530949584
+	Location Name:  arc_de_triomphe  | Weight:  0.07134247595602088
+	Location Name:  cabrillo  | Weight:  0.06838568884803894
+	Location Name:  la_madeleine  | Weight:  0.03303456975367215
+	Location Name:  amiens_cathedral  | Weight:  0.028386686497987312
+	Location Name:  chartres_cathedral  | Weight:  0.017127550293566968
+	Location Name:  cologne_cathedral  | Weight:  0.013816168925222468
+	Location Name:  berlin_cathedral  | Weight:  0.0034962680725023616
+	Location Name:  brandenburg_gate  | Weight:  0.0015242759918137519
+	Location Name:  neues_museum  | Weight:  -0.00014114458855933143
+	Location Name:  altes_museum  | Weight:  -0.0027465625415674733
+	Location Name:  agra_fort  | Weight:  -0.014649789340554577
+	Location Name:  castillo_de_san_marcos  | Weight:  -0.015492470591733032
+	Location Name:  cn_tower  | Weight:  -0.018349743356539463
+	Location Name:  bok_tower_gardens  | Weight:  -0.023976226868291376
+	Location Name:  angkor_wat  | Weight:  -0.04261850707988802
+	Location Name:  casa_batllo  | Weight:  -0.058788008385425534
+	Location Name:  christ_the_redeemer_rio  | Weight:  -0.05943535296808774
+	Location Name:  casa_rosada  | Weight:  -0.06047898972730072
+	Location Name:  acropolis_athens  | Weight:  -0.07350292927802363
+	Location Name:  albert_memorial  | Weight:  -0.11111355343581594
+	Location Name:  big_ben  | Weight:  -0.15092593157444587
+	Location Name:  ara_pacis  | Weight:  -0.4149704258080613
+	Location Name:  colosseum  | Weight:  -0.428827115794611
+	Location Name:  aztec_ruins  | Weight:  -0.43784483010394615
+	Location Name:  chichen_itza  | Weight:  -0.44558323442188935
+
+______________________________
+---------------------------------------
+##TASK 7
+_____________________________
+#VALUE FOR K:
+5
+
+Output is in file Task_7/task7_output_k_is_5.txt
+______________________________
+#VALUE FOR K:
+6
+
+Output is in file Task_7/task7_output_k_is_6.txt
+______________________________
+----------------------------------------
