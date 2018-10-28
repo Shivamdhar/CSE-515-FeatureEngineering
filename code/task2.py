@@ -6,7 +6,8 @@ from data_extractor import DataExtractor
 import numpy as np
 import scipy
 from scipy import spatial
-from sklearn.decomposition import LatentDirichletAllocation
+from sklearn.decomposition import LatentDirichletAllocation,PCA
+from sklearn.preprocessing import StandardScaler
 from sparsesvd import sparsesvd
 from task1 import Task1
 from textual_descriptor_processor import TxtTermStructure
@@ -72,19 +73,28 @@ class Task2(object):
 		k  : number of hidden concepts
 		"""
 		document_term_matrix = self.ut.convert_list_to_numpyarray(document_term_matrix)
-		if pca:
-			document_term_matrix = np.cov(document_term_matrix.T)
 		document_term_sparse_matrix = scipy.sparse.csc_matrix(document_term_matrix)
-		#print(document_term_sparse_matrix)
-		U,S,Vt = sparsesvd(document_term_sparse_matrix,k)
+		if pca:
+			input_std = StandardScaler().fit_transform(document_term_matrix)
+			pca = PCA(n_components=int(k))
 
-		#Projection of objects along hidden concepts
-		U = document_term_sparse_matrix @ Vt.T
+			object_concept_matrix = pca.fit_transform(input_std)
+			Vt = pca.components_
 
-		# original sigma is linear array of k components, so we need to construct a diagonal matrix
-		S = np.diag(S)
+			#original sigma is linear array of k eigen values, so we need to construct a diagonal matrix
+			S  = np.diag(pca.singular_values_)
 
-		#since U is actually kxo, so we take transpose
+			U  = document_term_matrix @ Vt.T
+		else:
+			#document_term_sparse_matrix = scipy.sparse.csc_matrix(document_term_matrix)
+			U,S,Vt = sparsesvd(document_term_sparse_matrix,k)
+
+			#Projection of objects along hidden concepts
+			U = document_term_sparse_matrix @ Vt.T
+
+			#original sigma is linear array of k components, so we need to construct a diagonal matrix
+			S = np.diag(S)
+
 		return U,S,Vt
 		pass
 
