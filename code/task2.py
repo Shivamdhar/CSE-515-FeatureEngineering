@@ -39,7 +39,7 @@ class Task2(object):
 		# 	mapping = self.data_extractor.location_mapping()
 
 		for key,value in k_semantics_map.items():
-			result = self.ut.cosine_similarity(input_vector,value)
+			result = self.ut.compute_euclidean_distance(input_vector,value)
 			result = 1 / (1 + result)
 			# if entity_type == constants.LOCATION_TEXT:
 			# 	key = mapping[key]
@@ -78,7 +78,7 @@ class Task2(object):
 		U,S,Vt = sparsesvd(document_term_sparse_matrix,k)
 
 		#Projection of objects along hidden concepts
-		U = document_term_sparse_matrix @ Vt
+		U = document_term_sparse_matrix @ Vt.T
 
 		S = np.diag(S)
 
@@ -109,9 +109,9 @@ class Task2(object):
 
 		#diagonal_sigma_matrix = np.diag(sigma_matrix)
 
-		print("IP shape",input_vector.shape)
-		print("V shape",v_matrix.shape)
-		print("S shape",sigma_matrix.shape)
+		# print("IP shape",input_vector.shape)
+		# print("V shape",v_matrix.shape)
+		# print("S shape",sigma_matrix.shape)
 
 		projected_query_vector = input_vector.T @ v_matrix.T @ np.linalg.inv(sigma_matrix)
 
@@ -168,6 +168,9 @@ class Task2(object):
 			location_projected_query_vector_image = self.get_projected_query_vector(original_location_input_vector,image_vt_matrix,image_S_matrix)
 			location_projected_query_vector_user = self.get_projected_query_vector(original_location_input_vector,user_vt_matrix,user_S_matrix)
 
+			# print("Shape1",location_projected_query_vector_image.shape)
+			# print("Shape2",location_projected_query_vector_user.shape)
+
 			similar_images = self.calculate_similarity(location_projected_query_vector_image,self.image_semantics_map,constants.IMAGE_TEXT)
 			similar_users = self.calculate_similarity(location_projected_query_vector_user,self.user_semantics_map,constants.USER_TEXT)
 
@@ -182,9 +185,9 @@ class Task2(object):
 	def get_all_latent_semantics_map(self,user_data,image_data,location_data,user_u_matrix,
 				image_u_matrix,location_u_matrix):
 
-		user_semantics_map = self.get_k_semantics_map(user_data,user_u_matrix.T)
-		image_semantics_map = self.get_k_semantics_map(image_data,image_u_matrix.T)
-		location_semantics_map = self.get_k_semantics_map(location_data,location_u_matrix.T)
+		user_semantics_map = self.get_k_semantics_map(user_data,user_u_matrix)
+		image_semantics_map = self.get_k_semantics_map(image_data,image_u_matrix)
+		location_semantics_map = self.get_k_semantics_map(location_data,location_u_matrix)
 
 		return user_semantics_map,image_semantics_map,location_semantics_map
 
@@ -286,6 +289,10 @@ class Task2(object):
 				image_term_matrix,k)
 			location_u_matrix, location_S_matrix, location_vt_matrix = self.dim_reduce_LDA(
 				location_term_matrix,k)
+
+			# print("dfdF",location_u_matrix.shape)
+			# print("sdsdsd",user_u_matrix.shape)
+			# print("sdsfdf",image_u_matrix.shape)
 
 			user_semantics_map, image_semantics_map,location_semantics_map = \
 					self.get_all_latent_semantics_map(user_data,image_data,location_data,
