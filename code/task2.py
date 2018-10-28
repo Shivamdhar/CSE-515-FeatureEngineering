@@ -6,6 +6,7 @@ from data_extractor import DataExtractor
 import numpy as np
 import scipy
 from scipy import spatial
+from sklearn.decomposition import LatentDirichletAllocation
 from sparsesvd import sparsesvd
 from task1 import Task1
 from textual_descriptor_processor import TxtTermStructure
@@ -38,7 +39,7 @@ class Task2(object):
 		# 	mapping = self.data_extractor.location_mapping()
 
 		for key,value in k_semantics_map.items():
-			result = spatial.distance.euclidean(input_vector,value)
+			result = self.ut.cosine_similarity(input_vector,value)
 			result = 1 / (1 + result)
 			# if entity_type == constants.LOCATION_TEXT:
 			# 	key = mapping[key]
@@ -47,35 +48,6 @@ class Task2(object):
 			similarity_data.append((key,result))
 
 		return similarity_data
-
-		#self.top_5(similarity_data)
-
-	# def calculate_similarity(self, input_vector, k_semantics,entity_type):
-	# 	'''
-	# 	Method : calculate_similarity computes compute the similarity 
-	# 	matrix for the given entity id and given the latent semantics vector
-	# 	in form of weights for given entity type
-	# 	'''
-	# 	#k_semantics = [v for k,v in k_semantics_map]
-
-	# 	#input_vector = k_semantics_map.get(entity_id,[])
-
-	# 	similarity_data = []
-
-	# 	if entity_type == constants.LOCATION_TEXT:
-	# 		mapping = self.data_extractor.location_mapping()
-
-	# 	for reference_vector in k_semantics:
-	# 		result = spatial.distance.euclidean(input_vector,reference_vector)
-	# 		result = 1 / (1 + result)
-	# 		if entity_type == constants.LOCATION_TEXT:
-	# 			k = mapping[k]
-	# 		elif entity_type == constants.IMAGE_TEXT:
-	# 			k = int(k)
-	# 		similarity_data.append((k,result))
-
-	# 	#self.top_5(similarity_data)
-	# 	return similarity_data
 
 	def get_k_semantics_map(self,entity_data,k_semantics):
 		entity_ids = list(entity_data.data.master_dict.keys())
@@ -98,31 +70,50 @@ class Task2(object):
 	def dim_reduce_SVD(self,document_term_matrix,k,pca=False):
 		# U, S, Vt = np.linalg.svd(document_term_matrix)
 		# return U,SVD
+		document_term_matrix = self.ut.convert_list_to_numpyarray(document_term_matrix)
 		if pca:
-			document_term_matrix = np.cov(document_term_matrix)
+			document_term_matrix = np.cov(document_term_matrix.T)
 		document_term_sparse_matrix = scipy.sparse.csc_matrix(document_term_matrix)
 		#print(document_term_sparse_matrix)
 		U,S,Vt = sparsesvd(document_term_sparse_matrix,k)
+
+		#Projection of objects along hidden concepts
+		U = document_term_sparse_matrix @ Vt
+
+		S = np.diag(S)
 
 		#since U is actually kxo, so we take transpose
 		return U,S,Vt
 		pass
 
-	def dim_reduce_PCA(self,document_term_matrix):
-		pass
+	def dim_reduce_LDA(self,document_term_matrix,k):
+		lda = LatentDirichletAllocation(n_components=int(k),max_iter=5, 
+				learning_method='online', random_state=0)
+		document_topic_matrix = lda.fit_transform(document_term_matrix)
+
+		term_topic_matrix = lda.components_
+
+		topic_topic_matrix = term_topic_matrix @ term_topic_matrix.T
+
+
+		transformed_document_topic_matrix = document_topic_matrix @ topic_topic_matrix
+
+		return transformed_document_topic_matrix,topic_topic_matrix,term_topic_matrix
 
 	def get_projected_query_vector(self,input_vector,v_matrix,sigma_matrix):
 		"""
 		"""
 		projected_query_vector = []
 
-		diagonal_sigma_matrix = np.diag(sigma_matrix)
+		#print("pre diagonal S shape",sigma_matrix.shape)
+
+		#diagonal_sigma_matrix = np.diag(sigma_matrix)
 
 		print("IP shape",input_vector.shape)
 		print("V shape",v_matrix.shape)
-		print("S shape",diagonal_sigma_matrix.shape)
+		print("S shape",sigma_matrix.shape)
 
-		projected_query_vector = input_vector.T @ v_matrix.T @ np.linalg.inv(diagonal_sigma_matrix)
+		projected_query_vector = input_vector.T @ v_matrix.T @ np.linalg.inv(sigma_matrix)
 
 		return projected_query_vector
 
@@ -166,10 +157,10 @@ class Task2(object):
 
 		elif location_id:
 			#Given location id, computing the top 5 related locations,users and images
-			location_input_vector = self,location_semantics_map[self.mapping[location_id]]
+			location_input_vector = self.location_semantics_map[self.mapping[location_id]]
 
 			#For similar user id we can directly use the user U matrix without projecting
-			similar_locations = self.calculate_similarity(location_input_vector,self,location_semantics_map,constants.LOCATION_TEXT)
+			similar_locations = self.calculate_similarity(location_input_vector,self.location_semantics_map,constants.LOCATION_TEXT)
 			#self.top_5(similar_locations)
 
 			original_location_input_vector = self.ut.convert_list_to_numpyarray(location_term_matrix[self.location_index])
@@ -265,21 +256,15 @@ class Task2(object):
 		if algo_choice == 'SVD' or algo_choice == 'PCA':
 			# user_term_sparse_matrix = scipy.sparse.csc_matrix(user_term_matrix)
 			# print(user_term_sparse_matrix)
+			pca = False
 			if algo_choice == 'PCA':
-				user_u_matrix, user_S_matrix, user_vt_matrix = self.dim_reduce_SVD(user_term_matrix,
-					k,pca=True)
-				image_u_matrix, image_S_matrix, image_vt_matrix = self.dim_reduce_SVD(
-					image_term_matrix,k,
-					pca=True)
-				location_u_matrix, location_S_matrix, location_vt_matrix = self.dim_reduce_SVD(
-					location_term_matrix,k,pca=True)
-			else:
-				user_u_matrix, user_S_matrix, user_vt_matrix = self.dim_reduce_SVD(
-					user_term_matrix,k)
-				image_u_matrix, image_S_matrix, image_vt_matrix = self.dim_reduce_SVD(
-					image_term_matrix,k)
-				location_u_matrix, location_S_matrix, location_vt_matrix = self.dim_reduce_SVD(
-					location_term_matrix,k)
+				pca = True
+			user_u_matrix, user_S_matrix, user_vt_matrix = self.dim_reduce_SVD(
+				user_term_matrix,k,pca)
+			image_u_matrix, image_S_matrix, image_vt_matrix = self.dim_reduce_SVD(
+				image_term_matrix,k,pca)
+			location_u_matrix, location_S_matrix, location_vt_matrix = self.dim_reduce_SVD(
+				location_term_matrix,k,pca)
 
 			user_semantics_map, image_semantics_map,location_semantics_map = \
 					self.get_all_latent_semantics_map(user_data,image_data,location_data,
@@ -292,3 +277,26 @@ class Task2(object):
 			self.get_similar_entities(user_term_matrix,image_term_matrix,
 				location_term_matrix,user_S_matrix,user_vt_matrix,image_S_matrix,image_vt_matrix,
 					location_S_matrix, location_vt_matrix,user_id,image_id,location_id)
+
+		elif algo_choice == 'LDA':
+
+			user_u_matrix, user_S_matrix, user_vt_matrix = self.dim_reduce_LDA(
+				user_term_matrix,k)
+			image_u_matrix, image_S_matrix, image_vt_matrix = self.dim_reduce_LDA(
+				image_term_matrix,k)
+			location_u_matrix, location_S_matrix, location_vt_matrix = self.dim_reduce_LDA(
+				location_term_matrix,k)
+
+			user_semantics_map, image_semantics_map,location_semantics_map = \
+					self.get_all_latent_semantics_map(user_data,image_data,location_data,
+						user_u_matrix,image_u_matrix,location_u_matrix)
+
+			self.user_semantics_map = user_semantics_map
+			self.image_semantics_map = image_semantics_map
+			self.location_semantics_map = location_semantics_map
+
+			self.get_similar_entities(user_term_matrix,image_term_matrix,
+				location_term_matrix,user_S_matrix,user_vt_matrix,image_S_matrix,image_vt_matrix,
+					location_S_matrix, location_vt_matrix,user_id,image_id,location_id)
+
+
