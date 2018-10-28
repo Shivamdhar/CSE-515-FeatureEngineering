@@ -1,6 +1,7 @@
 """
 This module is the program for task 1 phase 2. 
 """
+import constants
 from util import Util
 from textual_descriptor_processor import TxtTermStructure
 
@@ -36,7 +37,15 @@ class Task1(object):
 		if term_vector_space_choice == 2: 
 			self.data.load_image_data()
 		if term_vector_space_choice == 3:
-			self.data.load_location_data() 
+			self.data.load_location_data()
+
+	def load_data_per_entity(self,entity_type):
+		if entity_type == constants.USER_TEXT:
+			self.data.load_users_data()
+		if entity_type == constants.IMAGE_TEXT:
+			self.data.load_image_data()
+		if entity_type == constants.LOCATION_TEXT:
+			self.data.load_location_data()
 
 	def get_global_tag_set(self):
 		"""
