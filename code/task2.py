@@ -50,6 +50,13 @@ class Task2(object):
 		return similarity_data
 
 	def get_k_semantics_map(self,entity_data,k_semantics):
+		"""
+		Method : Returns the k semantics map while linking the entity id from original data 
+		with new latent semantics
+		entity_data : user_term matrix or image_term matrix or location_term matrix
+		k_semantics : new reduced feature space after projecting the original data points with
+		dimension o x k
+		"""
 		entity_ids = list(entity_data.data.master_dict.keys())
 		k_semantics_map = {}
 		for entity_id,value in zip(entity_ids,k_semantics):
@@ -68,8 +75,12 @@ class Task2(object):
 		pass
 
 	def dim_reduce_SVD(self,document_term_matrix,k,pca=False):
-		# U, S, Vt = np.linalg.svd(document_term_matrix)
-		# return U,SVD
+		"""
+		Method: Returns the left factor, Sigma and right factor matrix using SVD and PCA if pca flag
+		is True
+		document_term_matrix : Input data matrix
+		k  : number of hidden concepts
+		"""
 		document_term_matrix = self.ut.convert_list_to_numpyarray(document_term_matrix)
 		if pca:
 			document_term_matrix = np.cov(document_term_matrix.T)
@@ -80,6 +91,7 @@ class Task2(object):
 		#Projection of objects along hidden concepts
 		U = document_term_sparse_matrix @ Vt.T
 
+		# original sigma is linear array of k components, so we need to construct a diagonal matrix
 		S = np.diag(S)
 
 		#since U is actually kxo, so we take transpose
@@ -87,21 +99,31 @@ class Task2(object):
 		pass
 
 	def dim_reduce_LDA(self,document_term_matrix,k):
+		"""
+		Method: Returns the left factor, Sigma and right factor matrix using LDA
+		document_term_matrix : Input data matrix
+		k  : number of hidden concepts
+		"""
 		lda = LatentDirichletAllocation(n_components=int(k),max_iter=5, 
 				learning_method='online', random_state=0)
 		document_topic_matrix = lda.fit_transform(document_term_matrix)
 
 		term_topic_matrix = lda.components_
 
+		#Getting the feature vs feature matrix
 		topic_topic_matrix = term_topic_matrix @ term_topic_matrix.T
 
-
+		#Projection of original objects along hidden topics
 		transformed_document_topic_matrix = document_topic_matrix @ topic_topic_matrix
 
 		return transformed_document_topic_matrix,topic_topic_matrix,term_topic_matrix
 
 	def get_projected_query_vector(self,input_vector,v_matrix,sigma_matrix):
 		"""
+		Method:  Returns the projected query vector onto given latent semantic space
+		input_vector : input_query from original data matrix form
+		v_matrix : feature vs k concepts matrix
+		sigma_matrix : core_matrix
 		"""
 		projected_query_vector = []
 
@@ -118,6 +140,11 @@ class Task2(object):
 		return projected_query_vector
 
 	def get_document_term_matrix(self,entity_data):
+		"""
+		Method : Get the document term matrix for the given entity using the global dictionary of 
+		terms.
+		entity_data : entity_data matrix
+		"""
 		global_tag_set = entity_data.get_global_tag_set()
 		global_tag_dict = entity_data.convert_dict_from_set(global_tag_set)
 		master_matrix = entity_data.create_master_matrix(global_tag_dict)
@@ -127,13 +154,31 @@ class Task2(object):
 	def get_similar_entities(self,user_term_matrix,image_term_matrix,
 				location_term_matrix,user_S_matrix,user_vt_matrix,image_S_matrix,image_vt_matrix,
 					location_S_matrix, location_vt_matrix,user_id=None,image_id=None,location_id=None):
+		"""
+		Method: Get the similar users, images and locations by projecting the given query vector onto 
+		other latent semantic space for all user, image and location entity
+		
+		user_term_matrix: user document_term matrix
+		image_term_matrix: image document_term matrix
+		location_term_matrix: location document_term matrix
+		user_S_matrix :  sigma matrix after decomposing user data matrix
+		image_S_matrix :  sigma matrix after decomposing image data matrix
+		location_S_matrix :  sigma matrix after decomposing location data matrix
+
+		user_vt_matrix :  feature vs concepts matrix after decomposing user data matrix
+		image_vt_matrix :  feature vs concepts matrix after decomposing image data matrix
+		location_vt_matrix :  feature vs concepts matrix after decomposing location data matrix
+		"""
+
 		if user_id:
+			#If the input is user_id
 			user_input_vector = self.user_semantics_map[user_id]
 
 			#For similar user id we can directly use the user U matrix without projecting
 			similar_users = self.calculate_similarity(user_input_vector,self.user_semantics_map,constants.USER_TEXT)
 
 			original_user_input_vector = self.ut.convert_list_to_numpyarray(user_term_matrix[self.user_index])
+
 			user_projected_query_vector_image = self.get_projected_query_vector(original_user_input_vector,image_vt_matrix,image_S_matrix)
 			user_projected_query_vector_location = self.get_projected_query_vector(original_user_input_vector,location_vt_matrix,location_S_matrix)
 
@@ -224,6 +269,9 @@ class Task2(object):
 			self.entity_type = constants.LOCATION_TEXT
 			location_id = input("Enter the location id: ")
 
+		"""
+		Get the document term matrix for users,images and locations from task1
+		"""
 		user_data = Task1()
 		user_data.load_data_per_entity(constants.USER_TEXT)
 		user_term_matrix = self.get_document_term_matrix(user_data)
@@ -262,6 +310,10 @@ class Task2(object):
 			pca = False
 			if algo_choice == 'PCA':
 				pca = True
+			"""
+			Decompose the original document term matrix into U,S and Vt using SVD
+			For PCA we pass pca flag to indicate the passing of covariance matrix in the SVD method.
+			"""
 			user_u_matrix, user_S_matrix, user_vt_matrix = self.dim_reduce_SVD(
 				user_term_matrix,k,pca)
 			image_u_matrix, image_S_matrix, image_vt_matrix = self.dim_reduce_SVD(
@@ -269,6 +321,9 @@ class Task2(object):
 			location_u_matrix, location_S_matrix, location_vt_matrix = self.dim_reduce_SVD(
 				location_term_matrix,k,pca)
 
+			"""
+			Get the latent semantics for users, images and locations
+			"""
 			user_semantics_map, image_semantics_map,location_semantics_map = \
 					self.get_all_latent_semantics_map(user_data,image_data,location_data,
 						user_u_matrix,image_u_matrix,location_u_matrix)
@@ -277,12 +332,18 @@ class Task2(object):
 			self.image_semantics_map = image_semantics_map
 			self.location_semantics_map = location_semantics_map
 
+			"""
+			Get the similar cross entities given a entity id. eg userid -> similar users, images,
+			and locations,  imageid -> similar images, locations and users.
+			"""
 			self.get_similar_entities(user_term_matrix,image_term_matrix,
 				location_term_matrix,user_S_matrix,user_vt_matrix,image_S_matrix,image_vt_matrix,
 					location_S_matrix, location_vt_matrix,user_id,image_id,location_id)
 
 		elif algo_choice == 'LDA':
-
+			"""
+			Decompose the original document term matrix into U,S and Vt using LDA
+			"""
 			user_u_matrix, user_S_matrix, user_vt_matrix = self.dim_reduce_LDA(
 				user_term_matrix,k)
 			image_u_matrix, image_S_matrix, image_vt_matrix = self.dim_reduce_LDA(
