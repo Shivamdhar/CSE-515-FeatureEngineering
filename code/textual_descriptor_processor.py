@@ -5,17 +5,18 @@ applying functions for data manipulation
 
 from constants import *
 from desc_txt_structure import DescTxtStructure
+from collections import OrderedDict
 
 class TxtTermStructure:
 	
 	def __init__(self):
-		self.master_dict = dict()
+		self.master_dict = OrderedDict({})
 
 	'''
 	Get data textual descriptors data for users from file and store it in dictionaries
 	'''
 	def load_users_data(self):
-		self.master_dict = dict()
+		self.master_dict = OrderedDict({})
 		self.get_desc_txt_data(TEXT_DESCRIPTORS_PATH+"devset_textTermsPerUser.txt", "users")
 		
 	'''
@@ -23,7 +24,7 @@ class TxtTermStructure:
 	'''
 
 	def load_image_data(self):
-		self.master_dict = dict()
+		self.master_dict = OrderedDict({})
 		self.get_desc_txt_data(TEXT_DESCRIPTORS_PATH+"devset_textTermsPerImage.txt", "image")
 		
 	'''
@@ -31,7 +32,7 @@ class TxtTermStructure:
 	'''
 
 	def load_location_data(self):
-		self.master_dict = dict()
+		self.master_dict = OrderedDict({})
 		self.get_desc_txt_data(TEXT_DESCRIPTORS_PATH+"devset_textTermsPerPOI.wFolderNames.txt", "location")
 		
 	'''
@@ -39,7 +40,7 @@ class TxtTermStructure:
 	'''
 
 	def load_all_textual_data(self):
-		self.master_dict = dict()
+		self.master_dict = OrderedDict({})
 		self.get_desc_txt_data(TEXT_DESCRIPTORS_PATH+"devset_textTermsPerPOI.wFolderNames.txt", "location")
 		self.get_desc_txt_data(TEXT_DESCRIPTORS_PATH+"devset_textTermsPerImage.txt", "image")
 		self.get_desc_txt_data(TEXT_DESCRIPTORS_PATH+"devset_textTermsPerUser.txt", "users")
