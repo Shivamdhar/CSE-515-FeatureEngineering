@@ -35,7 +35,7 @@ class Task6:
 			. Constructs a global term vocabulary.
 			. Constructs a location based term vocabulary.
 		"""
-		with open(constants.TEXTUAL_DESCRIPTORS_DIR_PATH + "devset_textTermsPerPOI.txt", encoding="utf-8") as f:
+		with open(constants.TEXT_DESCRIPTORS_DIR_PATH + "devset_textTermsPerPOI.txt", encoding="utf-8") as f:
 			lines = [line.rstrip("\n") for line in f]
 			for line in lines:
 				words = line.split()
