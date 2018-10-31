@@ -1,4 +1,4 @@
-"""
+"""c
 This module contains data parsing methods.
 """
 from collections import OrderedDict
@@ -6,7 +6,6 @@ import constants
 import glob
 import numpy as np
 import os
-import pickle
 import xml.etree.ElementTree as et
 
 class DataExtractor(object): 
@@ -63,46 +62,36 @@ class DataExtractor(object):
 		location_indices_map : key => location, value => indices of the corresponding location
 		model_feature_length_map : key =>  model, value => length of feature set for each model
 		"""
-		try:
-			task5_read_pkl_file = open(constants.DUMPED_OBJECTS_DIR_PATH + "task5.pickle", "rb")
-			objects = pickle.load(task5_read_pkl_file)
-			location_model_map = objects[0]
-			location_indices_map = objects[1]
-			model_feature_length_map = objects[2]
 
-		except (OSError, IOError) as e:
-			locations = list(mapping.values())
-			location_model_map = OrderedDict({})
-			location_indices_map = OrderedDict({})
-			model_feature_length_map = OrderedDict({})
+		locations = list(mapping.values())
+		location_model_map = OrderedDict({})
+		location_indices_map = OrderedDict({})
+		model_feature_length_map = OrderedDict({})
 
-			global_index_counter = 0
+		global_index_counter = 0
 
-			for location in locations:
-				for model in constants.MODELS:
-					location_model_file = location + " " + model + ".csv"
-					data = open(constants.FINAL_PROCESSED_VISUAL_DESCRIPTORS_DIR_PATH + location_model_file, "r").readlines()
-					index_counter = 0
+		for location in locations:
+			for model in constants.MODELS:
+				location_model_file = location + " " + model + ".csv"
+				data = open(constants.FINAL_PROCESSED_VISUAL_DESCRIPTORS_DIR_PATH + location_model_file, "r").readlines()
+				index_counter = 0
 
-					for row in data:
-						row_data = row.strip().split(",")
-						feature_values = list(map(float, row_data[1:]))
-						image_id = row_data[0]
-						if image_id in location_model_map.keys():
-							location_model_map[image_id] += feature_values
-						else:
-							location_model_map[image_id] = feature_values
+				for row in data:
+					row_data = row.strip().split(",")
+					feature_values = list(map(float, row_data[1:]))
+					image_id = row_data[0]
+					if image_id in location_model_map.keys():
+						location_model_map[image_id] += feature_values
+					else:
+						location_model_map[image_id] = feature_values
 
-						index_counter += 1
-						if model not in model_feature_length_map.keys():
-							model_feature_length_map[model] = len(feature_values)
+					index_counter += 1
+					if model not in model_feature_length_map.keys():
+						model_feature_length_map[model] = len(feature_values)
 
-					if location not in location_indices_map.keys():
-						location_indices_map[location] = (global_index_counter, global_index_counter + index_counter)
-						global_index_counter += index_counter
-
-			task5_pkl_file = open(constants.DUMPED_OBJECTS_DIR_PATH + "task5.pickle", "wb")
-			pickle.dump((location_model_map, location_indices_map, model_feature_length_map), task5_pkl_file)
+				if location not in location_indices_map.keys():
+					location_indices_map[location] = (global_index_counter, global_index_counter + index_counter)
+					global_index_counter += index_counter
 
 		return location_model_map, location_indices_map, model_feature_length_map
 
