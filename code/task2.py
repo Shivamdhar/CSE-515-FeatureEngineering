@@ -4,7 +4,6 @@ This module is the program for task 2.
 import constants
 from data_extractor import DataExtractor
 import numpy as np
-import pickle
 import scipy
 from scipy import spatial
 from sklearn.decomposition import LatentDirichletAllocation,PCA
@@ -209,7 +208,6 @@ class Task2(object):
 		elif location_id:
 			#Given location id, computing the top 5 related locations,users and images
 			location_input_vector = self.location_semantics_map[self.mapping[location_id]]
-			print(location_input_vector.shape)
 
 			#For similar user id we can directly use the user U matrix without projecting
 			similar_locations = self.calculate_similarity(location_input_vector,self.location_semantics_map,constants.LOCATION_TEXT)
@@ -281,19 +279,16 @@ class Task2(object):
 		user_data.load_data_per_entity(constants.USER_TEXT)
 		user_term_matrix = self.get_document_term_matrix(user_data)
 		user_term_matrix = self.ut.convert_list_to_numpyarray(user_term_matrix).T
-		#print(user_term_matrix.shape)
 
 		image_data = Task1()
 		image_data.load_data_per_entity(constants.IMAGE_TEXT)
 		image_term_matrix = self.get_document_term_matrix(image_data)
 		image_term_matrix = self.ut.convert_list_to_numpyarray(image_term_matrix).T
-		#print(image_term_matrix.shape)
 
 		location_data = Task1()
 		location_data.load_data_per_entity(constants.LOCATION_TEXT)
 		location_term_matrix = self.get_document_term_matrix(location_data)
 		location_term_matrix = self.ut.convert_list_to_numpyarray(location_term_matrix).T
-		#print(location_term_matrix.shape)
 
 		if self.entity_type == constants.USER_TEXT:
 			try:
@@ -315,8 +310,6 @@ class Task2(object):
 				raise ValueError(constants.LOCATION_ID_KEY_ERROR)
 			pass
 		
-		k =  int(k)
-
 		if algo_choice == 'SVD' or algo_choice == 'PCA':
 			pca = False
 			if algo_choice == 'PCA':
@@ -325,42 +318,13 @@ class Task2(object):
 			Decompose the original document term matrix into U,S and Vt using SVD
 			For PCA we pass pca flag to indicate the passing of covariance matrix in the SVD method.
 			"""
-			if k >= 3 and k <= 8:
-				try:
-					if not pca:
-						task2_read_pkl_file = open(constants.DUMPED_OBJECTS_DIR_PATH + "task2_svd"+str(k)+".pickle", "rb")
-					else:
-						task2_read_pkl_file = open(constants.DUMPED_OBJECTS_DIR_PATH + "task2_pca"+str(k)+".pickle", "rb")
-					objects = pickle.load(task2_read_pkl_file)
-					user_u_matrix = objects[0]['user_decomposition'][0]
-					user_S_matrix = objects[0]['user_decomposition'][1]
-					user_vt_matrix = objects[0]['user_decomposition'][2]
-					image_u_matrix = objects[1]['image_decomposition'][0]
-					image_S_matrix = objects[1]['image_decomposition'][1]
-					image_vt_matrix = objects[1]['image_decomposition'][2]
-					location_u_matrix = objects[2]['location_decomposition'][0]
-					location_S_matrix = objects[2]['location_decomposition'][1]
-					location_vt_matrix = objects[2]['location_decomposition'][2]
-				except (OSError, IOError,EOFError,FileNotFoundError) as e:
-					print("Computing decomposition")
-					user_u_matrix, user_S_matrix, user_vt_matrix = self.dim_reduce_SVD(
-						user_term_matrix,k,pca)
-					image_u_matrix, image_S_matrix, image_vt_matrix = self.dim_reduce_SVD(
-						image_term_matrix,k,pca)
-					location_u_matrix, location_S_matrix, location_vt_matrix = self.dim_reduce_SVD(
-						location_term_matrix,k,pca)
+			user_u_matrix, user_S_matrix, user_vt_matrix = self.dim_reduce_SVD(
+				user_term_matrix,k,pca)
+			image_u_matrix, image_S_matrix, image_vt_matrix = self.dim_reduce_SVD(
+				image_term_matrix,k,pca)
+			location_u_matrix, location_S_matrix, location_vt_matrix = self.dim_reduce_SVD(
+				location_term_matrix,k,pca)
 
-					user_decomposition  = {'user_decomposition':[user_u_matrix,user_S_matrix,user_vt_matrix]}
-					image_decomposition  = {'image_decomposition':[image_u_matrix,image_S_matrix,image_vt_matrix]}
-					location_decomposition  = {'location_decomposition':[location_u_matrix,location_S_matrix,location_vt_matrix]}
-
-					if not pca:
-						task2_pkl_file = open(constants.DUMPED_OBJECTS_DIR_PATH + "task2_svd"+str(k)+".pickle", "wb")
-					else:
-						task2_pkl_file = open(constants.DUMPED_OBJECTS_DIR_PATH + "task2_pca"+str(k)+".pickle", "wb")
-
-					pickle.dump((user_decomposition,image_decomposition,location_decomposition), 
-						task2_pkl_file)
 			"""
 			Get the latent semantics for users, images and locations
 			"""
@@ -384,36 +348,12 @@ class Task2(object):
 			"""
 			Decompose the original document term matrix into U,S and Vt using LDA
 			"""
-			if k >= 3 and k <= 8:
-				try:
-					task2_read_pkl_file = open(constants.DUMPED_OBJECTS_DIR_PATH + "task2_lda"+str(k)+".pickle", "rb")
-					objects = pickle.load(task2_read_pkl_file)
-					user_u_matrix = objects[0]['user_decomposition'][0]
-					user_S_matrix = objects[0]['user_decomposition'][1]
-					user_vt_matrix = objects[0]['user_decomposition'][2]
-					image_u_matrix = objects[1]['image_decomposition'][0]
-					image_S_matrix = objects[1]['image_decomposition'][1]
-					image_vt_matrix = objects[1]['image_decomposition'][2]
-					location_u_matrix = objects[2]['location_decomposition'][0]
-					location_S_matrix = objects[2]['location_decomposition'][1]
-					location_vt_matrix = objects[2]['location_decomposition'][2]
-
-				except (OSError, IOError) as e:
-					user_u_matrix, user_S_matrix, user_vt_matrix = self.dim_reduce_LDA(
-						user_term_matrix,k)
-					image_u_matrix, image_S_matrix, image_vt_matrix = self.dim_reduce_LDA(
-						image_term_matrix,k)
-					location_u_matrix, location_S_matrix, location_vt_matrix = self.dim_reduce_LDA(
-						location_term_matrix,k)
-
-					user_decomposition  = {'user_decomposition':[user_u_matrix,user_S_matrix,user_vt_matrix]}
-					image_decomposition  = {'image_decomposition':[image_u_matrix,image_S_matrix,image_vt_matrix]}
-					location_decomposition  = {'location_decomposition':[location_u_matrix,location_S_matrix,location_vt_matrix]}
-
-					task2_pkl_file = open(constants.DUMPED_OBJECTS_DIR_PATH + "task2_lda"+str(k)+".pickle", "wb")
-
-					pickle.dump((user_decomposition,image_decomposition,location_decomposition), 
-						task2_pkl_file)
+			user_u_matrix, user_S_matrix, user_vt_matrix = self.dim_reduce_LDA(
+				user_term_matrix,k)
+			image_u_matrix, image_S_matrix, image_vt_matrix = self.dim_reduce_LDA(
+				image_term_matrix,k)
+			location_u_matrix, location_S_matrix, location_vt_matrix = self.dim_reduce_LDA(
+				location_term_matrix,k)
 
 			user_semantics_map, image_semantics_map,location_semantics_map = \
 					self.get_all_latent_semantics_map(user_data,image_data,location_data,
