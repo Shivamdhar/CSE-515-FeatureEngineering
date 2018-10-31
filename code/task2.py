@@ -281,30 +281,19 @@ class Task2(object):
 		user_data.load_data_per_entity(constants.USER_TEXT)
 		user_term_matrix = self.get_document_term_matrix(user_data)
 		user_term_matrix = self.ut.convert_list_to_numpyarray(user_term_matrix).T
-		print(user_term_matrix.shape)
+		#print(user_term_matrix.shape)
 
 		image_data = Task1()
 		image_data.load_data_per_entity(constants.IMAGE_TEXT)
 		image_term_matrix = self.get_document_term_matrix(image_data)
 		image_term_matrix = self.ut.convert_list_to_numpyarray(image_term_matrix).T
-		print(image_term_matrix.shape)
+		#print(image_term_matrix.shape)
 
 		location_data = Task1()
 		location_data.load_data_per_entity(constants.LOCATION_TEXT)
 		location_term_matrix = self.get_document_term_matrix(location_data)
 		location_term_matrix = self.ut.convert_list_to_numpyarray(location_term_matrix).T
-		print(location_term_matrix.shape)
-
-		
-
-
-
-
-
-
-
-
-
+		#print(location_term_matrix.shape)
 
 		if self.entity_type == constants.USER_TEXT:
 			try:
