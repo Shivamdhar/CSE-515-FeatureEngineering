@@ -23,14 +23,13 @@ class PreProcessor(object):
 		Any other preprocessing needed can be called from pre_process method.
 		"""
 
-		# self.remove_duplicates_from_visual_descriptor_dataset()
-		# self.rename_image_ids_from_visual_descriptor_dataset()
-		# self.add_missing_objects_to_dataset()
-		# self.LDA_preprocessing()
+		self.remove_duplicates_from_visual_descriptor_dataset()
+		self.rename_image_ids_from_visual_descriptor_dataset()
+		self.add_missing_objects_to_dataset()
+		self.LDA_preprocessing()
 		self.add_missing_words_to_term_spaces()
 
 	def add_missing_words_to_term_spaces(self):
-		import pdb
 		global_words = {}
 		
 		txt_str = TxtTermStructure()
