@@ -8,7 +8,7 @@ import numpy as np
 import tensorly as tl
 from tensorly.decomposition import parafac
 from sklearn.cluster import KMeans
-
+import pickle
 
 class Task7(object):
 	def __init__(self):
@@ -16,19 +16,18 @@ class Task7(object):
 		self.users = TxtTermStructure()
 		self.images = TxtTermStructure()
 		self.locations = TxtTermStructure()
-
-	'''
-	Method: calculates tensor representation of the count of similar number
-	of terms in between location-user-image pairs in the complete dataset
-	'''
-	def build_tensor(self):
 		# get users term data
 		self.users.load_users_data()
 		# get images term data
 		self.images.load_image_data()
 		# get locations term data
 		self.locations.load_location_data()
-		
+
+	'''
+	Method: calculates tensor representation of the count of similar number
+	of terms in between location-user-image pairs in the complete dataset
+	'''
+	def build_tensor(self):
 		self.tensor_arr = []
 		print("starting tensor build...")
 		# iterating through locations to get common terms between locations-users-images
@@ -79,6 +78,8 @@ class Task7(object):
 		dict_sets_name = {0: 'location-group', 1:'user-group', 2:'image-group'}
 		for i in range(0, len(factors)):
 			k_groups = KMeans(n_clusters=k, random_state=0).fit_predict(factors[i])
+			# print("k group length: ",k_groups.shape)
+			# print(len(k_groups))
 			similar_group_dict = dict()
 			for j in range(0, len(k_groups)):
 			    elem = k_groups[j]
@@ -88,6 +89,7 @@ class Task7(object):
 			        similar_group_dict[elem].append(elem_keys[i][j])
 			    else:
 			        # print('not there')
+			        # print(i,j)
 			        similar_group_dict[elem] = [elem_keys[i][j]]
 			print("\nxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
 			print("-------------Grouping ",i," : ",dict_sets_name[i], "--------------------")
@@ -103,11 +105,25 @@ class Task7(object):
 		# take input from user
 		k = int(input("Enter value of k: "))
 		# build tensor for location-user-images based on count of common terms
-		self.build_tensor()
+		# self.build_tensor()
 		print("\ncomputing CP tensor decomposition...")
-		factors = self.compute_tensor_cp_decomposition(k)
+		# factors = self.compute_tensor_cp_decomposition(k)
 		elem_keys = []
+		factors = []
 		elem_keys.append(list(self.locations.master_dict.keys()))
 		elem_keys.append(list(self.users.master_dict.keys()))
 		elem_keys.append(list(self.images.master_dict.keys()))
-		self.compute_k_groups(k, factors, elem_keys)
+		PIK1 = '../task7_k'+str(k)+'_loc.dat'
+		loc_mat_decom = pickle.load(open(PIK1, 'rb'))
+		PIK2 = '../task7_k'+str(k)+'_usr.dat'
+		usr_mat_decom = pickle.load(open(PIK2, 'rb'))
+		PIK3 = '../task7_k'+str(k)+'_img.dat'
+		img_mat_decom = pickle.load(open(PIK3, 'rb'))
+		# print(loc_mat_decom.shape)
+		# print(usr_mat_decom.shape)
+		# print(img_mat_decom.shape)
+		factors.append(loc_mat_decom)
+		factors.append(usr_mat_decom)
+		factors.append(img_mat_decom)
+		# print('len factors: ',np.array(factors).shape)
+		self.compute_k_groups(k, np.array(factors), elem_keys)
