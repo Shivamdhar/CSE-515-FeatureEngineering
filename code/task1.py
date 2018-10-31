@@ -4,6 +4,9 @@ This module is the program for task 1 phase 2.
 import constants
 from util import Util
 from textual_descriptor_processor import TxtTermStructure
+from operator import itemgetter
+import operator
+import numpy as np
 
 class Task1(object):
 	def __init__(self):
@@ -22,10 +25,33 @@ class Task1(object):
 		master_matrix = self.create_master_matrix(global_tag_dict)
 		algo_choice = input("Enter the Dim. reduction Algorithm: ")
 		k = input("Enter the value of k :")
-		algorithms = { "SVD": self.ut.dim_reduce_SVD, "PCA": self.ut.dim_reduce_PCA_nonscaler, \
+		algorithms = { "SVD": self.ut.dim_reduce_SVD, "PCA": self.ut.dim_reduce_PCA, \
 						"LDA": self.ut.dim_reduce_LDA }            
 		k_semantics = algorithms.get(algo_choice)(master_matrix, k)
-		print(k_semantics)
+		#k_semantics conatins the (Feature x k-latent semantics) in Matrix form after dim. reduction has been done. 
+
+		k_semantics_transpose = list(map(list, zip(*k_semantics)))
+		print("Printing the top-k latent semantics in decreasing term-weight pair onto a file")
+		
+		open('task_1_out.txt', 'w+')
+		for i in range(int(k)):
+			feature_dict= {}
+			count = 0
+			for key in global_tag_dict.keys():
+				feature_dict[key] = k_semantics_transpose[i][count]
+				count = count + 1
+			lat_sem_term_weight_pair = sorted(feature_dict.items(), key=lambda kv: kv[1], reverse = True)
+			min_tfidf_score_value = min(lat_sem_term_weight_pair,key = lambda t: t[1])
+			max_tfidf_score_value = max(lat_sem_term_weight_pair,key = lambda t: t[1])
+			
+			#printing the top-k latent semantics onto a file 
+			with open('task_1_out.txt', 'a') as f:
+				print('\n \n ++++++ \n\n Term-weight pair of latent semantic # %d using %s as dimensionality\
+						  reduction algorithm \n \n Max value = %s \n\n Min value =  %s \n\n  ++++++ \n\n' \
+						  %(i+1, algo_choice, str(max_tfidf_score_value), str(min_tfidf_score_value)), \
+						  lat_sem_term_weight_pair, file=f)
+						
+			f.close()
 		
 	def select_term_vector_choice(self):
 		"""
@@ -85,6 +111,10 @@ class Task1(object):
 			global_row_dict = self.merge_two_dicts(master_term_dict, row_term_dict)
 			list_master_matrix.append(list(global_row_dict.values()))
 
-		return list_master_matrix
+		return list(map(list, zip(*list_master_matrix)))
 		
+
+
+
+
 	   

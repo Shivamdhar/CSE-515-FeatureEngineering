@@ -5,44 +5,45 @@ applying functions for data manipulation
 
 from constants import *
 from desc_txt_structure import DescTxtStructure
+from collections import OrderedDict
 
 class TxtTermStructure:
 	
 	def __init__(self):
-		self.master_dict = dict()
+		self.master_dict = OrderedDict({})
 
 	'''
 	Get data textual descriptors data for users from file and store it in dictionaries
 	'''
 	def load_users_data(self):
-		self.master_dict = dict()
-		self.get_desc_txt_data(TEXT_DESCRIPTORS_PATH+"devset_textTermsPerUser.txt", "users")
+		self.master_dict = OrderedDict({})
+		self.get_desc_txt_data(TEXT_DESCRIPTORS_DIR_PATH+"devset_textTermsPerUser.txt", "users")
 		
 	'''
 	Get data textual descriptors data for images from file and store it in dictionaries
 	'''
 
 	def load_image_data(self):
-		self.master_dict = dict()
-		self.get_desc_txt_data(TEXT_DESCRIPTORS_PATH+"devset_textTermsPerImage.txt", "image")
+		self.master_dict = OrderedDict({})
+		self.get_desc_txt_data(TEXT_DESCRIPTORS_DIR_PATH+"devset_textTermsPerImage.txt", "image")
 		
 	'''
 		Get data textual descriptors datafor location from file and store it in dictionaries
 	'''
 
 	def load_location_data(self):
-		self.master_dict = dict()
-		self.get_desc_txt_data(TEXT_DESCRIPTORS_PATH+"devset_textTermsPerPOI.wFolderNames.txt", "location")
+		self.master_dict = OrderedDict({})
+		self.get_desc_txt_data(TEXT_DESCRIPTORS_DIR_PATH+"devset_textTermsPerPOI.wFolderNames.txt", "location")
 		
 	'''
 		Get data textual descriptors data for all from file and store it in dictionaries
 	'''
 
 	def load_all_textual_data(self):
-		self.master_dict = dict()
-		self.get_desc_txt_data(TEXT_DESCRIPTORS_PATH+"devset_textTermsPerPOI.wFolderNames.txt", "location")
-		self.get_desc_txt_data(TEXT_DESCRIPTORS_PATH+"devset_textTermsPerImage.txt", "image")
-		self.get_desc_txt_data(TEXT_DESCRIPTORS_PATH+"devset_textTermsPerUser.txt", "users")
+		self.master_dict = OrderedDict({})
+		self.get_desc_txt_data(TEXT_DESCRIPTORS_DIR_PATH+"devset_textTermsPerPOI.wFolderNames.txt", "location")
+		self.get_desc_txt_data(TEXT_DESCRIPTORS_DIR_PATH+"devset_textTermsPerImage.txt", "image")
+		self.get_desc_txt_data(TEXT_DESCRIPTORS_DIR_PATH+"devset_textTermsPerUser.txt", "users")
 				
 
 	'''

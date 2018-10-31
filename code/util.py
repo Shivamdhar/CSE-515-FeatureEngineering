@@ -55,7 +55,6 @@ class Util(object):
 		return(pca.fit_transform(input_arr))
 
 	def dim_reduce_LDA(self, input_matrix, k):
-
 		lda = LatentDirichletAllocation(n_components=int(k))
 
 		return(lda.fit_transform(input_matrix))

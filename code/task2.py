@@ -6,9 +6,13 @@ from data_extractor import DataExtractor
 import numpy as np
 import scipy
 from scipy import spatial
-from sklearn.decomposition import LatentDirichletAllocation
+from sklearn.decomposition import LatentDirichletAllocation,PCA
+from sklearn.decomposition import TruncatedSVD
+from sklearn.preprocessing import StandardScaler
+
 from sparsesvd import sparsesvd
 from task1 import Task1
+import time
 from textual_descriptor_processor import TxtTermStructure
 from util import Util
 
@@ -72,21 +76,40 @@ class Task2(object):
 		k  : number of hidden concepts
 		"""
 		document_term_matrix = self.ut.convert_list_to_numpyarray(document_term_matrix)
-		if pca:
-			document_term_matrix = np.cov(document_term_matrix.T)
 		document_term_sparse_matrix = scipy.sparse.csc_matrix(document_term_matrix)
-		#print(document_term_sparse_matrix)
-		U,S,Vt = sparsesvd(document_term_sparse_matrix,k)
+		if pca:
+			input_std = StandardScaler().fit_transform(document_term_matrix)
+			pca = PCA(n_components=int(k))
 
-		#Projection of objects along hidden concepts
-		U = document_term_sparse_matrix @ Vt.T
+			object_concept_matrix = pca.fit_transform(input_std)
+			Vt = pca.components_
 
-		# original sigma is linear array of k components, so we need to construct a diagonal matrix
-		S = np.diag(S)
+			#original sigma is linear array of k eigen values, so we need to construct a diagonal matrix
+			S  = np.diag(pca.singular_values_)
 
-		#since U is actually kxo, so we take transpose
+			U  = document_term_matrix @ Vt.T
+		else:
+			#document_term_sparse_matrix = scipy.sparse.csc_matrix(document_term_matrix)
+			svd = TruncatedSVD(n_components=int(k))
+			svd.fit(document_term_matrix)
+
+			object_concept_matrix = svd.transform(document_term_matrix)
+			Vt = svd.components_
+
+			#original sigma is linear array of k eigen values, so we need to construct a diagonal matrix
+			S  = np.diag(svd.singular_values_)
+
+			U  = document_term_matrix @ Vt.T
+
+			# U,S,Vt = sparsesvd(document_term_sparse_matrix,k)
+
+			# #Projection of objects along hidden concepts
+			# U = document_term_sparse_matrix @ Vt.T
+
+			# #original sigma is linear array of k components, so we need to construct a diagonal matrix
+			# S = np.diag(S)
+
 		return U,S,Vt
-		pass
 
 	def dim_reduce_LDA(self,document_term_matrix,k):
 		"""
@@ -224,6 +247,7 @@ class Task2(object):
 		using the latent semantics obtained from task1 for respective entity vector space
 		"""
 		#k = input("Enter the value of k :")
+		#start = time.time()
 		k = input("Enter the value of k :")
 
 		# user_id = input("Enter the user id: ")
@@ -254,14 +278,17 @@ class Task2(object):
 		user_data = Task1()
 		user_data.load_data_per_entity(constants.USER_TEXT)
 		user_term_matrix = self.get_document_term_matrix(user_data)
+		user_term_matrix = self.ut.convert_list_to_numpyarray(user_term_matrix).T
 
 		image_data = Task1()
 		image_data.load_data_per_entity(constants.IMAGE_TEXT)
 		image_term_matrix = self.get_document_term_matrix(image_data)
+		image_term_matrix = self.ut.convert_list_to_numpyarray(image_term_matrix).T
 
 		location_data = Task1()
 		location_data.load_data_per_entity(constants.LOCATION_TEXT)
 		location_term_matrix = self.get_document_term_matrix(location_data)
+		location_term_matrix = self.ut.convert_list_to_numpyarray(location_term_matrix).T
 
 		if self.entity_type == constants.USER_TEXT:
 			try:
@@ -340,4 +367,4 @@ class Task2(object):
 				location_term_matrix,user_S_matrix,user_vt_matrix,image_S_matrix,image_vt_matrix,
 					location_S_matrix, location_vt_matrix,user_id,image_id,location_id)
 
-
+		#print("Seconds",time.time() - start)
