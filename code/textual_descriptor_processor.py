@@ -18,7 +18,11 @@ class TxtTermStructure:
 	def load_users_data(self):
 		self.master_dict = OrderedDict({})
 		self.get_desc_txt_data(TEXT_DESCRIPTORS_DIR_PATH+"devset_textTermsPerUser.txt", "users")
-		
+	
+	def load_users_data_processed(self):
+		self.master_dict = OrderedDict({})
+		self.get_desc_txt_data(PROCESSED_TEXT_DESCRIPTORS_DIR_PATH+"devset_textTermsPerUser.txt", "users")	
+	
 	'''
 	Get data textual descriptors data for images from file and store it in dictionaries
 	'''
@@ -27,6 +31,9 @@ class TxtTermStructure:
 		self.master_dict = OrderedDict({})
 		self.get_desc_txt_data(TEXT_DESCRIPTORS_DIR_PATH+"devset_textTermsPerImage.txt", "image")
 		
+	def load_image_data_processed(self):
+		self.master_dict = OrderedDict({})
+		self.get_desc_txt_data(PROCESSED_TEXT_DESCRIPTORS_DIR_PATH+"devset_textTermsPerImage.txt", "image")
 	'''
 		Get data textual descriptors datafor location from file and store it in dictionaries
 	'''
@@ -35,6 +42,9 @@ class TxtTermStructure:
 		self.master_dict = OrderedDict({})
 		self.get_desc_txt_data(TEXT_DESCRIPTORS_DIR_PATH+"devset_textTermsPerPOI.wFolderNames.txt", "location")
 		
+	def load_location_data_processed(self):
+		self.master_dict = OrderedDict({})
+		self.get_desc_txt_data(PROCESSED_TEXT_DESCRIPTORS_DIR_PATH+"devset_textTermsPerPOI.wFolderNames.txt", "location")
 	'''
 		Get data textual descriptors data for all from file and store it in dictionaries
 	'''

@@ -18,7 +18,6 @@ class Task1(object):
 		Method: runner implemented for all the tasks, takes user input, runs dimensionality reduction algorithm, prints
 		latent semantics
 		"""
-
 		self.select_term_vector_choice()
 		global_tag_set = self.get_global_tag_set()
 		global_tag_dict = self.convert_dict_from_set(global_tag_set)
@@ -67,11 +66,11 @@ class Task1(object):
 
 	def load_data_per_entity(self,entity_type):
 		if entity_type == constants.USER_TEXT:
-			self.data.load_users_data()
+			self.data.load_users_data_processed()
 		if entity_type == constants.IMAGE_TEXT:
-			self.data.load_image_data()
+			self.data.load_image_data_processed()
 		if entity_type == constants.LOCATION_TEXT:
-			self.data.load_location_data()
+			self.data.load_location_data_processed()
 
 	def get_global_tag_set(self):
 		"""
