@@ -5,6 +5,7 @@ from collections import OrderedDict
 import constants
 from data_extractor import DataExtractor
 import numpy as np
+import pickle
 from scipy import spatial
 from util import Util
 
@@ -37,11 +38,11 @@ class Task5(object):
 		location1_data = k_semantics[location1_indices[0]:location1_indices[1]]
 
 		for location_index2 in range(0,len(locations)):
-				location2_indices = location_indices_map[locations[location_index2]]
-				location2_data = k_semantics[location2_indices[0]:location2_indices[1]]
-				# similarity_score = similarity_computation.get(algo_choice)(location1_data, location2_data)
-				similarity_score = self.distance_based_similarity_computation(location1_data, location2_data)
-				location_location_similarity_map[locations[location_index2]] = similarity_score
+			location2_indices = location_indices_map[locations[location_index2]]
+			location2_data = k_semantics[location2_indices[0]:location2_indices[1]]
+			# similarity_score = similarity_computation.get(algo_choice)(location1_data, location2_data)
+			similarity_score = self.distance_based_similarity_computation(location1_data, location2_data)
+			location_location_similarity_map[locations[location_index2]] = similarity_score
 
 		self.top_5(location_location_similarity_map)
 
@@ -81,30 +82,50 @@ class Task5(object):
 		location_indices = location_indices_map[input_location]
 		print(k_semantics[location_indices[0]:location_indices[1]])
 
+	def compute_similarity_wrapper(self, k_semantics, input_location, location_indices_map, algo_choice):
+		self.print_latent_semantics_for_input_location(k_semantics, input_location, location_indices_map)
+		self.calculate_location_similarity(k_semantics, location_indices_map, algo_choice, input_location)
+
+	def fetch_k_semantics(self, algo_choice, location_id, k):
+		task5_pkl_file = open(constants.DUMPED_OBJECTS_DIR_PATH + "task5_k"+ str(k) + algo_choice + ".pickle", "wb")
+		input_location = self.mapping[location_id]
+		data, location_indices_map, model_feature_length_map = self.data_extractor.prepare_dataset_for_task5\
+																					(self.mapping, k)
+		# model_feature_length_map is unused but if any code change is required, this will be handy so will retain this.
+
+		matrix = np.array(list(data.values()))
+		algorithms = { "SVD": self.ut.dim_reduce_SVD, "PCA": self.ut.dim_reduce_PCA, "LDA": self.ut.dim_reduce_LDA }
+
+		k_semantics = algorithms.get(algo_choice)(matrix, k)
+		pickle.dump((k_semantics, location_indices_map), task5_pkl_file)
+
+		self.compute_similarity_wrapper(k_semantics, input_location, location_indices_map, algo_choice)
+
 	def runner(self):
 		"""
 		Method: runner implemented for all the tasks, takes user input, runs dimensionality reduction algorithm, prints
 		latent semantics for input location and computes similarity between two locations using the latent semantics.
 		"""
 
+		#take input from user
+		location_id = input("Enter the location id:")
+		k = input("Enter value of k: ")
+		algo_choice = input("Enter the Algorithm: ")
+
 		try:
-			#take input from user
-			location_id = input("Enter the location id:")
 			input_location = self.mapping[location_id]
-			k = input("Enter value of k: ")
-			algo_choice = input("Enter the Algorithm: ")
+			if int(k) > 2 and int(k) < 9:
+				task5_read_pkl_file = open(constants.DUMPED_OBJECTS_DIR_PATH + "task5_k"+ str(k) + algo_choice + ".pickle", "rb")
+				objects = pickle.load(task5_read_pkl_file)
+				k_semantics = objects[0]
+				location_indices_map = objects[1]
 
-			data, location_indices_map, model_feature_length_map = self.data_extractor.prepare_dataset_for_task5\
-																						(self.mapping, k)
-			# model_feature_length_map is unused but if any code change is required, this will be handy so will retain this.
+				self.compute_similarity_wrapper(k_semantics, input_location, location_indices_map, algo_choice)
+			else:
+				self.fetch_k_semantics(algo_choice, location_id, k)
 
-			matrix = np.array(list(data.values()))
-			algorithms = { "SVD": self.ut.dim_reduce_SVD, "PCA": self.ut.dim_reduce_PCA, "LDA": self.ut.dim_reduce_LDA }
-
-			k_semantics = algorithms.get(algo_choice)(matrix, k)
-
-			self.print_latent_semantics_for_input_location(k_semantics, input_location, location_indices_map)
-			self.calculate_location_similarity(k_semantics, location_indices_map, algo_choice, input_location)
+		except(OSError, IOError) as e:
+			self.fetch_k_semantics(algo_choice, location_id, k)
 
 		except KeyError:
 			print(constants.LOCATION_ID_KEY_ERROR)

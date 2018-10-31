@@ -9,6 +9,7 @@ import constants
 from data_extractor import DataExtractor
 import glob
 import pandas as pd
+from textual_descriptor_processor import TxtTermStructure
 
 class PreProcessor(object): 
 	def __init__(self):
@@ -26,6 +27,102 @@ class PreProcessor(object):
 		self.rename_image_ids_from_visual_descriptor_dataset()
 		self.add_missing_objects_to_dataset()
 		self.LDA_preprocessing()
+		self.add_missing_words_to_term_spaces()
+
+	def add_missing_words_to_term_spaces(self):
+		global_words = {}
+		
+		txt_str = TxtTermStructure()
+		txt_str.load_all_textual_data()
+
+		users = TxtTermStructure()
+		images = TxtTermStructure()
+		locations = TxtTermStructure()
+		users.load_users_data()
+		images.load_image_data()
+		locations.load_location_data()
+
+		global_user_ids = list(users.master_dict.keys()) #all user ids
+		global_user_words = set()
+
+		for user_id in global_user_ids:
+			global_user_words.update(users.get_terms(user_id))
+
+		global_image_ids = list(images.master_dict.keys()) #all image ids
+		global_image_words = set()
+		
+		for image_id in global_image_ids:
+			global_image_words.update(images.get_terms(image_id))
+
+		global_location_ids = list(locations.master_dict.keys()) #all location ids
+		global_location_words = set()
+		
+		for location_id in global_location_ids:
+			global_location_words.update(locations.get_terms(location_id))
+		
+		global_dict = txt_str.master_dict
+		global_words = list(global_dict.keys())
+		global_term_list = set()
+		for key in global_words:
+			global_term_list.update(txt_str.get_terms(key))
+		
+		words_not_in_location = global_term_list - global_location_words
+		words_not_in_image = global_term_list - global_image_words
+		words_not_in_user = global_term_list - global_user_words
+
+		raw_file_contents = open(constants.TEXT_DESCRIPTORS_DIR_PATH + "devset_textTermsPerImage.txt", "r").readlines()
+		write_image_file = open(constants.PROCESSED_TEXT_DESCRIPTORS_DIR_PATH + "devset_textTermsPerImage.txt", "w")
+		count = 0
+		for row in raw_file_contents:
+			if count == 0:
+				data = row.strip().split(" ")
+				words_object_id = set()
+				for i in range(0,len(data),4):
+					words_object_id.update(data[i])
+				not_present = words_not_in_image - words_object_id
+				for word in not_present:
+					data += [word, "0", "0", "0"]
+				row = " ".join(data) + "\n"
+				write_image_file.write(row)
+			else:
+				write_image_file.write(row)
+			count += 1
+
+		raw_file_contents = open(constants.TEXT_DESCRIPTORS_DIR_PATH + "devset_textTermsPerUser.txt", "r").readlines()
+		write_user_file = open(constants.PROCESSED_TEXT_DESCRIPTORS_DIR_PATH + "devset_textTermsPerUser.txt", "w")
+		count = 0
+		for row in raw_file_contents:
+			if count == 0:
+				data = row.strip().split(" ")
+				words_object_id = set()
+				for i in range(0,len(data),4):
+					words_object_id.update(data[i])
+				not_present = words_not_in_user - words_object_id
+				for word in not_present:
+					data += [word, "0", "0", "0"]
+				row = " ".join(data) + "\n"
+				write_user_file.write(row)
+			else:
+				write_user_file.write(row)
+			count += 1
+
+		raw_file_contents = open(constants.TEXT_DESCRIPTORS_DIR_PATH + "devset_textTermsPerPOI.wFolderNames.txt", "r").readlines()
+		write_location_file = open(constants.PROCESSED_TEXT_DESCRIPTORS_DIR_PATH + "devset_textTermsPerPOI.wFolderNames.txt", "w")
+		count = 0
+		for row in raw_file_contents:
+			if count == 0:
+				data = row.strip().split(" ")
+				words_object_id = set()
+				for i in range(0,len(data),4):
+					words_object_id.update(data[i])
+				not_present = words_not_in_location - words_object_id
+				for word in not_present:
+					data += [word, "0", "0", "0"]
+				row = " ".join(data) + "\n"
+				write_location_file.write(row)
+			else:
+				write_location_file.write(row)
+			count += 1
 
 	def remove_duplicates_from_visual_descriptor_dataset(self):
 		"""
