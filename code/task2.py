@@ -327,7 +327,10 @@ class Task2(object):
 			"""
 			if k >= 3 and k <= 8:
 				try:
-					task2_read_pkl_file = open(constants.DUMPED_OBJECTS_DIR_PATH + "task2_svd.pickle", "rb")
+					if not pca:
+						task2_read_pkl_file = open(constants.DUMPED_OBJECTS_DIR_PATH + "task2_svd.pickle", "rb")
+					else:
+						task2_read_pkl_file = open(constants.DUMPED_OBJECTS_DIR_PATH + "task2_pca.pickle", "rb")
 					objects = pickle.load(task2_read_pkl_file)
 					user_u_matrix = objects[0]['user_decomposition'][0]
 					user_S_matrix = objects[0]['user_decomposition'][1]
