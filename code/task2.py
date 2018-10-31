@@ -10,7 +10,7 @@ from sklearn.decomposition import LatentDirichletAllocation,PCA
 from sklearn.decomposition import TruncatedSVD
 from sklearn.preprocessing import StandardScaler
 
-from sparsesvd import sparsesvd
+# from sparsesvd import sparsesvd
 from task1 import Task1
 import time
 from textual_descriptor_processor import TxtTermStructure

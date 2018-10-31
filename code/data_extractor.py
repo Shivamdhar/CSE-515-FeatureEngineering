@@ -1,4 +1,4 @@
-"""c
+"""
 This module contains data parsing methods.
 """
 from collections import OrderedDict
