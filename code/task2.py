@@ -328,9 +328,9 @@ class Task2(object):
 			if k >= 3 and k <= 8:
 				try:
 					if not pca:
-						task2_read_pkl_file = open(constants.DUMPED_OBJECTS_DIR_PATH + "task2_svd.pickle", "rb")
+						task2_read_pkl_file = open(constants.DUMPED_OBJECTS_DIR_PATH + "task2_svd"+str(k)+".pickle", "rb")
 					else:
-						task2_read_pkl_file = open(constants.DUMPED_OBJECTS_DIR_PATH + "task2_pca.pickle", "rb")
+						task2_read_pkl_file = open(constants.DUMPED_OBJECTS_DIR_PATH + "task2_pca"+str(k)+".pickle", "rb")
 					objects = pickle.load(task2_read_pkl_file)
 					user_u_matrix = objects[0]['user_decomposition'][0]
 					user_S_matrix = objects[0]['user_decomposition'][1]
@@ -355,9 +355,9 @@ class Task2(object):
 					location_decomposition  = {'location_decomposition':[location_u_matrix,location_S_matrix,location_vt_matrix]}
 
 					if not pca:
-						task2_pkl_file = open(constants.DUMPED_OBJECTS_DIR_PATH + "task2_svd.pickle", "wb")
+						task2_pkl_file = open(constants.DUMPED_OBJECTS_DIR_PATH + "task2_svd"+str(k)+".pickle", "wb")
 					else:
-						task2_pkl_file = open(constants.DUMPED_OBJECTS_DIR_PATH + "task2_pca.pickle", "wb")
+						task2_pkl_file = open(constants.DUMPED_OBJECTS_DIR_PATH + "task2_pca"+str(k)+".pickle", "wb")
 
 					pickle.dump((user_decomposition,image_decomposition,location_decomposition), 
 						task2_pkl_file)
@@ -386,7 +386,7 @@ class Task2(object):
 			"""
 			if k >= 3 and k <= 8:
 				try:
-					task2_read_pkl_file = open(constants.DUMPED_OBJECTS_DIR_PATH + "task2_lda.pickle", "rb")
+					task2_read_pkl_file = open(constants.DUMPED_OBJECTS_DIR_PATH + "task2_lda"+str(k)+".pickle", "rb")
 					objects = pickle.load(task2_read_pkl_file)
 					user_u_matrix = objects[0]['user_decomposition'][0]
 					user_S_matrix = objects[0]['user_decomposition'][1]
@@ -410,7 +410,7 @@ class Task2(object):
 					image_decomposition  = {'image_decomposition':[image_u_matrix,image_S_matrix,image_vt_matrix]}
 					location_decomposition  = {'location_decomposition':[location_u_matrix,location_S_matrix,location_vt_matrix]}
 
-					task2_pkl_file = open(constants.DUMPED_OBJECTS_DIR_PATH + "task2_lda.pickle", "wb")
+					task2_pkl_file = open(constants.DUMPED_OBJECTS_DIR_PATH + "task2_lda"+str(k)+".pickle", "wb")
 
 					pickle.dump((user_decomposition,image_decomposition,location_decomposition), 
 						task2_pkl_file)
